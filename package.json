@@ -9,7 +9,13 @@
     "prod:build": "NODE_ENV=production webpack -p",
     "format": "prettier --write 'src/**/*.js'",
     "lint": "eslint 'src/**/*.js'",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run lint",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "npm run test"
+    ]
   },
   "repository": {
     "type": "git",
@@ -40,6 +46,8 @@
     "eslint-config-wikimedia": "^0.4.0",
     "eslint-plugin-jsdoc": "^3.1.2",
     "eslint-plugin-json": "^1.2.0",
+    "husky": "^0.14.3",
+    "lint-staged": "^4.0.2",
     "nodemon": "^1.11.0",
     "npm-run-all": "^4.0.2",
     "prettier": "^1.5.3",
