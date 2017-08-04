@@ -1,0 +1,25 @@
+{
+  "name": "marvin",
+  "version": "0.0.0",
+  "description": "An API driven skin for MediaWiki",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/niedzielski/marvin.git"
+  },
+  "keywords": [
+    "mediawiki",
+    "wikimedia",
+    "web",
+    "node",
+    "pwa"
+  ],
+  "author": "Wikimedia Foundation",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://phabricator.wikimedia.org/project/profile/2878/"
+  },
+  "homepage": "https://phabricator.wikimedia.org/project/profile/2878/"
+}
