@@ -3,6 +3,12 @@
     "node-services",
     "prettier"
   ],
+  "plugins": [
+    "prettier"
+  ],
+  "rules": {
+    "prettier/prettier": "error"
+  },
   "parserOptions": {
     "ecmaVersion": 2016,
     "sourceType": "module"
