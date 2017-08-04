@@ -3,8 +3,10 @@
   "version": "0.0.0",
   "description": "An API driven skin for MediaWiki",
   "scripts": {
-    "start": "NODE_ENV=development nodemon src/server/index.js",
-    "build:client": "webpack",
+    "start": "run-p -n dev:*",
+    "dev:client": "NODE_ENV=development webpack -w",
+    "dev:server": "NODE_ENV=development nodemon -w dist/client -w src/server/ src/server/index.js",
+    "prod:build": "NODE_ENV=production webpack -p",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -31,6 +33,7 @@
     "assets-webpack-plugin": "^3.5.1",
     "clean-webpack-plugin": "^0.1.16",
     "nodemon": "^1.11.0",
+    "npm-run-all": "^4.0.2",
     "webpack": "^3.4.1"
   }
 }
