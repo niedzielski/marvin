@@ -4,6 +4,7 @@
   "description": "An API driven skin for MediaWiki",
   "scripts": {
     "start": "NODE_ENV=development nodemon src/server/index.js",
+    "build:client": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -27,6 +28,9 @@
     "express": "^4.15.3"
   },
   "devDependencies": {
-    "nodemon": "^1.11.0"
+    "assets-webpack-plugin": "^3.5.1",
+    "clean-webpack-plugin": "^0.1.16",
+    "nodemon": "^1.11.0",
+    "webpack": "^3.4.1"
   }
 }
