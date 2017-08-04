@@ -1,4 +1,3 @@
-const fs = require("fs");
 const express = require("express");
 const page = require("./templates/page");
 const assets = require("../../dist/client/assets-manifest.json");
@@ -16,6 +15,6 @@ server.get("*", (req, res) => {
   res.status(404).send("Not found");
 });
 
-server.listen(PORT, _ => {
-  console.log(`Server started on port ${PORT}`);
+server.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`); // eslint-disable-line no-console
 });
