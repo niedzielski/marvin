@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "An API driven skin for MediaWiki",
   "scripts": {
+    "start": "NODE_ENV=development nodemon src/server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,5 +26,7 @@
   "dependencies": {
     "express": "^4.15.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
 }
