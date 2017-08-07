@@ -7,10 +7,12 @@
     "dev:client": "NODE_ENV=development webpack -w",
     "dev:server": "NODE_ENV=development nodemon -w dist/client -w src/server/ src/server/index.js",
     "prod:build": "NODE_ENV=production webpack -p",
-    "format": "prettier --write 'src/**/*.js'",
+    "format": "prettier --write '{src,test}/**/*.js'",
     "lint": "eslint --cache --max-warnings 0",
-    "lint:all": "npm run lint -- 'src/**/*.js'",
-    "test": "npm run lint:all",
+    "lint:all": "npm run lint -- '{src,test}/**/*.js'",
+    "pretest": "npm run lint:all",
+    "test": "mocha '{src,test}/**/*.test.js'",
+    "test:watch": "nodemon -w src -w test -x 'npm test'",
     "precommit": "lint-staged"
   },
   "lint-staged": {
@@ -46,9 +48,11 @@
     "eslint-plugin-prettier": "^2.1.2",
     "husky": "^0.14.3",
     "lint-staged": "^4.0.2",
+    "mocha": "^3.5.0",
     "nodemon": "^1.11.0",
     "npm-run-all": "^4.0.2",
     "prettier": "^1.5.3",
+    "sinon": "^3.0.0",
     "webpack": "^3.4.1"
   }
 }
