@@ -14,7 +14,7 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": ["npm run test"]
+    "*.js": ["npm test"]
   },
   "repository": {
     "type": "git",
