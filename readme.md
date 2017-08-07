@@ -6,7 +6,8 @@ The new Wikipedia mobile website. Read more on our [wiki]!
 
 ## Development
 
-Marvin requires the Node.js active LTS version, and npm > 5.X.
+Marvin's requirements are listed in package.json **engines**. Generally the
+latest Node.js active LTS version, and npm > 5.X should do it.
 
 For running the project on development, run `npm install` and then `npm start`.
 That will run the server in development mode with file watching which will auto
