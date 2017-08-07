@@ -11,3 +11,9 @@ Marvin requires the Node.js active LTS version, and npm > 5.X.
 For running the project on development, run `npm install` and then `npm start`.
 That will run the server in development mode with file watching which will auto
 restart the server when files change.
+
+## Documentation
+
+Check out our [docs](./docs) folder for documentation:
+
+* [CHANGELOG](docs/CHANGELOG.md)
