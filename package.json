@@ -8,8 +8,9 @@
     "dev:server": "NODE_ENV=development nodemon -w dist/client -w src/server/ src/server/index.js",
     "prod:build": "NODE_ENV=production webpack -p",
     "format": "prettier --write 'src/**/*.js'",
-    "lint": "eslint 'src/**/*.js'",
-    "test": "npm run lint",
+    "lint": "eslint",
+    "lint:all": "npm run lint -- 'src/**/*.js'",
+    "test": "npm run lint:all",
     "precommit": "lint-staged"
   },
   "lint-staged": {
