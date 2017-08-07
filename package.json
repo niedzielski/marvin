@@ -8,34 +8,31 @@
     "dev:server": "NODE_ENV=development nodemon -w dist/client -w src/server/ src/server/index.js",
     "prod:build": "NODE_ENV=production webpack -p",
     "format": "prettier --write '{src,test}/**/*.js'",
-    "lint": "eslint '{src,test}/**/*.js'",
-    "pretest": "npm run lint",
+    "lint": "eslint --cache --max-warnings 0",
+    "lint:all": "npm run lint -- '{src,test}/**/*.js'",
+    "pretest": "npm run lint:all",
     "test": "mocha '{src,test}/**/*.test.js'",
     "test:watch": "chokidar '**' --silent -c 'npm test'",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": [
-      "npm run test"
-    ]
+    "*.js": ["npm test"]
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/niedzielski/marvin.git"
   },
-  "keywords": [
-    "mediawiki",
-    "wikimedia",
-    "web",
-    "node",
-    "pwa"
-  ],
+  "keywords": ["mediawiki", "wikimedia", "web", "node", "pwa"],
   "author": "Wikimedia Foundation",
   "license": "GPL-2.0",
   "bugs": {
     "url": "https://phabricator.wikimedia.org/project/profile/2878/"
   },
   "homepage": "https://phabricator.wikimedia.org/project/profile/2878/",
+  "engines": {
+    "node": ">= 6",
+    "npm": ">= 5"
+  },
   "dependencies": {
     "express": "^4.15.3"
   },
