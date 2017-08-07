@@ -12,7 +12,7 @@
     "lint:all": "npm run lint -- '{src,test}/**/*.js'",
     "pretest": "npm run lint:all",
     "test": "mocha '{src,test}/**/*.test.js'",
-    "test:watch": "chokidar '**' --silent -c 'npm test'",
+    "test:watch": "nodemon -w src -w test -x 'npm test'",
     "precommit": "lint-staged"
   },
   "lint-staged": {
@@ -38,7 +38,6 @@
   },
   "devDependencies": {
     "assets-webpack-plugin": "^3.5.1",
-    "chokidar-cli": "^1.2.0",
     "clean-webpack-plugin": "^0.1.16",
     "eslint": "^3.19.0",
     "eslint-config-node-services": "^2.2.2",
