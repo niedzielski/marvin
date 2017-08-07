@@ -1,3 +1,11 @@
+/**
+ * Render a full HTML page
+ * @param {Object} params
+ * @param {?string} params.title Title of the page
+ * @param {string} [params.body = ""] HTML to render in the body of the page
+ * @param {Object.<string, Object.<string, string>>} params.assets Manifest of filename entry points to bundled assets.
+ * @return {string} HTML
+ */
 module.exports = function page({ body = "", assets, title }) {
   return `
 <!DOCTYPE html>
