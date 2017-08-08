@@ -16,13 +16,21 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": ["npm test"]
+    "*.js": [
+      "npm test"
+    ]
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/niedzielski/marvin.git"
   },
-  "keywords": ["mediawiki", "wikimedia", "web", "node", "pwa"],
+  "keywords": [
+    "mediawiki",
+    "wikimedia",
+    "web",
+    "node",
+    "pwa"
+  ],
   "author": "Wikimedia Foundation",
   "license": "GPL-2.0",
   "bugs": {
