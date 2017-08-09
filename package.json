@@ -3,22 +3,18 @@
   "version": "0.0.0",
   "description": "An API driven skin for MediaWiki",
   "scripts": {
-    "start": "run-p -n dev:*",
+    "start": "run-p -sn dev:*",
     "dev:client": "NODE_ENV=development webpack -w",
     "dev:server": "NODE_ENV=development nodemon -w dist/client -w src/server/ src/server/index.js",
     "prod:build": "NODE_ENV=production webpack -p",
-    "format": "prettier --write '{src,test}/**/*.js'",
+    "format": "npm run -s lint -- --fix",
+    "format:all": "npm run format -s -- '{src,test}/**/*.js'",
     "lint": "eslint --cache --max-warnings 0",
-    "lint:all": "npm run lint -- '{src,test}/**/*.js'",
-    "pretest": "npm run lint:all",
+    "lint:all": "npm run lint -s -- '{src,test}/**/*.js'",
+    "pretest": "npm run lint:all -s",
     "test": "mocha '{src,test}/**/*.test.js'",
     "test:watch": "nodemon -w src -w test -x 'npm test'",
-    "precommit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.js": [
-      "npm test"
-    ]
+    "precommit": "npm run test -s"
   },
   "repository": {
     "type": "git",
@@ -55,7 +51,6 @@
     "eslint-plugin-json": "^1.2.0",
     "eslint-plugin-prettier": "^2.1.2",
     "husky": "^0.14.3",
-    "lint-staged": "^4.0.2",
     "mocha": "^3.5.0",
     "nodemon": "^1.11.0",
     "npm-run-all": "^4.0.2",
