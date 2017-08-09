@@ -28,7 +28,7 @@
     "pwa"
   ],
   "author": "Wikimedia Foundation",
-  "license": "GPL-2.0",
+  "license": "GPL-2.0+",
   "bugs": {
     "url": "https://phabricator.wikimedia.org/project/profile/2878/"
   },
