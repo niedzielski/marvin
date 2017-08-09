@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "description": "An API driven skin for MediaWiki",
   "scripts": {
-    "start": "run-p -sn dev:*",
+    "start": "run-p -sn dev:\\*",
     "dev:client": "NODE_ENV=development webpack -w",
     "dev:server": "NODE_ENV=development nodemon -w dist/client -w src/server/ src/server/index.js",
     "prod:build": "NODE_ENV=production webpack -p",
-    "format": "npm run -s lint -- --fix",
+    "format": "npm run lint -s -- --fix",
     "format:all": "npm run format -s -- '{src,test}/**/*.js'",
     "lint": "eslint --cache --max-warnings 0",
     "lint:all": "npm run lint -s -- '{src,test}/**/*.js'",
