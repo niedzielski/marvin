@@ -8,12 +8,12 @@
     "dev:server": "NODE_ENV=development nodemon -w dist/client -w src/server/ src/server/index.js",
     "prod:build": "NODE_ENV=production webpack -p",
     "format": "npm run lint -s -- --fix",
-    "format:all": "npm run format -s -- '{src,test}/**/*.js'",
-    "lint": "eslint --cache --max-warnings 0",
-    "lint:all": "npm run lint -s -- '{src,test}/**/*.js'",
+    "format:all": "npm run format -s -- .",
+    "lint": "eslint --cache --max-warnings 0 --ext js,json",
+    "lint:all": "npm run lint -s -- .",
     "pretest": "npm run lint:all -s",
     "test": "mocha '{src,test}/**/*.test.js'",
-    "test:watch": "nodemon -w src -w test -x 'npm test'",
+    "test:watch": "nodemon -x 'npm test'",
     "precommit": "npm run test -s"
   },
   "repository": {
