@@ -9,7 +9,7 @@
     "prod:build": "NODE_ENV=production webpack -p",
     "format": "npm run lint -s -- --fix",
     "format:all": "npm run format -s -- .",
-    "lint": "eslint --cache --max-warnings 0 --ext js,json",
+    "lint": "eslint --cache --max-warnings 0 --ext ts,tsx,js,json",
     "lint:all": "npm run lint -s -- .",
     "pretest": "npm run lint:all -s",
     "test": "mocha '{src,test}/**/*.test.js'",
@@ -56,6 +56,9 @@
     "npm-run-all": "^4.0.2",
     "prettier": "^1.5.3",
     "sinon": "^3.0.0",
+    "ts-loader": "^2.3.2",
+    "typescript": "^2.4.2",
+    "typescript-eslint-parser": "^5.0.1",
     "webpack": "^3.4.1"
   }
 }

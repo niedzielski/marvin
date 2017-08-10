@@ -15,7 +15,7 @@ module.exports = {
   target: "web",
 
   entry: {
-    index: "./src/client/index.js"
+    index: "./src/client/index"
   },
 
   output: {
@@ -25,6 +25,20 @@ module.exports = {
     // See: https://webpack.js.org/guides/caching/#output-filenames
     chunkFilename: "[name].[chunkhash].js",
     filename: "[name].[chunkhash].js"
+  },
+
+  resolve: {
+    // Add `.ts` and `.tsx` as a resolvable extension.
+    extensions: [".ts", ".tsx", ".js"]
+  },
+
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        loader: "ts-loader"
+      }
+    ]
   },
 
   devtool: isProd ? "source-map" : "cheap-module-eval-source-map",

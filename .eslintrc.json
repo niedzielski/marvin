@@ -7,11 +7,16 @@
     "prettier"
   ],
   "rules": {
-    "prettier/prettier": "error"
+    "prettier/prettier": ["error", {"parser": "typescript"}]
   },
+  "parser": "typescript-eslint-parser",
   "parserOptions": {
     "ecmaVersion": 2016,
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "impliedStrict": true
+    }
   },
   "env": {
     "es6": true,
