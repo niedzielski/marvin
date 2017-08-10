@@ -7,7 +7,7 @@ const AssetsPlugin = require("assets-webpack-plugin");
 const isProd = process.env.NODE_ENV === "production";
 const paths = {
   client: {
-    output: path.resolve("./dist/client/")
+    output: path.resolve("./dist/public/")
   }
 };
 
