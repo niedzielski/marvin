@@ -1,11 +1,11 @@
 const express = require("express");
 const page = require("./templates/page");
-const assets = require("../../dist/client/assets-manifest.json");
+const assets = require("../../dist/public/assets-manifest.json");
 
 const { PORT = 3000 } = process.env;
 const server = express();
 
-server.use(express.static("dist/client"));
+server.use(express.static("dist/public"));
 
 server.get("/", (req, res) => {
   res.status(200).send(page({ body: "Hello World!", assets }));
