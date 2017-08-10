@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/niedzielski/marvin.git"
+    "url": "git+https://phabricator.wikimedia.org/source/marvin.git"
   },
   "keywords": [
     "mediawiki",
