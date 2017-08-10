@@ -1,12 +1,19 @@
-/**
- * Render a full HTML page
- * @param {!Object} params
- * @param {?string} params.title Title of the page
- * @param {string} [params.body = ""] HTML to render in the body of the page
- * @param {!Object.<string, !Object.<string, !string>>} params.assets Manifest of filename entry points to bundled assets.
- * @return {!string} HTML
- */
-module.exports = function page({ body = "", assets, title }) {
+export interface AssetsManifest {
+  [entrypoint: string]: {
+    [format: string]: string;
+  };
+}
+
+export interface PageParams {
+  // Title of the page
+  title: string;
+  // HTML to render in the body of the page
+  body: string;
+  // Manifest of filename entry points to bundled assets.
+  assets: AssetsManifest;
+}
+
+export default function page({ title, body = "", assets }: PageParams): string {
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -21,4 +28,4 @@ module.exports = function page({ body = "", assets, title }) {
     <script type="text/javascript" src="./${assets.index.js}"></script>
   </body>
 </html>`;
-};
+}

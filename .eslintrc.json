@@ -7,9 +7,8 @@
     "prettier"
   ],
   "rules": {
-    "prettier/prettier": ["error", {"parser": "typescript"}]
+    "prettier/prettier": "error"
   },
-  "parser": "typescript-eslint-parser",
   "parserOptions": {
     "ecmaVersion": 2016,
     "sourceType": "module",
