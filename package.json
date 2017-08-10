@@ -5,7 +5,7 @@
   "scripts": {
     "start": "run-p -sn dev:\\*",
     "dev:client": "NODE_ENV=development webpack -w",
-    "dev:server": "NODE_ENV=development nodemon -q -w dist/client -w src/server/ src/server/index.js",
+    "dev:server": "NODE_ENV=development nodemon -q src/server/index.js",
     "prod:build": "NODE_ENV=production webpack -p",
     "format": "npm run lint -s -- --fix",
     "format:all": "npm run format -s -- .",
