@@ -14,6 +14,9 @@ export interface PageParams {
 }
 
 export default function page({ title, body = "", assets }: PageParams): string {
+  const scripts = [];
+  assets.index && assets.index.js && scripts.push(assets.index.js);
+
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +28,7 @@ export default function page({ title, body = "", assets }: PageParams): string {
   </head>
   <body>
     <div id="root">${body}</div>
-    <script type="text/javascript" src="./${assets.index.js}"></script>
+    ${scripts.map(s => `<script type="text/javascript" src="./${s}"></script>`)}
   </body>
 </html>`;
 }

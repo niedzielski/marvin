@@ -2,7 +2,16 @@ import * as express from "express";
 import page, { AssetsManifest } from "./templates/page";
 import app from "../common/components/app";
 
-const assets: AssetsManifest = require("../../dist/public/assets-manifest.json");
+let assets: AssetsManifest = {};
+try {
+  assets = require("../../dist/public/assets-manifest.json");
+} catch (e) {
+  if (process.env.NODE_ENV === "production") {
+    throw e;
+  } else {
+    console.error("Unable to load the static assets manifest file");
+  }
+}
 
 const { PORT = 3000 } = process.env;
 const server = express();
