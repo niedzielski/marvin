@@ -11,12 +11,23 @@ const paths = {
   }
 };
 
-module.exports = {
-  target: "web",
+// There is no builtin Stats "warnings" preset.
+// https://github.com/webpack/webpack/blob/7fe0371/lib/Stats.js#L886
+// https://github.com/webpack/webpack/blob/7fe0371/lib/Stats.js#L101-L131
+const WARNINGS_STATS_PRESET = {
+  all: false, // Default all options to false.
+  errors: true,
+  errorDetails: true,
+  moduleTrace: true,
+  warnings: true
+};
 
+module.exports = {
   entry: {
     index: "./src/client/index"
   },
+
+  stats: WARNINGS_STATS_PRESET,
 
   output: {
     path: paths.client.output,
@@ -36,7 +47,10 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: "ts-loader"
+        loader: "ts-loader",
+        options: {
+          logLevel: "error"
+        }
       }
     ]
   },
@@ -48,7 +62,7 @@ module.exports = {
     new webpack.NamedModulesPlugin(),
 
     // Clean the build folder on restarts
-    new CleanWebpackPlugin(paths.client.output, { verbose: true }),
+    new CleanWebpackPlugin(paths.client.output, { verbose: false }),
 
     // Generate a json manifest with the entry points and assets names to use
     // in the server to pass to the HTML page template
