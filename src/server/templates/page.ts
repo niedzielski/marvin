@@ -10,15 +10,24 @@ export interface PageParams {
   // HTML to render in the body of the page
   body: string,
   // Manifest of filename entry points to bundled assets.
-  assets: AssetsManifest
+  assets: AssetsManifest | string
 }
 
-export default function page({ title, body = "", assets }: PageParams): string {
-  const scripts = [];
-  if (assets.index && assets.index.js) {
-    scripts.push(assets.index.js);
-  }
+/**
+ * @return {!string} The path to the asset identified by entry and extension (e.g., index.js);
+ *                   either a URL (development) or a filesystem path (production).
+ */
+const asset = (
+  manifest: AssetsManifest | string,
+  entry: string,
+  extension: string
+): string =>
+  typeof manifest === "string"
+    ? `${manifest}/${entry}.${extension}`
+    : manifest[entry][extension];
 
+export default function page({ title, body = "", assets }: PageParams): string {
+  const script: string = asset(assets, "index", "js");
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -30,7 +39,7 @@ export default function page({ title, body = "", assets }: PageParams): string {
   </head>
   <body>
     <div id="root">${body}</div>
-    ${scripts.map(s => `<script type="text/javascript" src="./${s}"></script>`)}
+    <script type="text/javascript" src="${script}"></script>
   </body>
 </html>`;
 }
