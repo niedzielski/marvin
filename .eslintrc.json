@@ -9,6 +9,7 @@
   "rules": {
     "prettier/prettier": "error"
   },
+  "parser": "typescript-eslint-parser",
   "parserOptions": {
     "ecmaVersion": 2016,
     "sourceType": "module",
@@ -20,5 +21,18 @@
   "env": {
     "es6": true,
     "node": false
-  }
+  },
+  "overrides": [
+    {
+      "files": [ "*.ts", "*.tsx" ],
+      "rules": {
+        // Disable rules with known issues.
+        // https://github.com/eslint/typescript-eslint-parser#known-issues
+        "no-undef": 0,
+        "no-unused-vars": 0,
+        "no-useless-constructor": 0,
+        "space-infix-ops": 0
+      }
+    }
+  ]
 }

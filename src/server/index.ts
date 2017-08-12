@@ -9,7 +9,7 @@ try {
   if (process.env.NODE_ENV === "production") {
     throw e;
   } else {
-    console.error("Unable to load the static assets manifest file");
+    console.error("Unable to load the static assets manifest file"); // eslint-disable-line no-console
   }
 }
 

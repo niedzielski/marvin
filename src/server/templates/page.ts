@@ -1,21 +1,23 @@
 export interface AssetsManifest {
   [entrypoint: string]: {
-    [format: string]: string;
-  };
+    [format: string]: string
+  }
 }
 
 export interface PageParams {
   // Title of the page
-  title: string;
+  title: string,
   // HTML to render in the body of the page
-  body: string;
+  body: string,
   // Manifest of filename entry points to bundled assets.
-  assets: AssetsManifest;
+  assets: AssetsManifest
 }
 
 export default function page({ title, body = "", assets }: PageParams): string {
   const scripts = [];
-  assets.index && assets.index.js && scripts.push(assets.index.js);
+  if (assets.index && assets.index.js) {
+    scripts.push(assets.index.js);
+  }
 
   return `
 <!DOCTYPE html>
