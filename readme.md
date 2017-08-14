@@ -6,16 +6,16 @@ The new Wikipedia mobile website. Read more on our [wiki]!
 
 ## Development
 
-Marvin's requirements are listed in package.json **engines**. Generally the
-latest Node.js active LTS version, and npm > 5.X should do it.
+See the [development guide][] for specific steps for setting up the project and
+running it. If you have any questions please create a task under the
+[#marvin][] project.
 
-For running the project on development, run `npm install` and then `npm start`.
-That will run the server in development mode with file watching which will auto
-restart the server when files change.
+[development guide]: docs/development.md
+[#marvin]: https://phabricator.wikimedia.org/project/board/2878/
 
 ## Documentation
 
-Check out our [docs](./docs) folder for documentation:
+Check out our [docs](./docs) folder for all the documentation:
 
 * [CHANGELOG](docs/CHANGELOG.md)
 
