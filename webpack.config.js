@@ -50,7 +50,7 @@ module.exports = {
         test: /\.tsx?$/,
         loader: "ts-loader",
         options: {
-          logLevel: "error"
+          logLevel: "warn"
         }
       }
     ]
