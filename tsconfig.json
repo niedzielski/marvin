@@ -1,7 +1,14 @@
 {
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/**/*.test.js",
+    "test/**/*.test.ts",
+    "test/**/*.test.js"
+  ],
   "compilerOptions": {
     "jsx": "react",
     "jsxFactory": "h",
+    "moduleResolution": "node",
     "sourceMap": true,
 
     "strict": true,
@@ -12,6 +19,9 @@
     "noFallthroughCasesInSwitch": true,
 
     "newLine": "lf",
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+
+    // Not available for ts-node: https://github.com/TypeStrong/ts-node/issues/374
+    "pretty": true
   }
 }
