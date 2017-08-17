@@ -7,7 +7,15 @@
     "prettier"
   ],
   "rules": {
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "max-len": [
+      1,
+      {
+        "tabWidth": 2,
+        "ignoreUrls": true,
+        "ignorePattern": "^/// .+|// eslint-.+"
+      }
+    ]
   },
   "parser": "typescript-eslint-parser",
   "parserOptions": {

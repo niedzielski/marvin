@@ -14,8 +14,9 @@ export interface PageParams {
 }
 
 /**
- * @return {!string} The path to the asset identified by entry and extension (e.g., index.js);
- *                   either a URL (development) or a filesystem path (production).
+ * @return {!string} The path to the asset identified by entry and extension
+ *                   (e.g., index.js); either a URL (development) or a
+ *                   filesystem path (production).
  */
 const asset = (
   manifest: AssetsManifest | string,

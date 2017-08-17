@@ -65,8 +65,9 @@ module.exports = {
 
   devtool: isProd ? "source-map" : "cheap-module-eval-source-map",
 
-  // For development builds, serve the packaged result over http://localhost:8080/ and live reload
-  // the browser when the bundle is rebuilt.
+  // For development builds, serve the packaged result over
+  // http://localhost:8080/ and live reload the browser when the bundle is
+  // rebuilt.
   devServer: isProd
     ? undefined
     : {
@@ -76,7 +77,8 @@ module.exports = {
         // Log warnings and errors in the browser console.
         clientLogLevel: "warning",
 
-        // Show warnings and errors as an obtrusive opaque overlay in the browser.
+        // Show warnings and errors as an obtrusive opaque overlay in the
+        // browser.
         overlay: { warnings: true, errors: true },
 
         stats: WARNINGS_STATS_PRESET
