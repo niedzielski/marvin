@@ -1,0 +1,7 @@
+html, body {
+  margin: 0;
+}
+
+body, input, button, textarea, td {
+  font-family: sans-serif;
+}

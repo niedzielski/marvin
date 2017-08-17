@@ -1,6 +1,7 @@
 /* eslint-env node */
 const path = require("path");
 const AssetsPlugin = require("assets-webpack-plugin");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const isProd = process.env.NODE_ENV === "production";
 const paths = {
@@ -51,6 +52,13 @@ module.exports = {
         options: {
           logLevel: "warn"
         }
+      },
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: ["css-loader"]
+        })
       }
     ]
   },
@@ -74,7 +82,11 @@ module.exports = {
         stats: WARNINGS_STATS_PRESET
       },
 
-  plugins: []
+  plugins: [
+    new ExtractTextPlugin({
+      filename: isProd ? "[name].[contenthash].css" : "[name].css"
+    })
+  ]
 };
 
 if (isProd) {

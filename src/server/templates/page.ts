@@ -28,6 +28,7 @@ const asset = (
 
 export default function page({ title, body = "", assets }: PageParams): string {
   const script: string = asset(assets, "index", "js");
+  const style: string = asset(assets, "index", "css");
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -35,6 +36,7 @@ export default function page({ title, body = "", assets }: PageParams): string {
     <meta charset="utf-8"/>
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <link rel="stylesheet" href="${style}" />
     <title>${title ? `${title} - ` : ""}Marvin</title>
   </head>
   <body>

@@ -1,3 +1,6 @@
+// Ignore importing style and image files when running on Node.js
+import "ignore-styles";
+
 import * as express from "express";
 import page, { AssetsManifest } from "./templates/page";
 import app from "../common/components/app";
