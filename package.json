@@ -4,7 +4,7 @@
   "description": "An API driven skin for MediaWiki",
   "scripts": {
     "--- PRIMARY ---": "# Frequent user scripts.",
-    "start": "run-p -s 'client:watch -- -d' server:watch",
+    "start": "npm-run-all --silent clean --parallel 'client:watch -- -d' server:watch",
     "watch": "run-p -s start test:watch",
     "build": "NODE_ENV=production npm-run-all --silent clean --parallel server:build 'client:build -- -p'",
     "format": "npm run -s lint -- --fix",
