@@ -1,8 +1,4 @@
-export interface AssetsManifest {
-  [entrypoint: string]: {
-    [format: string]: string
-  }
-}
+import { Assets } from "assets-webpack-plugin";
 
 export interface PageParams {
   // Title of the page
@@ -10,7 +6,7 @@ export interface PageParams {
   // HTML to render in the body of the page
   body: string,
   // Manifest of filename entry points to bundled assets.
-  assets: AssetsManifest | string
+  assets: Assets | string
 }
 
 /**
@@ -19,13 +15,13 @@ export interface PageParams {
  *                   filesystem path (production).
  */
 const asset = (
-  manifest: AssetsManifest | string,
+  assets: Assets | string,
   entry: string,
   extension: string
 ): string =>
-  typeof manifest === "string"
-    ? `${manifest}/${entry}.${extension}`
-    : manifest[entry][extension];
+  typeof assets === "string"
+    ? `${assets}/${entry}.${extension}`
+    : assets[entry][extension];
 
 export default function page({ title, body = "", assets }: PageParams): string {
   const script: string = asset(assets, "index", "js");
