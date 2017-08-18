@@ -77,6 +77,9 @@ module.exports = {
         // Log warnings and errors in the browser console.
         clientLogLevel: "warning",
 
+        // Hide bundling start and finish messages.
+        noInfo: true,
+
         // Show warnings and errors as an obtrusive opaque overlay in the
         // browser.
         overlay: { warnings: true, errors: true },
