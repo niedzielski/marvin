@@ -4,6 +4,7 @@ import "ignore-styles";
 import * as express from "express";
 import page, { AssetsManifest } from "./templates/page";
 import app from "../common/components/app";
+import { render } from "preact-render-to-string";
 
 const isProd: boolean = process.env.NODE_ENV === "production";
 
@@ -19,7 +20,7 @@ const server = express();
 server.use(express.static("dist/public"));
 
 server.get("/", (_req: express.Request, res: express.Response) => {
-  res.status(200).send(page({ title: "", body: app(), assets }));
+  res.status(200).send(page({ title: "", body: render(app()), assets }));
 });
 
 server.get("*", (_req: express.Request, res: express.Response) => {
@@ -39,6 +40,6 @@ server.listen(PORT, () => {
     // The negative offset accounts for:
     // https://github.com/webpack/watchpack/issues/25.
     const nowish: number = Date.now() - 10 * 1000;
-    touch("src/client/index.ts", { time: nowish });
+    touch("src/client/index.tsx", { time: nowish });
   }
 });

@@ -44,7 +44,9 @@
     "npm": ">= 5"
   },
   "dependencies": {
-    "express": "^4.15.3"
+    "express": "^4.15.3",
+    "preact": "^8.2.1",
+    "preact-render-to-string": "^3.6.3"
   },
   "devDependencies": {
     "@types/express": "^4.0.36",
