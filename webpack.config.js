@@ -39,7 +39,7 @@ module.exports = {
     // Use chunkhash instead of hash to get per-file/chunk hashing instead of
     // global build hashing, to improve caching from browsers.
     // See: https://webpack.js.org/guides/caching/#output-filenames
-    chunkFilename: "[name].[chunkhash].js",
+    chunkFilename: isProd ? "[name].[chunkhash].js" : "[name].js",
 
     // Use constant filenames for developmental server.
     filename: isProd ? "[name].[chunkhash].js" : "[name].js"
