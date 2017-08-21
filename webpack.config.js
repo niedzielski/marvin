@@ -4,6 +4,8 @@ const AssetsPlugin = require("assets-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const isProd = process.env.NODE_ENV === "production";
+const isVerbose = Boolean(JSON.parse(process.env.VERBOSE || "false"));
+
 const paths = {
   client: {
     output: path.resolve("./dist/public/")
@@ -13,20 +15,24 @@ const paths = {
 // There is no builtin Stats "warnings" preset.
 // https://github.com/webpack/webpack/blob/7fe0371/lib/Stats.js#L886
 // https://github.com/webpack/webpack/blob/7fe0371/lib/Stats.js#L101-L131
-const WARNINGS_STATS_PRESET = {
-  all: false, // Default all options to false.
-  errors: true,
-  errorDetails: true,
-  moduleTrace: true,
-  warnings: true
-};
+const STATS = isVerbose
+  ? {
+      all: true
+    }
+  : {
+      all: false, // Default all options to false.
+      errors: true,
+      errorDetails: true,
+      moduleTrace: true,
+      warnings: true
+    };
 
 module.exports = {
   entry: {
     index: "./src/client/index"
   },
 
-  stats: WARNINGS_STATS_PRESET,
+  stats: STATS,
 
   output: {
     path: paths.client.output,
@@ -50,7 +56,7 @@ module.exports = {
         test: /\.tsx?$/,
         loader: "ts-loader",
         options: {
-          logLevel: "warn"
+          logLevel: isVerbose ? "info" : "warn"
         }
       },
       {
@@ -75,16 +81,16 @@ module.exports = {
         contentBase: false,
 
         // Log warnings and errors in the browser console.
-        clientLogLevel: "warning",
+        clientLogLevel: isVerbose ? "info" : "warning",
 
         // Hide bundling start and finish messages.
-        noInfo: true,
+        noInfo: !isVerbose,
 
         // Show warnings and errors as an obtrusive opaque overlay in the
         // browser.
         overlay: { warnings: true, errors: true },
 
-        stats: WARNINGS_STATS_PRESET
+        stats: STATS
       },
 
   plugins: [
