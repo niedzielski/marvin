@@ -28,7 +28,9 @@
     ],
 
     "newLine": "lf",
-    "forceConsistentCasingInFileNames": true,
+    // This option creates problems with the typeRoots in OS X. See:
+    // https://github.com/Microsoft/TypeScript/issues/17617
+    "forceConsistentCasingInFileNames": false,
 
     // Not available for ts-node: https://github.com/TypeStrong/ts-node/issues/374
     "pretty": true
