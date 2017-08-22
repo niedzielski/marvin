@@ -27,7 +27,7 @@
       "src/types"
     ],
 
-    "newLine": "lf",
+    "newLine": "LF",
     // This option creates problems with the typeRoots in OS X. See:
     // https://github.com/Microsoft/TypeScript/issues/17617
     "forceConsistentCasingInFileNames": false,
