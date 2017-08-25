@@ -10,9 +10,9 @@ export interface PageParams {
 }
 
 /**
- * @return {!string} The path to the asset identified by entry and extension
- *                   (e.g., index.js); either a URL (development) or a
- *                   filesystem path (production).
+ * @return The path to the asset identified by entry and extension (e.g.,
+ *         index.js); either a URL (development) or a filesystem path
+ *         (production).
  */
 const asset = (assets: Assets | string, entry: string, extension: string) =>
   typeof assets === "string"

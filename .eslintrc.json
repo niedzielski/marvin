@@ -34,6 +34,9 @@
     {
       "files": [ "*.ts", "*.tsx" ],
       "rules": {
+        // Unnecessary for a typed language.
+        "jsdoc/require-returns-type": 0,
+
         // Disable rules with known issues.
         // https://github.com/eslint/typescript-eslint-parser#known-issues
         "no-undef": 0,
