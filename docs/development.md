@@ -56,9 +56,12 @@ If you want to run the production version, then:
 
 In TypeScript, data types may be explicitly specified or (often) inferred by the
 compiler. Marvin's coding convention is to favor inference except for module
-exports. Another way to phrase this is: write concisely except for APIs. The
-reasoning is that the brevity of inferred code is preferred but APIs are seams
-and their types should be both fixed and documented.
+exports. Another way to phrase this is: write concisely except for APIs.
+
+The reasoning is that the brevity of inferred code is preferred -as long as
+the compiler doesn't complain- but APIs are seams and their types should be
+both fixed and documented. We have set up the TypeScript compiler with the
+strict settings so no implicit `any` or `null`/`undefined` should slip in.
 
 The following examples are possible module implementations but the second or
 third are preferred:
@@ -71,7 +74,7 @@ third are preferred:
     export default app
     ```
 
-2. Explicitly typed (declared syntax):
+2. **Preferred** - Explicitly typed (declared syntax):
     ```js
     const app: FunctionalComponent<any> = () =>
       <div class="App">Hello world</div>;
@@ -79,7 +82,7 @@ third are preferred:
     export default app
     ```
 
-3. Explicitly typed (inline syntax):
+3. **Preferred** - Explicitly typed (inline syntax):
     ```js
     export default (_props: any): JSX.Element =>
       <div class="App">Hello world</div>;
@@ -93,14 +96,14 @@ third are preferred:
 
 The following are possible internal implementations but the second is preferred:
 
-1. Explicitly typed:
+1. Explicitly typed lambda:
     ```js
     server.get("*", (_request: express.Request, response: express.Response) => {
       response.status(404).send("Not found");
     });
     ```
 
-2. Implicitly typed:
+2. **Preferred** - Implicitly typed lambda:
     ```js
     server.get("*", (_request, response) => {
       response.status(404).send("Not found");
