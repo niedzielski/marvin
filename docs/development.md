@@ -41,7 +41,6 @@ on the `scripts` field or run `npm run` to see the available options.
 * To automatically format source code and fix linting errors, you can run:
   * `npm run format`
 
-
 ## Running the production version
 
 If you want to run the production version, then:
@@ -50,3 +49,60 @@ If you want to run the production version, then:
   * `npm run build`
 * Run the production server with:
   * `NODE_ENV=production node dist/server/index.js`
+
+## Coding conventions
+
+### Typing
+
+In TypeScript, data types may be explicitly specified or (often) inferred by the
+compiler. Marvin's coding convention is to favor inference except for module
+exports. Another way to phrase this is: write concisely except for APIs. The
+reasoning is that the brevity of inferred code is preferred but APIs are seams
+and their types should be both fixed and documented.
+
+The following examples are possible module implementations but the second or
+third are preferred:
+
+1. Explicitly over-typed (right-hand typing is internal):
+    ```js
+    const app: FunctionalComponent<any> = (_props: any): JSX.Element =>
+      <div class="App">Hello world</div>;
+
+    export default app
+    ```
+
+2. Explicitly typed (declared syntax):
+    ```js
+    const app: FunctionalComponent<any> = () =>
+      <div class="App">Hello world</div>;
+
+    export default app
+    ```
+
+3. Explicitly typed (inline syntax):
+    ```js
+    export default (_props: any): JSX.Element =>
+      <div class="App">Hello world</div>;
+    ```
+
+4. Implicitly typed:
+    ```js
+    export default () =>
+      <div class="App">Hello world</div>;
+    ```
+
+The following are possible internal implementations but the second is preferred:
+
+1. Explicitly typed:
+    ```js
+    server.get("*", (_request: express.Request, response: express.Response) => {
+      response.status(404).send("Not found");
+    });
+    ```
+
+2. Implicitly typed:
+    ```js
+    server.get("*", (_request, response) => {
+      response.status(404).send("Not found");
+    });
+    ```
