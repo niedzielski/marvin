@@ -14,18 +14,14 @@ export interface PageParams {
  *                   (e.g., index.js); either a URL (development) or a
  *                   filesystem path (production).
  */
-const asset = (
-  assets: Assets | string,
-  entry: string,
-  extension: string
-): string =>
+const asset = (assets: Assets | string, entry: string, extension: string) =>
   typeof assets === "string"
     ? `${assets}/${entry}.${extension}`
     : assets[entry][extension];
 
 export default function page({ title, body = "", assets }: PageParams): string {
-  const script: string = asset(assets, "index", "js");
-  const style: string = asset(assets, "index", "css");
+  const script = asset(assets, "index", "js");
+  const style = asset(assets, "index", "css");
   return `
 <!DOCTYPE html>
 <html lang="en">
