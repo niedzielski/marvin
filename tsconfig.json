@@ -13,6 +13,8 @@
     "jsxFactory": "h",
     "moduleResolution": "node",
     "sourceMap": true,
+    "allowJs": true,
+    "checkJs": true,
 
     "strict": true,
 

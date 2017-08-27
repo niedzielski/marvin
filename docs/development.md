@@ -73,7 +73,7 @@ The following examples are possible module implementations but the second or
 third are preferred:
 
 1. Explicitly over-typed (right-hand typing is internal):
-    ```js
+    ```ts
     const app: FunctionalComponent<any> = (_props: any): JSX.Element =>
       <div class="App">Hello world</div>;
 
@@ -81,7 +81,7 @@ third are preferred:
     ```
 
 2. **Preferred** - Explicitly typed (declared syntax):
-    ```js
+    ```ts
     const app: FunctionalComponent<any> = () =>
       <div class="App">Hello world</div>;
 
@@ -89,13 +89,13 @@ third are preferred:
     ```
 
 3. **Preferred** - Explicitly typed (inline syntax):
-    ```js
+    ```ts
     export default (_props: any): JSX.Element =>
       <div class="App">Hello world</div>;
     ```
 
 4. Implicitly typed:
-    ```js
+    ```ts
     export default () =>
       <div class="App">Hello world</div>;
     ```
@@ -103,14 +103,14 @@ third are preferred:
 The following are possible internal implementations but the second is preferred:
 
 1. Explicitly typed lambda:
-    ```js
+    ```ts
     server.get("*", (_request: express.Request, response: express.Response) => {
       response.status(404).send("Not found");
     });
     ```
 
 2. **Preferred** - Implicitly typed lambda:
-    ```js
+    ```ts
     server.get("*", (_request, response) => {
       response.status(404).send("Not found");
     });
