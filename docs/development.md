@@ -118,9 +118,4 @@ The following are possible internal implementations but the second is preferred:
 
 ## Environment variables
 
-* `NODE_ENV`: unset or `production`; defaults to development. Controls debug
-  functionality.
-* `PORT`: unset or a natural number; defaults to 3000. Controls server port.
-* `VERBOSE`: unset or `1`; defaults to disabled. Controls build output.
-* `WEBPACK_DEV_SERVER_PORT`: unset or a natural number; defaults to 8080.
-  Controls debug client port.
+See [configuration](../src/server/configuration.ts).
