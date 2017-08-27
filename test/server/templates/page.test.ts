@@ -1,4 +1,3 @@
-/* eslint-env mocha */
 import * as assert from "assert";
 import page from "../../../src/server/templates/page";
 
