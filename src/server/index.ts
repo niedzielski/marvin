@@ -14,7 +14,7 @@ import { render } from "preact-render-to-string";
 
 // The asset manifest built or the webpack-dev-server URL (which has no
 // manifest).
-const assets = production
+const manifest = production
   ? require("../../dist/public/assets-manifest.json")
   : webpackDevServerUrl;
 
@@ -30,7 +30,7 @@ Object.keys(api).forEach(name => {
         page({
           title: "",
           body: render(m.default()),
-          assets
+          manifest
         })
       );
     });

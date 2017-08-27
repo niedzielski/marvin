@@ -1,27 +1,18 @@
-import { Assets } from "assets-webpack-plugin";
+import { Manifest, index, style } from "../assets/manifest";
 
 export interface PageParams {
   // Title of the page
   title: string,
   // HTML to render in the body of the page
   body: string,
-  // Manifest of filename entry points to bundled assets.
-  assets: Assets | string
+  manifest: Manifest
 }
 
-/**
- * @return The path to the asset identified by entry and extension (e.g.,
- *         index.js); either a URL (development) or a filesystem path
- *         (production).
- */
-const asset = (assets: Assets | string, entry: string, extension: string) =>
-  typeof assets === "string"
-    ? `${assets}/${entry}.${extension}`
-    : assets[entry][extension];
-
-export default function page({ title, body = "", assets }: PageParams): string {
-  const script = asset(assets, "index", "js");
-  const style = asset(assets, "index", "css");
+export default function page({
+  title,
+  body = "",
+  manifest
+}: PageParams): string {
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -29,12 +20,12 @@ export default function page({ title, body = "", assets }: PageParams): string {
     <meta charset="utf-8"/>
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <link rel="stylesheet" href="${style}" />
+    <link rel="stylesheet" href="${style(manifest)}" />
     <title>${title ? `${title} - ` : ""}Marvin</title>
   </head>
   <body>
     <div id="root">${body}</div>
-    <script type="text/javascript" src="${script}"></script>
+    <script type="text/javascript" src="${index(manifest)}"></script>
   </body>
 </html>`;
 }
