@@ -1,7 +1,8 @@
 /* eslint-env node */
-const path = require("path");
-const AssetsPlugin = require("assets-webpack-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+import * as AssetsPlugin from "assets-webpack-plugin";
+import * as ExtractTextPlugin from "extract-text-webpack-plugin";
+import * as path from "path";
+import * as webpack from "webpack";
 
 const isProd = process.env.NODE_ENV === "production";
 const isVerbose = Boolean(JSON.parse(process.env.VERBOSE || "false"));
@@ -15,24 +16,19 @@ const paths = {
 // There is no builtin Stats "warnings" preset.
 // https://github.com/webpack/webpack/blob/7fe0371/lib/Stats.js#L886
 // https://github.com/webpack/webpack/blob/7fe0371/lib/Stats.js#L101-L131
-const STATS = isVerbose
-  ? {
-      all: true
-    }
-  : {
-      all: false, // Default all options to false.
-      errors: true,
-      errorDetails: true,
-      moduleTrace: true,
-      warnings: true
-    };
+const stats = {
+  all: isVerbose, // Default all outputs to verbosity.
+  errors: true,
+  errorDetails: true,
+  warnings: true
+};
 
-module.exports = {
+const configuration: webpack.Configuration = {
   entry: {
     index: "./src/client/index"
   },
 
-  stats: STATS,
+  stats,
 
   output: {
     path: paths.client.output,
@@ -90,20 +86,20 @@ module.exports = {
         // browser.
         overlay: { warnings: true, errors: true },
 
-        stats: STATS
-      },
-
-  plugins: [
-    new ExtractTextPlugin({
-      filename: isProd ? "[name].[contenthash].css" : "[name].css"
-    })
-  ]
+        stats
+      }
 };
+
+configuration.plugins = [
+  new ExtractTextPlugin({
+    filename: isProd ? "[name].[contenthash].css" : "[name].css"
+  })
+];
 
 if (isProd) {
   // Generate a json manifest with the entry points and assets names to use
   // in the server to pass to the HTML page template
-  module.exports.plugins.push(
+  configuration.plugins.push(
     new AssetsPlugin({
       prettyPrint: true,
       filename: "assets-manifest.json",
@@ -111,3 +107,5 @@ if (isProd) {
     })
   );
 }
+
+export default configuration;
