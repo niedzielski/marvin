@@ -1,10 +1,20 @@
 import "./index.css";
-import { h, render } from "preact";
-import App from "../common/components/app";
+import * as page from "page";
+import { api } from "../common/routers/api";
+import { render } from "preact";
 
 const root = document.getElementById("root");
 if (!root) {
   throw new Error('Missing element with "root" ID.');
 }
 
-render(<App />, root, root.lastElementChild || undefined);
+Object.keys(api).forEach(name => {
+  const route = api[name];
+  page(route.path, () =>
+    route
+      .response()
+      .then((m: any) =>
+        render(m.default(), root, root.lastElementChild || undefined)
+      )
+  );
+});
