@@ -7,9 +7,9 @@
     "prettier"
   ],
   "rules": {
-    "prettier/prettier": "error",
+    "prettier/prettier": "warn",
     "max-len": [
-      1,
+      "warn",
       {
         "tabWidth": 2,
         "ignoreUrls": true,
@@ -35,14 +35,14 @@
       "files": [ "*.ts", "*.tsx" ],
       "rules": {
         // Unnecessary for a typed language.
-        "jsdoc/require-returns-type": 0,
+        "jsdoc/require-returns-type": "off",
 
         // Disable rules with known issues.
         // https://github.com/eslint/typescript-eslint-parser#known-issues
-        "no-undef": 0,
-        "no-unused-vars": 0,
-        "no-useless-constructor": 0,
-        "space-infix-ops": 0
+        "no-undef": "off",
+        "no-unused-vars": "off",
+        "no-useless-constructor": "off",
+        "space-infix-ops": "off"
       }
     }
   ]
