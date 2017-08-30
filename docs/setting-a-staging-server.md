@@ -40,7 +40,7 @@ Go to <https://horizon.wikimedia.org/project/proxy/> and:
   the url will be forwarded.
 * Click **Create proxy**
 
-## 2. Set up the server
+## 2. Check server and initial setup
 
 ```
 $ sudo apt-get update
@@ -51,11 +51,17 @@ $ sudo apt-get install nodejs
 Verify node is properly installed, `nodejs -v` should output something like
 `v6.11.0`.
 
+Alias `nodejs` as `node` so that we can upgrade npm later by doing:
+
+```
+sudo ln -s /usr/bin/nodejs /usr/bin/node
+```
+
 Verify your server is accesible from the web browser by running a dummy http
 server (instead of 8080 use the port you specified when creating the web proxy):
 
 ```
-$ nodejs -e "require('http').createServer((req, res) => res.end('hello world marvin')).listen(8080)"
+$ node -e "require('http').createServer((req, res) => res.end('hello world marvin')).listen(8080)"
 ```
 
 Open your browser and go to your web proxy url (ex: `marvin.wmflabs.org`), and
@@ -67,3 +73,121 @@ hello world marvin
 
 If so, you have a VM where you can run a server, and it can be accessible from
 web browser clients, so we are ready to go!
+
+Remember to kill the server before you do anything else (`killall node`)
+
+## 3. Install dependencies for building the app
+
+Install npm:
+
+```
+$ sudo apt-get install npm
+$ npm -v
+1.4.21
+```
+
+We need npm 5 to reproducibly install and build our app in staging, so lets
+upgrade npm:
+
+```
+$ sudo npm install -g npm@5
+$ bash # Start a new shell so that it picks up the new npm install
+$ npm -v
+5.3.0
+```
+
+## 4. Setting up the repository and running the server
+
+First, let's create a user which will have limited privileges (no sudo for
+example) and own the repository and processes:
+
+```
+$ sudo adduser marvin
+# Answer the questions and set a password up
+```
+
+And switch out from your account to its account:
+
+```
+$ sudo su marvin
+marvin@marvin-staging $ cd ~
+```
+
+Let's create a folder for the repository (`sources/`), and a folder for the app
+tarball (`dist/`):
+
+```
+marvin@marvin-staging:~$ mkdir sources/
+marvin@marvin-staging:~$ mkdir dist/
+marvin@marvin-staging:~$ ls
+dist  sources
+```
+
+Let's clone the repo into sources
+
+```
+marvin@marvin-staging:~$ git clone https://phabricator.wikimedia.org/source/marvin.git sources/
+Cloning into 'sources'...
+#...[redacted]
+Checking connectivity... done.
+marvin@marvin-staging:~$ ls sources/
+docs  package.json  package-lock.json  readme.md  src  test  tsconfig.json  webpack.config.js
+```
+
+Create a post-merge hook in the repo so that we can build and re-run the server
+on git pull:
+
+```
+marvin@marvin-staging:~$ cd sources/
+marvin@marvin-staging:~/sources$ vim .git/hooks/post-merge
+```
+
+```sh
+#!/bin/bash
+
+#~/sources/.git/hooks/post-merge
+set -e
+set -o pipefail
+
+echo "Running post-merge hook"
+
+echo "Installing and building server bundle"
+npm install
+npm run build
+
+echo "Removing previously started server processes"
+killall node || true
+
+echo "Copying new tarball"
+rm -rf /home/marvin/dist
+cp -R dist/ /home/marvin/dist
+cp -R node_modules/ /home/marvin/dist/node_modules
+
+echo "Running new server version"
+NODE_ENV=production node /home/marvin/dist/server/index.js &
+```
+
+And make it executable
+
+```
+marvin@marvin-staging:~/sources$ chmod +x .git/hooks/post-merge
+```
+
+You can try it out by running it directly:
+
+```
+marvin@marvin-staging:~/sources$ ./.git/hooks/post-merge
+Running post-merge hook
+Installing and building server bundle
+added 115 packages in 12.848s
+
+> marvin@0.0.0 build /home/marvin/sources
+> NODE_ENV=production npm-run-all --silent clean --parallel server:build 'client:build -- -p'
+
+Removing previously started server processes
+Copying new tarball
+Running new server version
+Server started on http://localhost:8080/
+```
+
+Then you should be able to access your site from the browser!
