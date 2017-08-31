@@ -21,8 +21,8 @@ group launch a new instance.
 * Fill up the details (name)
 * Under **Source**, choose a debian based image. Debian 8.9-jessie at the time
   of writing this is the recommended one with included node source repositories.
-* Under **Flavor**, choose an appropiate size depending on your group's capacity
-  and who is going to use the server.
+* Under **Flavor**, choose an appropriate size depending on your group's
+  capacity and who is going to use the server.
 * Under **Security Groups**, add the **web** group so that web ports on the VM
   are exposed.
 * Click on **Launch Instance** and wait!
@@ -64,8 +64,8 @@ server (instead of 8080 use the port you specified when creating the web proxy):
 $ node -e "require('http').createServer((req, res) => res.end('hello world marvin')).listen(8080)"
 ```
 
-Open your browser and go to your web proxy url (ex: `marvin.wmflabs.org`), and
-you should see in your browser:
+Open your browser and go to your web proxy url (ex:
+https://marvin.wmflabs.org/), and you should see in your browser:
 
 ```
 hello world marvin

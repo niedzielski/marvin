@@ -32,7 +32,7 @@ on the `scripts` field or run `npm run` to see the available options.
     will detect changes and re-compile and re-launch the application, so just
     go and refresh the browser window when it is done.
 
-* To run **linting & tests**:
+* To run **linting and tests**:
   * `npm test`
   * If you want to watch files and run the linting and tests when some change,
     you can run:
@@ -40,6 +40,12 @@ on the `scripts` field or run `npm run` to see the available options.
 
 * To automatically format source code and fix linting errors, you can run:
   * `npm run format`
+
+* To suppress NPM-specific output, run the command with the `-s` option. e.g.:
+  * `npm -s start`.
+
+* To debug the build process, enable verbose output. e.g.:
+  * `VERBOSE=true npm run test:watch`.
 
 ## Running the production version
 
@@ -109,3 +115,12 @@ The following are possible internal implementations but the second is preferred:
       response.status(404).send("Not found");
     });
     ```
+
+## Environment variables
+
+* `NODE_ENV`: unset or `production`; defaults to development. Controls debug
+  functionality.
+* `PORT`: unset or a natural number; defaults to 3000. Controls server port.
+* `VERBOSE`: unset or `1`; defaults to disabled. Controls build output.
+* `WEBPACK_DEV_SERVER_PORT`: unset or a natural number; defaults to 8080.
+  Controls debug client port.
