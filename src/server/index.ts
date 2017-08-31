@@ -2,7 +2,7 @@
 import "ignore-styles";
 
 import * as express from "express";
-import app from "../common/components/app";
+import { api } from "../common/routers/api";
 import page from "./templates/page";
 import { render } from "preact-render-to-string";
 
@@ -19,12 +19,19 @@ const server = express();
 
 server.use(express.static("dist/public"));
 
-server.get("/", (_req, res) => {
-  res.status(200).send(page({ title: "", body: render(app()), assets }));
-});
-
-server.get("*", (_req, res) => {
-  res.status(404).send("Not found");
+Object.keys(api).forEach(name => {
+  const route = api[name];
+  server.get(route.path, (_request, response) => {
+    route.response().then((m: any) => {
+      response.status(route.status).send(
+        page({
+          title: "",
+          body: render(m.default()),
+          assets
+        })
+      );
+    });
+  });
 });
 
 server.listen(PORT, () => {

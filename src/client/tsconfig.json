@@ -5,6 +5,9 @@
   ],
   "compilerOptions": {
     "target": "ES5",
-    "module": "ES2015"
+    // https://github.com/Microsoft/TypeScript/issues/16675
+    // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/15020
+    "module": "esnext",
+    "lib": [ "dom", "es2015" ]
   }
 }
