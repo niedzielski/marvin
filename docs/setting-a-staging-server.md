@@ -152,8 +152,9 @@ set -o pipefail
 echo "Running post-merge hook"
 
 echo "Installing and building server bundle"
-npm install
-npm run build
+# Use our newer install of npm:
+/usr/local/bin/npm install
+/usr/local/bin/npm run build
 
 echo "Removing previously started server processes"
 killall node || true
@@ -191,3 +192,47 @@ Server started on http://localhost:8080/
 ```
 
 Then you should be able to access your site from the browser!
+
+## 5. Auto updating the repository
+
+Let's set up a cron job to auto-update the repository every 5 minutes. For that,
+as the **marvin** user, run `crontab -e`, and add this line at the end:
+
+```
+*/5 * * * * cd /home/marvin/sources && git pull >> /home/marvin/cron.log 2>&1
+```
+
+Every five minutes, a git pull will be done in the repo, and the log will be
+written in `/home/marvin/cron.log`.
+
+After you save, wait for 5 minutes and check the log file, you should see a log
+of the cron run, like this:
+
+```
+Already up-to-date.
+```
+
+Everything should be ready to go.
+
+## Notes and caveats
+
+This is a raw setup, so if any exceptions rise from your node server, the
+process will die, and the service won't be available. Same will happen if the
+server is rebooted.
+
+Right now we're not saving the logs anywhere so it may be difficult to debug if
+a problem comes up.
+
+We may improve this setup later by using some process runner like pm2 or
+forever, and when we do so we will update this guide.
+
+If you have to restart the process, you can use the git hook to restart it:
+
+```
+$ sudo su marvin
+marvin@marvin-staging:~$ cd ~/sources
+marvin@marvin-staging:~/sources$ ./.git/hooks/post-merge
+```
+
+That will trigger a full re-install, re-build, and launch the process back up
+again.
