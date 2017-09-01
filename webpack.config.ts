@@ -4,12 +4,12 @@ import * as ExtractTextPlugin from "extract-text-webpack-plugin";
 import * as path from "path";
 import * as webpack from "webpack";
 import {
-  production,
-  verbose,
-  webpackDevServerPort
+  PRODUCTION,
+  VERBOSE,
+  WEBPACK_DEV_SERVER_PORT
 } from "./src/server/configuration";
 
-const paths = {
+const PATHS = {
   client: {
     output: path.resolve("./dist/public/")
   }
@@ -18,8 +18,8 @@ const paths = {
 // There is no builtin Stats "warnings" preset.
 // https://github.com/webpack/webpack/blob/7fe0371/lib/Stats.js#L886
 // https://github.com/webpack/webpack/blob/7fe0371/lib/Stats.js#L101-L131
-const stats = {
-  all: verbose, // Default all outputs to verbosity.
+const STATS = {
+  all: VERBOSE, // Default all outputs to verbosity.
   errors: true,
   errorDetails: true,
   warnings: true
@@ -30,17 +30,17 @@ const configuration: webpack.Configuration = {
     index: "./src/client/index"
   },
 
-  stats,
+  stats: STATS,
 
   output: {
-    path: paths.client.output,
+    path: PATHS.client.output,
     // Use chunkhash instead of hash to get per-file/chunk hashing instead of
     // global build hashing, to improve caching from browsers.
     // See: https://webpack.js.org/guides/caching/#output-filenames
-    chunkFilename: production ? "[name].[chunkhash].js" : "[name].js",
+    chunkFilename: PRODUCTION ? "[name].[chunkhash].js" : "[name].js",
 
     // Use constant filenames for developmental server.
-    filename: production ? "[name].[chunkhash].js" : "[name].js"
+    filename: PRODUCTION ? "[name].[chunkhash].js" : "[name].js"
   },
 
   resolve: {
@@ -54,7 +54,7 @@ const configuration: webpack.Configuration = {
         test: /\.tsx?$/,
         loader: "ts-loader",
         options: {
-          logLevel: verbose ? "info" : "warn"
+          logLevel: VERBOSE ? "info" : "warn"
         }
       },
       {
@@ -67,12 +67,12 @@ const configuration: webpack.Configuration = {
     ]
   },
 
-  devtool: production ? "source-map" : "cheap-module-eval-source-map",
+  devtool: PRODUCTION ? "source-map" : "cheap-module-eval-source-map",
 
   // For development builds, serve the packaged result over
   // http://localhost:8080/ and live reload the browser when the bundle is
   // rebuilt.
-  devServer: production
+  devServer: PRODUCTION
     ? undefined
     : {
         // Forbid static files. All responses are in memory.
@@ -81,36 +81,36 @@ const configuration: webpack.Configuration = {
         // Explicitly specify the default port so a failure to allocate will
         // cause Webpack to exit with a nonzero. Otherwise, a free port is
         // allocated  and requests fail to execute.
-        port: webpackDevServerPort,
+        port: WEBPACK_DEV_SERVER_PORT,
 
         // Log warnings and errors in the browser console.
-        clientLogLevel: verbose ? "info" : "warning",
+        clientLogLevel: VERBOSE ? "info" : "warning",
 
         // Hide bundling start and finish messages.
-        noInfo: !verbose,
+        noInfo: !VERBOSE,
 
         // Show warnings and errors as an obtrusive opaque overlay in the
         // browser.
         overlay: { warnings: true, errors: true },
 
-        stats
+        stats: STATS
       }
 };
 
 configuration.plugins = [
   new ExtractTextPlugin({
-    filename: production ? "[name].[contenthash].css" : "[name].css"
+    filename: PRODUCTION ? "[name].[contenthash].css" : "[name].css"
   })
 ];
 
-if (production) {
+if (PRODUCTION) {
   // Generate a json manifest with the entry points and assets names to use
   // in the server to pass to the HTML page template
   configuration.plugins.push(
     new AssetsPlugin({
       prettyPrint: true,
       filename: "assets-manifest.json",
-      path: paths.client.output
+      path: PATHS.client.output
     })
   );
 }

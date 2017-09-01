@@ -3,10 +3,10 @@ import "ignore-styles";
 
 import * as express from "express";
 import {
-  production,
-  serverPort,
-  serverUrl,
-  webpackDevServerUrl
+  PRODUCTION,
+  SERVER_PORT,
+  SERVER_URL,
+  WEBPACK_DEV_SERVER_URL
 } from "./configuration";
 import { api } from "../common/routers/api";
 import page from "./templates/page";
@@ -14,9 +14,9 @@ import { render } from "preact-render-to-string";
 
 // The asset manifest built or the webpack-dev-server URL (which has no
 // manifest).
-const manifest = production
+const manifest = PRODUCTION
   ? require("../../dist/public/assets-manifest.json")
-  : webpackDevServerUrl;
+  : WEBPACK_DEV_SERVER_URL;
 
 const server = express();
 
@@ -37,10 +37,10 @@ Object.keys(api).forEach(name => {
   });
 });
 
-server.listen(serverPort, () => {
-  console.log(`Server started on ${serverUrl}/`); // eslint-disable-line no-console
+server.listen(SERVER_PORT, () => {
+  console.log(`Server started on ${SERVER_URL}/`); // eslint-disable-line no-console
 
-  if (!production) {
+  if (!PRODUCTION) {
     const touch = require("touch");
 
     // The server is now listening and ready to receive requests. If

@@ -116,6 +116,11 @@ The following are possible internal implementations but the second is preferred:
     });
     ```
 
+### Naming
+
+- Static constants should be written in `SHOUTING_SNAKE_CASE`. All other
+  variables should be written in `camelCase`.
+
 ## Environment variables
 
 See [configuration](../src/server/configuration.ts).
