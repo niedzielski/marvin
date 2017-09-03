@@ -14,7 +14,7 @@ export const asset = (
   extension: string
 ): string =>
   typeof manifest === "string"
-    ? `${manifest}/${entry}.${extension}`
+    ? `${manifest}/public/${entry}.${extension}`
     : manifest[entry][extension];
 
 export const index = (manifest: Manifest): string =>

@@ -1,5 +1,6 @@
 export const PRODUCTION: boolean = process.env.NODE_ENV === "production";
 
+/** Specifies the build and runtime verbosity. */
 export const VERBOSE: boolean = Boolean(JSON.parse(process.env.VERBOSE || "0"));
 
 export const SERVER_PORT: number = JSON.parse(process.env.PORT || "3000");
