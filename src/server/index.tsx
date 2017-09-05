@@ -8,8 +8,9 @@ import {
   SERVER_URL,
   WEBPACK_DEV_SERVER_URL
 } from "./configuration";
+import Page from "./components/Page";
 import { api } from "../common/routers/api";
-import page from "./templates/page";
+import { h } from "preact";
 import { render } from "preact-render-to-string";
 
 // The asset manifest built or the webpack-dev-server URL (which has no
@@ -25,14 +26,16 @@ server.use(express.static("dist/public"));
 Object.keys(api).forEach(name => {
   const route = api[name];
   server.get(route.path, (_request, response) => {
-    route.response().then((m: any) => {
-      response.status(route.status).send(
-        page({
-          title: "",
-          body: render(m.default()),
-          manifest
-        })
-      );
+    route.response().then((module: any) => {
+      const Body = module.default;
+      const html =
+        "<!doctype html>" + // eslint-disable-line prefer-template
+        render(
+          <Page title="" manifest={manifest}>
+            <Body />
+          </Page>
+        );
+      response.status(route.status).send(html);
     });
   });
 });

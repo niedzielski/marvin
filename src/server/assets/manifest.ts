@@ -1,6 +1,6 @@
 import { Assets } from "assets-webpack-plugin";
 
-/** Manifest of filename entry points to bundled assets. */
+/** Manifest of filename entry points to bundled asset paths. */
 export type Manifest = Assets | string;
 
 /**
@@ -17,8 +17,36 @@ export const asset = (
     ? `${manifest}/public/${entry}.${extension}`
     : manifest[entry][extension];
 
+// Note: scripts must be included in the correct order: runtime, vendor, index.
+// Example errors:
+// - No runtime:
+//
+//   vendor.js:1 Uncaught ReferenceError: webpackJsonp is not defined
+//       at vendor.js:1
+//
+// - No vendor:
+//
+//   Uncaught TypeError: Cannot read property 'call' of undefined
+//       at __webpack_require__ (runtime.js:55)
+//       at Object.0 (index.js:204)
+//       at __webpack_require__ (runtime.js:55)
+//       at webpackJsonpCallback (runtime.js:26)
+//       at index.js:1
+
+export const runtime = (manifest: Manifest): string =>
+  asset(manifest, "runtime", "js");
+
+export const vendor = (manifest: Manifest): string =>
+  asset(manifest, "vendor", "js");
+
 export const index = (manifest: Manifest): string =>
   asset(manifest, "index", "js");
+
+export const scripts = (manifest: Manifest): string[] => [
+  runtime(manifest),
+  vendor(manifest),
+  index(manifest)
+];
 
 export const style = (manifest: Manifest): string =>
   asset(manifest, "index", "css");

@@ -4,17 +4,17 @@
 
 declare namespace render {
   interface Options {
-    shallow: boolean,
-    xml: boolean,
+    shallow: boolean;
+    xml: boolean;
     pretty: boolean;
   }
 
   function render(
-    vnode: preact.VNode,
+    vNode: preact.VNode,
     context?: any,
     options?: Options
   ): string;
-  function shallowRender(vnode: preact.VNode, context?: any): string;
+  function shallowRender(vNode: preact.VNode, context?: any): string;
 }
 
 declare module "preact-render-to-string" {

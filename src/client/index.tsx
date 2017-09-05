@@ -13,8 +13,8 @@ Object.keys(api).forEach(name => {
   page(route.path, () =>
     route
       .response()
-      .then((m: any) =>
-        render(m.default(), root, root.lastElementChild || undefined)
+      .then((module: any) =>
+        render(module.default(), root, root.lastElementChild || undefined)
       )
   );
 });
