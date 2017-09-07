@@ -2,14 +2,24 @@ import * as assert from "assert";
 import Page from "../../../../src/server/components/Page";
 import { render } from "preact-render-to-string";
 
-describe("page()", () => {
-  it("corporeal", () => {
+describe("Page()", () => {
+  it("contains a root div with the children when rendered", () => {
     const vNode = Page({ title: "Test", manifest: "", children: ["body"] });
-    assert.ok(render(vNode).includes('<div id="root">body</div>'));
+    const html = render(vNode);
+    const expected = '<div id="root">body</div>';
+    assert.ok(
+      html.includes(expected),
+      `Could not find \n\n${expected}\n\nin\n\n${html}`
+    );
   });
 
-  it("incorporeal", () => {
+  it("contains a <title/> when rendered", () => {
     const vNode = Page({ title: "Test", manifest: "" });
-    assert.ok(render(vNode).includes("<title>Test - Marvin</title>"));
+    const html = render(vNode);
+    const expected = "<title>Test - Marvin</title>";
+    assert.ok(
+      html.includes(expected),
+      `Could not find \n\n${expected}\n\nin\n\n${html}`
+    );
   });
 });
