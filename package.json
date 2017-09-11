@@ -19,7 +19,7 @@
     "--- INTERNAL ---": "# Private scripts.",
     "start:server": "nodemon -i dist -i src/client -e js,json,ts,tsx ${VERBOSE:--q} -x 'ts-node -P src/server src/server'",
     "start:client": "webpack-dev-server -dw",
-    "build:server": "tsc -p src/server",
+    "build:server": "tsc -p src/server && copyup 'src/**/*.css' dist/",
     "build:client": "webpack -p"
   },
   "repository": {
@@ -57,6 +57,7 @@
     "@types/page": "^1.5.32",
     "@types/touch": "^3.1.0",
     "assets-webpack-plugin": "^3.5.1",
+    "copyfiles": "^1.2.0",
     "css-loader": "^0.28.5",
     "eslint": "^4.4.1",
     "eslint-config-node-services": "^2.2.3",
