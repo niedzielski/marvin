@@ -22,7 +22,7 @@ const manifest = PRODUCTION
 
 const server = express();
 
-server.use(express.static("dist/public"));
+server.use("/public", express.static("dist/public"));
 
 const render = (response: RouteResponse<any, any>) => {
   const Body = response.component;
