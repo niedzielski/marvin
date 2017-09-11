@@ -1,15 +1,18 @@
 import "./index.css";
 import { FunctionalComponent, h } from "preact";
-import { api } from "../../routers/api";
+import Link from "../Link";
 
 const app: FunctionalComponent<any> = ({ children } = {}) => (
   <div class="App">
     <ul>
       <li>
-        <a href={api.about.path}>About</a>
+        <Link href="/">Home</Link>
       </li>
       <li>
-        <a href={"/404"}>404</a>
+        <Link href="/about">About</Link>
+      </li>
+      <li>
+        <Link href="/404">404</Link>
       </li>
     </ul>
     <div>{children}</div>

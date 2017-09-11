@@ -4,7 +4,12 @@ import { render } from "preact-render-to-string";
 
 describe("Page()", () => {
   it("contains a root div with the children when rendered", () => {
-    const vNode = Page({ title: "Test", manifest: "", children: ["body"] });
+    const vNode = Page({
+      title: "Test",
+      manifest: "",
+      chunkName: "",
+      children: ["body"]
+    });
     const html = render(vNode);
     const expected = '<div id="root">body</div>';
     assert.ok(
@@ -14,7 +19,7 @@ describe("Page()", () => {
   });
 
   it("contains a <title/> when rendered", () => {
-    const vNode = Page({ title: "Test", manifest: "" });
+    const vNode = Page({ title: "Test", manifest: "", chunkName: "" });
     const html = render(vNode);
     const expected = "<title>Test - Marvin</title>";
     assert.ok(

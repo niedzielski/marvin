@@ -1,20 +1,35 @@
 import "./index.css";
-import * as page from "page";
-import { api } from "../common/routers/api";
-import { render } from "preact";
+import { RouteResponse, newRouter } from "../common/routers/router";
+import { h, render } from "preact";
+import { WithContext } from "../client/components/with-context";
+import newHistory from "history/createBrowserHistory";
+import { routes } from "../common/routers/api";
 
-const root = document.getElementById("root");
-if (!root) {
+const history = newHistory();
+const router = newRouter(routes);
+const pageRoot = document.getElementById("root");
+if (!pageRoot) {
+  // A "root" container for the app should be present in the Page component.
   throw new Error('Missing element with "root" ID.');
 }
 
-Object.keys(api).forEach(name => {
-  const route = api[name];
-  page(route.path, () =>
-    route
-      .response()
-      .then((module: any) =>
-        render(module.default(), root, root.lastElementChild || undefined)
-      )
+const renderPageRoot = (endpoint: RouteResponse<any, any>) => {
+  const Body = endpoint.component;
+  render(
+    <WithContext history={history}>
+      <Body {...endpoint.properties} />
+    </WithContext>,
+    pageRoot,
+    pageRoot.lastElementChild || undefined
   );
-});
+};
+
+const route = (path: string) => router.route(path).then(renderPageRoot);
+
+// Observe the History
+history.listen(location => route(location.pathname));
+
+// Replace the server rendered root, which does not include CSS, with a styled
+// page that manages navigation with History. This enables the single page app
+// experience.
+route(location.pathname);

@@ -8,10 +8,11 @@ import {
   SERVER_URL,
   WEBPACK_DEV_SERVER_URL
 } from "./configuration";
+import { RouteResponse, newRouter } from "../common/routers/router";
 import Page from "./components/Page";
-import { api } from "../common/routers/api";
 import { h } from "preact";
-import { render } from "preact-render-to-string";
+import { render as renderToString } from "preact-render-to-string";
+import { routes } from "../common/routers/api";
 
 // The asset manifest built or the webpack-dev-server URL (which has no
 // manifest).
@@ -23,21 +24,30 @@ const server = express();
 
 server.use(express.static("dist/public"));
 
-Object.keys(api).forEach(name => {
-  const route = api[name];
-  server.get(route.path, (_request, response) => {
-    route.response().then((module: any) => {
-      const Body = module.default;
-      const html =
-        "<!doctype html>" + // eslint-disable-line prefer-template
-        render(
-          <Page title="" manifest={manifest}>
-            <Body />
-          </Page>
-        );
-      response.status(route.status).send(html);
+const render = (response: RouteResponse<any, any>) => {
+  const Body = response.component;
+  return (
+    "<!doctype html>" + // eslint-disable-line prefer-template
+    renderToString(
+      <Page title="" manifest={manifest} chunkName={response.chunkName}>
+        <Body />
+      </Page>
+    )
+  );
+};
+
+const router = newRouter(routes);
+server.get("*", (request, response) => {
+  router
+    .route(request.url)
+    .then(routeResponse =>
+      response.status(routeResponse.status).send(render(routeResponse))
+    )
+    .catch((error: Error) => {
+      const message = `${error.message}\n${error.stack}`;
+      console.error(message); // eslint-disable-line no-console
+      response.status(500).send(message);
     });
-  });
 });
 
 server.listen(SERVER_PORT, () => {

@@ -3,16 +3,22 @@ import { Assets } from "assets-webpack-plugin";
 /** Manifest of filename entry points to bundled asset paths. */
 export type Manifest = Assets | string;
 
+export interface AssetParameters {
+  manifest: Manifest,
+  entry: string,
+  extension: string
+}
+
 /**
  * @return The path to the asset identified by entry and extension (e.g.,
  *         index.js); either a URL (development) or a filesystem path
  *         (production).
  */
-export const asset = (
-  manifest: Manifest,
-  entry: string,
-  extension: string
-): string =>
+export const asset = ({
+  manifest,
+  entry,
+  extension
+}: AssetParameters): string =>
   typeof manifest === "string"
     ? `${manifest}/public/${entry}.${extension}`
     : manifest[entry][extension];
@@ -34,13 +40,13 @@ export const asset = (
 //       at index.js:1
 
 export const runtime = (manifest: Manifest): string =>
-  asset(manifest, "runtime", "js");
+  asset({ manifest, entry: "runtime", extension: "js" });
 
 export const vendor = (manifest: Manifest): string =>
-  asset(manifest, "vendor", "js");
+  asset({ manifest, entry: "vendor", extension: "js" });
 
 export const index = (manifest: Manifest): string =>
-  asset(manifest, "index", "js");
+  asset({ manifest, entry: "index", extension: "js" });
 
 export const scripts = (manifest: Manifest): string[] => [
   runtime(manifest),
@@ -49,4 +55,4 @@ export const scripts = (manifest: Manifest): string[] => [
 ];
 
 export const style = (manifest: Manifest): string =>
-  asset(manifest, "index", "css");
+  asset({ manifest, entry: "index", extension: "css" });

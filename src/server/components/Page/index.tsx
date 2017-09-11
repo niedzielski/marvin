@@ -1,4 +1,4 @@
-import { Manifest, scripts, style } from "../../assets/manifest";
+import { Manifest, asset, scripts, style } from "../../assets/manifest";
 import { Children } from "../../../common/types/preact";
 import { h } from "preact";
 
@@ -6,6 +6,7 @@ export interface PageParams {
   // Title of the page
   title: string,
   manifest: Manifest,
+  chunkName: string,
   // HTML to render in the body of the page
   children?: Children
 }
@@ -13,8 +14,11 @@ export interface PageParams {
 export default function Page({
   title = "",
   manifest,
+  chunkName,
   children
 }: PageParams): JSX.Element {
+  const assets: string[] = scripts(manifest);
+  assets.push(asset({ manifest, entry: chunkName, extension: "js" }));
   return (
     <html lang="en">
       <head>
@@ -23,15 +27,13 @@ export default function Page({
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <link rel="stylesheet" href={style(manifest)} />
         <title>{title ? `${title} - ` : ""}Marvin</title>
-        {scripts(manifest).map(path => (
+        {assets.map(path => (
           <link rel="preload" href={path} {...{ as: "script" }} />
         ))}
       </head>
       <body>
         <div id="root">{children}</div>
-        {scripts(manifest).map(script => (
-          <script type="text/javascript" src={script} />
-        ))}
+        {assets.map(path => <script type="text/javascript" src={path} />)}
       </body>
     </html>
   );

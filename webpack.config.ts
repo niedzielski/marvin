@@ -60,7 +60,7 @@ const configuration: webpack.Configuration = {
     // Client package dependencies (these should match package.json's
     // `dependencies`). This chunk changes when one of the specified
     // dependencies changes.
-    vendor: ["page", "path-to-regexp", "preact"]
+    vendor: ["history", "path-to-regexp", "preact"]
   },
 
   stats: STATS,
