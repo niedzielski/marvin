@@ -1,4 +1,5 @@
 import { Route } from "./route";
+import { Properties as WikiProperties } from "../components/pages/wiki";
 
 export const index: Route<void, void> = {
   path: "/",
@@ -18,7 +19,18 @@ export const about: Route<void, void> = {
   status: 200
 };
 
+export const wiki: Route<WikiProperties, void> = {
+  path: "/wiki/:title",
+  endpoint: () =>
+    import(/* webpackChunkName: "components/pages/wiki" */
+    "../components/pages/wiki"),
+  chunkName: "components/pages/wiki",
+  status: 200
+};
+
 export const notFound: Route<void, void> = {
+  // `(.*)` is the new `*`. See
+  // https://github.com/pillarjs/path-to-regexp/issues/37.
   path: "(.*)",
   endpoint: () =>
     import(/* webpackChunkName: "components/pages/not-found" */
@@ -27,4 +39,4 @@ export const notFound: Route<void, void> = {
   status: 404
 };
 
-export const routes: Route<any, any>[] = [index, about, notFound];
+export const routes: Route<any, any>[] = [index, about, wiki, notFound];

@@ -35,7 +35,7 @@ const parseRoutes = (routes: Route<any, any>[]) =>
 
 const newRouteParameters = (
   parameterNames: pathToRegExp.Key[],
-  parameterValues: RegExpExecArray
+  parameterValues: string[]
 ): RouteParameters =>
   parameterNames.reduce(
     (
@@ -54,7 +54,7 @@ function requestInitialProperties<Properties>(
   parameters: RouteParameters
 ): Promise<Properties | {}> {
   if (endpoint.initialProperties) {
-    return endpoint.initialProperties({ parameters });
+    return endpoint.initialProperties(parameters);
   }
   return Promise.resolve({});
 }
@@ -87,7 +87,11 @@ export const newRouter = (routes: Route<any, any>[]): Router => {
       for (const route of parsedRoutes) {
         const matches = route.regularExpression.exec(url);
         if (matches) {
-          const parameters = newRouteParameters(route.parameterNames, matches);
+          const [url, ...parameterValues] = matches;
+          const parameters = newRouteParameters(
+            route.parameterNames,
+            parameterValues
+          );
           return respond(route, url, parameters);
         }
       }

@@ -12,9 +12,7 @@ export interface Endpoint<Properties, State> {
    * A function that returns a Promise for the dependencies needed to construct
    * the view component such as a remote resource.
    */
-  initialProperties?: (parameters: { parameters: RouteParameters }) => Promise<
-    Properties
-  >
+  initialProperties?: (parameters: RouteParameters) => Promise<Properties>
 }
 
 export interface Route<Properties, State> {
