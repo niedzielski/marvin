@@ -11,7 +11,7 @@ do it.
 
 Before running the project on development, run:
 
-```
+```sh
 npm install
 ```
 
@@ -73,7 +73,7 @@ The following examples are possible module implementations but the second or
 third are preferred:
 
 1. Explicitly over-typed (right-hand typing is internal):
-    ```ts
+    ```tsx
     const app: FunctionalComponent<any> = (_props: any): JSX.Element =>
       <div class="App">Hello world</div>;
 
@@ -81,7 +81,7 @@ third are preferred:
     ```
 
 2. **Preferred** - Explicitly typed (declared syntax):
-    ```ts
+    ```tsx
     const app: FunctionalComponent<any> = () =>
       <div class="App">Hello world</div>;
 
@@ -89,13 +89,13 @@ third are preferred:
     ```
 
 3. **Preferred** - Explicitly typed (inline syntax):
-    ```ts
+    ```tsx
     export default (_props: any): JSX.Element =>
       <div class="App">Hello world</div>;
     ```
 
 4. Implicitly typed:
-    ```ts
+    ```tsx
     export default () =>
       <div class="App">Hello world</div>;
     ```
@@ -103,23 +103,44 @@ third are preferred:
 The following are possible internal implementations but the second is preferred:
 
 1. Explicitly typed lambda:
-    ```ts
+    ```tsx
     server.get("*", (_request: express.Request, response: express.Response) => {
       response.status(404).send("Not found");
     });
     ```
 
 2. **Preferred** - Implicitly typed lambda:
-    ```ts
+    ```tsx
     server.get("*", (_request, response) => {
       response.status(404).send("Not found");
     });
     ```
 
-### Naming
+Additionally, prefer a default export when only one export is needed.
+
+### Identifier Naming
 
 - Static constants should be written in `SHOUTING_SNAKE_CASE`. All other
   variables should be written in `camelCase`.
+- Preact components should be written in PascalCase.
+- Preact component properties variables and types, especially
+  `ComponentProps` implementations, should be called "props" and "Props".
+
+### Filenaming
+
+- All filenames should use shish-kebab-case.
+- The filenames, not the enclosing folder, should describe the module. For
+  example:
+  - Prefer: app/app.tsx, link/link.css, routers/router.test.ts.
+  - Avoid: app/index.tsx, link/index.css, routers/index.test.ts.
+  The reason is that some editors use filenames for UI cues and naming
+  everything "index.x" makes it difficult to distinguish among files quickly.
+  Client and server files are excluded as frontend client and backend server
+  entry points.
+- Avoid component folders with only one file. e.g.:
+  - Prefer a folder when multiple files exist such as components/foo/foo.tsx and
+    components/foo/foo.test.tsx.
+  - Avoid a folder when only one file exists such as components/foo.tsx.
 
 ## Environment variables
 

@@ -3,7 +3,7 @@ import { newRouter } from "./router";
 const routes = [
   {
     path: "/",
-    endpoint: () => import("../components/pages/index"),
+    endpoint: () => import("../pages/index"),
     chunkName: "components/pages/index",
     status: 200
   }

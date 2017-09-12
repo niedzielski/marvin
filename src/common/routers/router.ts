@@ -2,16 +2,16 @@ import * as pathToRegExp from "path-to-regexp";
 import { Endpoint, Route, RouteParameters } from "../../common/routers/route";
 import { AnyComponent } from "preact";
 
-export interface RouteResponse<Properties, State> {
+export interface RouteResponse<Props, State> {
   chunkName: string,
   status: number,
-  component: AnyComponent<Properties, State>,
-  properties: {
+  Component: AnyComponent<Props, State>,
+  props: {
     path: string,
     url: string,
     parameters: { [name: string]: string }
   },
-  initialProperties: any
+  initialProps: any
 }
 
 export interface Router {
@@ -49,12 +49,12 @@ const newRouteParameters = (
     {}
   );
 
-function requestInitialProperties<Properties>(
-  endpoint: Endpoint<Properties, any>,
+function requestInitialProps<Props>(
+  endpoint: Endpoint<Props, any>,
   parameters: RouteParameters
-): Promise<Properties | {}> {
-  if (endpoint.initialProperties) {
-    return endpoint.initialProperties(parameters);
+): Promise<Props | {}> {
+  if (endpoint.initialProps) {
+    return endpoint.initialProps(parameters);
   }
   return Promise.resolve({});
 }
@@ -65,17 +65,17 @@ const respond = (
   parameters: RouteParameters
 ): Promise<RouteResponse<any, any>> =>
   route.endpoint().then((endpoint: Endpoint<any, any>) =>
-    requestInitialProperties(endpoint, parameters).then((properties: any) => ({
+    requestInitialProps(endpoint, parameters).then((props: any) => ({
       chunkName: route.chunkName,
       status: route.status,
-      component: endpoint.component,
-      properties: {
-        ...properties,
+      Component: endpoint.Component,
+      props: {
+        ...props,
         path: route.path,
         url,
         parameters
       },
-      initialProperties: properties
+      initialProps: props
     }))
   );
 

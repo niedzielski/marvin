@@ -1,8 +1,8 @@
-import { Manifest, asset, scripts, style } from "../../assets/manifest";
-import { Children } from "../../../common/types/preact";
+import { Manifest, asset, scripts, style } from "../assets/manifest";
+import { Children } from "../../common/types/preact";
 import { h } from "preact";
 
-export interface PageParams {
+export interface Props {
   // Title of the page
   title: string,
   manifest: Manifest,
@@ -11,12 +11,12 @@ export interface PageParams {
   children?: Children
 }
 
-export default function Page({
+export function Page({
   title = "",
   manifest,
   chunkName,
   children
-}: PageParams): JSX.Element {
+}: Props): JSX.Element {
   const assets: string[] = scripts(manifest);
   assets.push(asset({ manifest, entry: chunkName, extension: "js" }));
   return (

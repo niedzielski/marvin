@@ -9,7 +9,7 @@ import {
   WEBPACK_DEV_SERVER_URL
 } from "./configuration";
 import { RouteResponse, newRouter } from "../common/routers/router";
-import Page from "./components/Page";
+import { Page } from "./components/page";
 import { h } from "preact";
 import { render as renderToString } from "preact-render-to-string";
 import { routes } from "../common/routers/api";
@@ -24,13 +24,12 @@ const server = express();
 
 server.use("/public", express.static("dist/public"));
 
-const render = (response: RouteResponse<any, any>) => {
-  const Body = response.component;
+const render = ({ chunkName, Component }: RouteResponse<any, any>) => {
   return (
     "<!doctype html>" + // eslint-disable-line prefer-template
     renderToString(
-      <Page title="" manifest={manifest} chunkName={response.chunkName}>
-        <Body />
+      <Page title="" manifest={manifest} chunkName={chunkName}>
+        <Component />
       </Page>
     )
   );
@@ -43,7 +42,7 @@ server.get("*", (request, response) => {
     .then(routeResponse =>
       response.status(routeResponse.status).send(render(routeResponse))
     )
-    .catch((error: Error) => {
+    .catch(error => {
       const message = `${error.message}\n${error.stack}`;
       console.error(message); // eslint-disable-line no-console
       response.status(500).send(message);

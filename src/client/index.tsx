@@ -1,7 +1,7 @@
 import "./index.css";
 import { RouteResponse, newRouter } from "../common/routers/router";
 import { h, render } from "preact";
-import { WithContext } from "../client/components/with-context";
+import { WithContext } from "../common/components/with-context";
 import newHistory from "history/createBrowserHistory";
 import { routes } from "../common/routers/api";
 
@@ -13,11 +13,10 @@ if (!pageRoot) {
   throw new Error('Missing element with "root" ID.');
 }
 
-const renderPageRoot = (endpoint: RouteResponse<any, any>) => {
-  const Body = endpoint.component;
+const renderPageRoot = ({ Component, props }: RouteResponse<any, any>) => {
   render(
     <WithContext history={history}>
-      <Body {...endpoint.properties} />
+      <Component {...props} />
     </WithContext>,
     pageRoot,
     pageRoot.lastElementChild || undefined

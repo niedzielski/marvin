@@ -4,20 +4,20 @@ export interface RouteParameters {
   [name: string]: string
 }
 
-export interface Endpoint<Properties, State> {
+export interface Endpoint<Props, State> {
   /** A Preact view component. */
-  component: AnyComponent<Properties, State>,
+  Component: AnyComponent<Props, State>,
 
   /**
    * A function that returns a Promise for the dependencies needed to construct
    * the view component such as a remote resource.
    */
-  initialProperties?: (parameters: RouteParameters) => Promise<Properties>
+  initialProps?: (parameters: RouteParameters) => Promise<Props>
 }
 
-export interface Route<Properties, State> {
+export interface Route<Props, State> {
   path: string,
-  endpoint: () => Promise<Endpoint<Properties, State>>,
+  endpoint: () => Promise<Endpoint<Props, State>>,
   chunkName: string,
   status: number
 }

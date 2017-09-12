@@ -1,30 +1,26 @@
 import { Route } from "./route";
-import { Properties as WikiProperties } from "../components/pages/wiki";
+import { Props as WikiProps } from "../pages/wiki";
 
 export const index: Route<void, void> = {
   path: "/",
   endpoint: () =>
-    import(/* webpackChunkName: "components/pages/index" */
-    "../components/pages/index"),
-  chunkName: "components/pages/index",
+    import(/* webpackChunkName: "pages/index" */ "../pages/index"),
+  chunkName: "pages/index",
   status: 200
 };
 
 export const about: Route<void, void> = {
   path: "/about",
   endpoint: () =>
-    import(/* webpackChunkName: "components/pages/about" */
-    "../components/pages/about"),
-  chunkName: "components/pages/about",
+    import(/* webpackChunkName: "pages/about" */ "../pages/about"),
+  chunkName: "pages/about",
   status: 200
 };
 
-export const wiki: Route<WikiProperties, void> = {
+export const wiki: Route<WikiProps, void> = {
   path: "/wiki/:title",
-  endpoint: () =>
-    import(/* webpackChunkName: "components/pages/wiki" */
-    "../components/pages/wiki"),
-  chunkName: "components/pages/wiki",
+  endpoint: () => import(/* webpackChunkName: "pages/wiki" */ "../pages/wiki"),
+  chunkName: "pages/wiki",
   status: 200
 };
 
@@ -33,9 +29,8 @@ export const notFound: Route<void, void> = {
   // https://github.com/pillarjs/path-to-regexp/issues/37.
   path: "(.*)",
   endpoint: () =>
-    import(/* webpackChunkName: "components/pages/not-found" */
-    "../components/pages/not-found"),
-  chunkName: "components/pages/not-found",
+    import(/* webpackChunkName: "pages/not-found" */ "../pages/not-found"),
+  chunkName: "pages/not-found",
   status: 404
 };
 

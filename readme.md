@@ -17,7 +17,7 @@ running it. If you have any questions please create a task under the
 
 Check out our [docs](./docs) folder for all the documentation:
 
-* [CHANGELOG](docs/CHANGELOG.md)
+* [Changelog](docs/changelog.md)
 
 ### [License](docs/license.txt) (GPLv2+)
 

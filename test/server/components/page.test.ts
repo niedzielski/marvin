@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import Page from "../../../../src/server/components/Page";
+import { Page } from "../../../src/server/components/page";
 import { render } from "preact-render-to-string";
 
 describe("Page()", () => {
