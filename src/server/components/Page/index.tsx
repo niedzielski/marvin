@@ -25,8 +25,9 @@ export default function Page({
         <meta charSet="utf-8" />
         <meta http-equiv="x-ua-compatible" content="ie=edge" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <link rel="stylesheet" href={style(manifest)} />
         <title>{title ? `${title} - ` : ""}Marvin</title>
+        <base href="/" />
+        <link rel="stylesheet" href={style(manifest)} />
         {assets.map(path => (
           <link rel="preload" href={path} {...{ as: "script" }} />
         ))}
