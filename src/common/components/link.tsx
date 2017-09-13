@@ -2,7 +2,7 @@ import { ComponentProps, h } from "preact";
 import { History } from "history";
 
 export interface Props extends ComponentProps<any> {
-  href: string
+  href: string;
 }
 
 /**

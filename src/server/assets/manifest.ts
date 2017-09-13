@@ -4,9 +4,9 @@ import { Assets } from "assets-webpack-plugin";
 export type Manifest = Assets | string;
 
 export interface AssetParameters {
-  manifest: Manifest,
-  entry: string,
-  extension: string
+  manifest: Manifest;
+  entry: string;
+  extension: string;
 }
 
 /**

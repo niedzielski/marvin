@@ -3,24 +3,24 @@ import { Endpoint, Route, RouteParameters } from "../../common/routers/route";
 import { AnyComponent } from "preact";
 
 export interface RouteResponse<Props, State> {
-  chunkName: string,
-  status: number,
-  Component: AnyComponent<Props, State>,
+  chunkName: string;
+  status: number;
+  Component: AnyComponent<Props, State>;
   props: {
-    path: string,
-    url: string,
-    parameters: { [name: string]: string }
-  },
-  initialProps: any
+    path: string;
+    url: string;
+    parameters: { [name: string]: string };
+  };
+  initialProps: any;
 }
 
 export interface Router {
-  route(url: string): Promise<RouteResponse<any, any>>
+  route(url: string): Promise<RouteResponse<any, any>>;
 }
 
 interface ParsedRoute extends Route<any, any> {
-  parameterNames: pathToRegExp.Key[],
-  regularExpression: RegExp
+  parameterNames: pathToRegExp.Key[];
+  regularExpression: RegExp;
 }
 
 const parseRoutes = (routes: Route<any, any>[]) =>

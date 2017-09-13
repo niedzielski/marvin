@@ -3,11 +3,11 @@ import App from "../components/app/app";
 import { RouteParameters } from "../routers/route";
 
 export interface Parameters extends RouteParameters {
-  title: string
+  title: string;
 }
 
 export interface Props extends ComponentProps<any> {
-  title: string
+  title: string;
 }
 
 export const initialProps = ({ title }: Parameters): Promise<Props> => {

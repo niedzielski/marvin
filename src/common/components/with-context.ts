@@ -2,8 +2,8 @@ import { Component } from "preact";
 import { History } from "history";
 
 export interface Props {
-  history: History,
-  children?: JSX.Element[]
+  history: History;
+  children?: JSX.Element[];
 }
 
 export class WithContext extends Component<Props, void> {

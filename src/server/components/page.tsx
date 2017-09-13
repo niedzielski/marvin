@@ -4,11 +4,11 @@ import { h } from "preact";
 
 export interface Props {
   // Title of the page
-  title: string,
-  manifest: Manifest,
-  chunkName: string,
+  title: string;
+  manifest: Manifest;
+  chunkName: string;
   // HTML to render in the body of the page
-  children?: Children
+  children?: Children;
 }
 
 export function Page({
