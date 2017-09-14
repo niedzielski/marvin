@@ -24,6 +24,14 @@ export const wiki: Route<WikiProps, void> = {
   status: 200
 };
 
+export const styleGuide: Route<void, void> = {
+  path: "/dev/style-guide",
+  endpoint: () =>
+    import(/* webpackChunkName: "pages/style-guide" */ "../pages/style-guide"),
+  chunkName: "pages/style-guide",
+  status: 200
+};
+
 export const notFound: Route<void, void> = {
   // `(.*)` is the new `*`. See
   // https://github.com/pillarjs/path-to-regexp/issues/37.
@@ -34,4 +42,10 @@ export const notFound: Route<void, void> = {
   status: 404
 };
 
-export const routes: Route<any, any>[] = [index, about, wiki, notFound];
+export const routes: Route<any, any>[] = [
+  index,
+  about,
+  wiki,
+  styleGuide,
+  notFound
+];

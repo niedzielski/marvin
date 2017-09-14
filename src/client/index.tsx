@@ -1,3 +1,4 @@
+import "wikimedia-ui-base/wikimedia-ui-base.css";
 import "./index.css";
 import { RouteResponse, newRouter } from "../common/routers/router";
 import { h, render } from "preact";
