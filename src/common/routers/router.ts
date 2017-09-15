@@ -1,5 +1,9 @@
 import * as pathToRegExp from "path-to-regexp";
-import { Endpoint, Route, RouteParameters } from "../../common/routers/route";
+import {
+  AnyRoute,
+  Endpoint,
+  RouteParameters
+} from "../../common/routers/route";
 import { AnyComponent } from "preact";
 
 export interface RouteResponse<Props, State> {
@@ -18,13 +22,13 @@ export interface Router {
   route(url: string): Promise<RouteResponse<any, any>>;
 }
 
-interface ParsedRoute extends Route<any, any> {
+interface ParsedRoute extends AnyRoute {
   parameterNames: pathToRegExp.Key[];
   regularExpression: RegExp;
 }
 
-const parseRoutes = (routes: Route<any, any>[]) =>
-  routes.map((route: Route<any, any>): ParsedRoute => {
+const parseRoutes = (routes: AnyRoute[]) =>
+  routes.map((route: AnyRoute): ParsedRoute => {
     const parameterNames: pathToRegExp.Key[] = [];
     return {
       ...route,
@@ -79,7 +83,7 @@ const respond = (
     }))
   );
 
-export const newRouter = (routes: Route<any, any>[]): Router => {
+export const newRouter = (routes: AnyRoute[]): Router => {
   const parsedRoutes: ParsedRoute[] = parseRoutes(routes);
 
   return {

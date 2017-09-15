@@ -1,12 +1,12 @@
+import { newRoute } from "./route";
 import { newRouter } from "./router";
 
 const routes = [
-  {
+  newRoute({
     path: "/",
     endpoint: () => import("../pages/index"),
-    chunkName: "components/pages/index",
-    status: 200
-  }
+    chunkName: "components/pages/index"
+  })
 ];
 
 describe("router()", () => {
