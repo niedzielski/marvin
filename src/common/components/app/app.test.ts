@@ -1,6 +1,6 @@
 import * as assert from "assert";
-import App from "./app";
 import { render } from "preact-render-to-string";
+import App from "./app";
 
 describe("app()", () => {
   it("salutes you", () => {

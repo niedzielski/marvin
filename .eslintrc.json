@@ -4,7 +4,8 @@
     "prettier"
   ],
   "plugins": [
-    "prettier"
+    "prettier",
+    "import"
   ],
   "rules": {
     "prettier/prettier": ["warn", { "parser": "typescript" }],
@@ -15,7 +16,9 @@
         "ignoreUrls": true,
         "ignorePattern": "^/// .+|// eslint-.+"
       }
-    ]
+    ],
+    "sort-imports": "off",
+    "import/order": ["warn"]
   },
   "parser": "typescript-eslint-parser",
   "parserOptions": {

@@ -1,6 +1,6 @@
+import { h } from "preact";
 import App from "../components/app/app";
 import Paper from "../components/paper/paper";
-import { h } from "preact";
 
 export function Component(): JSX.Element {
   return (

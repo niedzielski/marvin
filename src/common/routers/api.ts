@@ -1,5 +1,5 @@
-import { AnyRoute, Route, newRoute } from "./route";
 import { Props as WikiProps } from "../pages/wiki";
+import { AnyRoute, Route, newRoute } from "./route";
 
 export const index: Route = newRoute({
   path: "/",

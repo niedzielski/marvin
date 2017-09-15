@@ -1,6 +1,6 @@
+import { h } from "preact";
 import { Manifest, asset, scripts, style } from "../assets/manifest";
 import { Children } from "../../common/types/preact";
-import { h } from "preact";
 
 export interface Props {
   // Title of the page

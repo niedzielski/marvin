@@ -1,9 +1,9 @@
+import { h, render } from "preact";
+import newHistory from "history/createBrowserHistory";
 import "wikimedia-ui-base/wikimedia-ui-base.css";
 import "./index.css";
 import { RouteResponse, newRouter } from "../common/routers/router";
-import { h, render } from "preact";
 import { WithContext } from "../common/components/with-context";
-import newHistory from "history/createBrowserHistory";
 import { routes } from "../common/routers/api";
 
 const history = newHistory();

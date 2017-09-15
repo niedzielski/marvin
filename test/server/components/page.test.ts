@@ -1,6 +1,6 @@
 import * as assert from "assert";
-import { Page } from "../../../src/server/components/page";
 import { render } from "preact-render-to-string";
+import { Page } from "../../../src/server/components/page";
 
 describe("Page()", () => {
   it("contains a root div with the children when rendered", () => {

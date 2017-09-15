@@ -2,17 +2,18 @@
 import "ignore-styles";
 
 import * as express from "express";
+import { h } from "preact";
+import { render as renderToString } from "preact-render-to-string";
+
+import { RouteResponse, newRouter } from "../common/routers/router";
+import { routes } from "../common/routers/api";
 import {
   PRODUCTION,
   SERVER_PORT,
   SERVER_URL,
   WEBPACK_DEV_SERVER_URL
 } from "./configuration";
-import { RouteResponse, newRouter } from "../common/routers/router";
 import { Page } from "./components/page";
-import { h } from "preact";
-import { render as renderToString } from "preact-render-to-string";
-import { routes } from "../common/routers/api";
 
 // The asset manifest built or the webpack-dev-server URL (which has no
 // manifest).

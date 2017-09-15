@@ -1,10 +1,10 @@
 import * as pathToRegExp from "path-to-regexp";
+import { AnyComponent } from "preact";
 import {
   AnyRoute,
   Endpoint,
   RouteParameters
 } from "../../common/routers/route";
-import { AnyComponent } from "preact";
 
 export interface RouteResponse<Props, State> {
   chunkName: string;
