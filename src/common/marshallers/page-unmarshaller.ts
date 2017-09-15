@@ -4,53 +4,46 @@ import {
   PageSummary,
   PageThumbnail
 } from "../models/page";
+import { JSONObject } from "../types/json";
 
-const unmarshalPageThumbnailRESTBase = (
-  json: RESTBase.PageThumbnail
-): PageThumbnail => ({
-  URL: json.source,
-  originalURL: json.original,
-  width: json.width,
-  height: json.height
-});
-export const unmarshalPageThumbnail = (json: any): PageThumbnail =>
-  unmarshalPageThumbnailRESTBase(json);
+export const unmarshalPageThumbnail = (json: JSONObject): PageThumbnail => {
+  const type: RESTBase.PageThumbnail = json as any;
+  return {
+    URL: type.source,
+    originalURL: type.original,
+    width: type.width,
+    height: type.height
+  };
+};
 
-const unmarshalPageImageRESTBase = (json: RESTBase.PageImage): PageImage => ({
-  URL: json.source,
-  width: json.width,
-  height: json.height
-});
-export const unmarshalPageImage = (json: any): PageImage =>
-  unmarshalPageImageRESTBase(json);
+export const unmarshalPageImage = (json: JSONObject): PageImage => {
+  const type: RESTBase.PageImage = json as any;
+  return { URL: type.source, width: type.width, height: type.height };
+};
 
-const unmarshalPageGeolocationRESTBase = (
-  json: RESTBase.PageGeolocation
-): PageGeolocation => ({
-  latitude: json.lat,
-  longitude: json.lon
-});
-export const unmarshalPageGeolocation = (json: any): PageGeolocation =>
-  unmarshalPageGeolocationRESTBase(json);
+export const unmarshalPageGeolocation = (json: JSONObject): PageGeolocation => {
+  const type: RESTBase.PageGeolocation = json as any;
+  return { latitude: type.lat, longitude: type.lon };
+};
 
-const unmarshalPageSummaryRESTBase = (
-  json: RESTBase.PageSummary
-): PageSummary => ({
-  wikiLanguageCode: json.lang,
-  localeDirection: json.dir,
-  pageID: json.pageid,
-  lastModified: new Date(json.timestamp),
-  titleText: json.title,
-  titleHTML: json.displaytitle,
-  descriptionText: json.description,
-  extractText: json.extract,
-  extractHTML: json.extract_html,
-  thumbnail: json.thumbnail && unmarshalPageThumbnail(json.thumbnail),
-  image: json.originalimage && unmarshalPageImage(json.originalimage),
-  geolocation: json.coordinates && unmarshalPageGeolocation(json.coordinates)
-});
-export const unmarshalPageSummary = (json: any): PageSummary =>
-  unmarshalPageSummaryRESTBase(json);
+export const unmarshalPageSummary = (json: JSONObject): PageSummary => {
+  const type: RESTBase.PageSummary = json as any;
+  return {
+    wikiLanguageCode: type.lang,
+    localeDirection: type.dir,
+    pageID: type.pageid,
+    lastModified: new Date(type.timestamp),
+    titleText: type.title,
+    titleHTML: type.displaytitle,
+    descriptionText: type.description,
+    extractText: type.extract,
+    extractHTML: type.extract_html,
+    thumbnail: type.thumbnail && unmarshalPageThumbnail(type.thumbnail as {}),
+    image: type.originalimage && unmarshalPageImage(type.originalimage as {}),
+    geolocation:
+      type.coordinates && unmarshalPageGeolocation(type.coordinates as {})
+  };
+};
 
 namespace RESTBase {
   export interface PageThumbnail {

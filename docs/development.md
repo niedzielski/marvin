@@ -67,7 +67,8 @@ exports. Another way to phrase this is: write concisely except for APIs.
 The reasoning is that the brevity of inferred code is preferred -as long as
 the compiler doesn't complain- but APIs are seams and their types should be
 both fixed and documented. We have set up the TypeScript compiler with the
-strict settings so no implicit `any` or `null`/`undefined` should slip in.
+strict settings so no implicit `any` or `null` / `undefined` should slip in.
+When in doubt, treat typing as logical assertions.
 
 The following examples are possible module implementations but the second or
 third are preferred:
