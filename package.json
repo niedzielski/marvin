@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "express": "^4.15.3",
+    "isomorphic-unfetch": "^2.0.0",
     "path-to-regexp": "^2.0.0",
     "preact": "^8.2.5",
     "preact-render-to-string": "^3.6.3"

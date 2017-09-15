@@ -1,10 +1,6 @@
 import * as pathToRegExp from "path-to-regexp";
 import { AnyComponent } from "preact";
-import {
-  AnyRoute,
-  Endpoint,
-  RouteParameters
-} from "../../common/routers/route";
+import { AnyRoute, Endpoint, RouteParams } from "../../common/routers/route";
 
 export interface RouteResponse<Props, State> {
   chunkName: string;
@@ -40,10 +36,10 @@ const parseRoutes = (routes: AnyRoute[]) =>
 const newRouteParameters = (
   parameterNames: pathToRegExp.Key[],
   parameterValues: string[]
-): RouteParameters =>
+): RouteParams =>
   parameterNames.reduce(
     (
-      parameters: RouteParameters,
+      parameters: RouteParams,
       parameterName: pathToRegExp.Key,
       index: number
     ) => {
@@ -55,7 +51,7 @@ const newRouteParameters = (
 
 function requestInitialProps<Props>(
   endpoint: Endpoint<Props, any>,
-  parameters: RouteParameters
+  parameters: RouteParams
 ): Promise<Props | {}> {
   if (endpoint.initialProps) {
     return endpoint.initialProps(parameters);
@@ -66,7 +62,7 @@ function requestInitialProps<Props>(
 const respond = (
   route: ParsedRoute,
   url: string,
-  parameters: RouteParameters
+  parameters: RouteParams
 ): Promise<RouteResponse<any, any>> =>
   route.endpoint().then((endpoint: Endpoint<any, any>) =>
     requestInitialProps(endpoint, parameters).then((props: any) => ({

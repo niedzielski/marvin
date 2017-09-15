@@ -1,6 +1,7 @@
+import { h } from "preact";
+import { ChildrenProps } from "../preact-utils";
 import "./paper.css";
-import { ComponentProps, h } from "preact";
 
-export default function Paper({ children }: ComponentProps<any>): JSX.Element {
+export default function Paper({ children }: ChildrenProps): JSX.Element {
   return <div class="Paper">{children}</div>;
 }

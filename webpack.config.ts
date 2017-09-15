@@ -57,10 +57,10 @@ const configuration: webpack.Configuration = {
     // each entry which breaks caching. This chunk changes whenever any code
     // anywhere changes.
 
-    // Client package dependencies (these should match package.json's
+    // Client package dependencies (these should be a subset of package.json's
     // `dependencies`). This chunk changes when one of the specified
     // dependencies changes.
-    vendor: ["history", "path-to-regexp", "preact"]
+    vendor: ["history", "isomorphic-unfetch", "path-to-regexp", "preact"]
   },
 
   stats: STATS,
@@ -187,6 +187,8 @@ configuration.plugins = [
   new webpack.NamedModulesPlugin(),
 
   new ExtractTextPlugin({
+    // `contenthash` is not actually a chunk hash:
+    // https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/504#issuecomment-306581954.
     filename: PRODUCTION ? "[name].[contenthash].css" : "[name].css"
   }),
 
@@ -209,7 +211,8 @@ configuration.plugins = [
   // during execution for module resolution, dynamic importing, and more.
   // Without this distinct runtime chunk, it's instead bundled into each entry,
   // including vendor, which breaks caching. This chunk changes whenever any
-  // other file changes.
+  // other file changes. See
+  // https://webpack.js.org/plugins/commons-chunk-plugin/#manifest-file.
   new webpack.optimize.CommonsChunkPlugin({
     // This name should NOT match any `configuration.entry`.
     name: "runtime"

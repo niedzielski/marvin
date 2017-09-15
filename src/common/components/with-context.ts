@@ -3,6 +3,8 @@ import { History } from "history";
 
 export interface Props {
   history: History;
+  // todo: replace with ChildrenProps when
+  // https://github.com/developit/preact/pull/869 is merged.
   children?: JSX.Element[];
 }
 

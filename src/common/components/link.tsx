@@ -1,7 +1,8 @@
-import { ComponentProps, h } from "preact";
+import { h } from "preact";
 import { History } from "history";
+import { ChildrenProps, classOf, ClassProps } from "./preact-utils";
 
-export interface Props extends ComponentProps<any> {
+export interface Props extends ClassProps, ChildrenProps {
   href: string;
 }
 
@@ -10,18 +11,18 @@ export interface Props extends ComponentProps<any> {
  * control to History. All local hyperlinks should use a Link component.
  */
 export default function Link(
-  props: Props,
+  { href, children, ...props }: Props,
   context: { history?: History }
 ): JSX.Element {
-  const { children, ...anchorProps } = props;
   return (
     <a
-      {...anchorProps}
+      class={classOf("Link", props.class)}
+      href={href}
       onClick={event => {
         // todo: check that link is internal (relative).
         if (context.history) {
           event.preventDefault();
-          context.history.push(anchorProps.href);
+          context.history.push(href);
         }
       }}
     >

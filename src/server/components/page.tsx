@@ -1,14 +1,12 @@
 import { h } from "preact";
 import { Manifest, asset, scripts, style } from "../assets/manifest";
-import { Children } from "../../common/types/preact";
+import { ChildrenProps } from "../../common/components/preact-utils";
 
-export interface Props {
+export interface Props extends ChildrenProps {
   // Title of the page
   title: string;
   manifest: Manifest;
   chunkName: string;
-  // HTML to render in the body of the page
-  children?: Children;
 }
 
 export function Page({
@@ -24,7 +22,7 @@ export function Page({
       <head>
         <meta charSet="utf-8" />
         <meta http-equiv="x-ua-compatible" content="ie=edge" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{title ? `${title} - ` : ""}Marvin</title>
         <base href="/" />
         <link rel="stylesheet" href={style(manifest)} />

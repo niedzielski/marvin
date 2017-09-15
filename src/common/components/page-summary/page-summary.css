@@ -1,0 +1,24 @@
+.PageSummary {
+}
+
+.PageSummary-header {}
+.PageSummary-title {}
+.PageSummary-description {}
+.PageSummary-description::first-letter {
+  text-transform: uppercase;
+}
+
+.PageSummary-body {
+}
+.PageSummary-thumbnail {
+  float: left;
+  margin: 0 var(--space) var(--space) 0;
+}
+.PageSummary-extract {
+}
+
+.PageSummary-footer {
+  clear: both;
+}
+.PageSummary-lastModified {
+}

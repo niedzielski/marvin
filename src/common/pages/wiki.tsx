@@ -1,21 +1,34 @@
-import { ComponentProps, h } from "preact";
+import { h } from "preact";
 import App from "../components/app/app";
-import { RouteParameters } from "../routers/route";
+import { PageSummary } from "../components/page-summary/page-summary";
+import {
+  PageSummary as PageSummaryModel,
+  PageTitleID,
+  PageTitlePath
+} from "../models/page";
+import Paper from "../components/paper/paper";
+import { RouteParams } from "../routers/route";
+import { requestPageSummary } from "../data-clients/page-data-client";
 
-export interface Parameters extends RouteParameters {
-  title: string;
+export interface Params extends RouteParams {
+  /**
+   * When used as an input, an unencoded PageTitleID; when used as an output,
+   * an encoded PageTitlePath.
+   */
+  title: PageTitleID | PageTitlePath;
 }
 
-export interface Props extends ComponentProps<any> {
-  title: string;
+export interface Props {
+  summary: PageSummaryModel;
 }
 
-export const initialProps = ({ title }: Parameters): Promise<Props> => {
-  return Promise.resolve({ title });
-};
+export const initialProps = ({ title }: Params): Promise<Props> =>
+  requestPageSummary({ titlePath: title }).then(summary => ({ summary }));
 
-export const Component = ({ title }: Props): JSX.Element => (
+export const Component = ({ summary }: Props): JSX.Element => (
   <App>
-    <p>{title}</p>
+    <Paper>
+      <PageSummary summary={summary} />
+    </Paper>
   </App>
 );

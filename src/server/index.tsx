@@ -25,12 +25,12 @@ const server = express();
 
 server.use("/public", express.static("dist/public"));
 
-const render = ({ chunkName, Component }: RouteResponse<any, any>) => {
+const render = ({ chunkName, Component, props }: RouteResponse<any, any>) => {
   return (
     "<!doctype html>" + // eslint-disable-line prefer-template
     renderToString(
       <Page title="" manifest={manifest} chunkName={chunkName}>
-        <Component />
+        <Component {...props} />
       </Page>
     )
   );

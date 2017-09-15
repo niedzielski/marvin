@@ -1,7 +1,7 @@
 import * as pathToRegExp from "path-to-regexp";
 import { AnyComponent } from "preact";
 
-export interface RouteParameters {
+export interface RouteParams {
   [name: string]: string;
 }
 
@@ -13,7 +13,7 @@ export interface Endpoint<Props = void, State = void> {
    * A function that returns a Promise for the dependencies needed to construct
    * the view component such as a remote resource.
    */
-  initialProps?: (parameters: RouteParameters) => Promise<Props>;
+  initialProps?: (parameters: RouteParams) => Promise<Props>;
 }
 
 export interface RouteConfiguration<Props = void, State = void> {
@@ -28,7 +28,7 @@ export interface Route<Props = void, State = void, Parameters = void>
   status: number;
 
   /** Generates a URL from parameters. */
-  url: (properties?: Parameters) => string;
+  url: (parameters?: Parameters) => string;
 }
 
 export type AnyRoute = Route<any, any, any>;

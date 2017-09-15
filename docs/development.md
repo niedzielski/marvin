@@ -124,8 +124,14 @@ Additionally, prefer a default export when only one export is needed.
 - Static constants should be written in `SHOUTING_SNAKE_CASE`. All other
   variables should be written in `camelCase`.
 - Preact components should be written in PascalCase.
-- Preact component properties variables and types, especially
-  `ComponentProps` implementations, should be called "props" and "Props".
+
+#### Abbreviations
+
+Marvin uses the following abbreviations:
+
+- Parameters => params
+- Properties => props
+- Utilities => utils
 
 ### Filenaming
 
