@@ -1,0 +1,10 @@
+.Paper {
+  /* Style */
+  border-radius: var(--border-radius-base);
+  background-color: var(--background-color-base);
+  box-shadow: var(--box-shadow-paper);
+
+  /* Spacing */
+  padding: var(--space);
+  margin-bottom: var(--space);
+}

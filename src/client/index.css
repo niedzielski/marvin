@@ -17,10 +17,21 @@
   /* TODO: Remove once https://gerrit.wikimedia.org/r/#/c/378016/ is merged */
   --font-family-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --font-family-base: var(--font-family-sans);
+
+  /* TODO: Upstream to wikimedia-ui-base once reviewed by design */
+  --space: var(--font-size-base);
+
+  /* TODO: Upstream to wikimedia-ui-base once reviewed by design */
+  --box-shadow-paper: 0 1px 3px 0 rgba( 0, 0, 0, 0.1 );
 }
 
 /* Remove extra margin, expand base elements to the viewport height */
 html, body, #root { margin: 0; height: 100%; }
+
+/* Base layer */
+body {
+  background-color: var(--wmui-color-base90);
+}
 
 /* Default typography */
 body, input, button, textarea, td {
@@ -38,6 +49,7 @@ blockquote {
 h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
   line-height: 1.25;
+  margin: 0 0 var(--space) 0;
 }
 
 h5, h6 { font-weight: bold; }
