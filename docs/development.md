@@ -6,8 +6,8 @@ run the project in development.
 ## Requirements
 
 Marvin's requirements are listed in the package.json **engines** field.
-Generally the latest [Node.js][] active LTS version (6.X), and npm > 5.X should
-do it.
+Generally the latest [Node.js] active LTS version (6.X), and npm > 5.X should do
+it.
 
 Before running the project on development, run:
 
@@ -145,3 +145,11 @@ Additionally, prefer a default export when only one export is needed.
 ## Environment variables
 
 See [configuration](../src/server/configuration.ts).
+
+## Continuous integration
+
+- [Jenkins jobs]
+- [Jenkins Job Builder configuration]
+
+[Jenkins jobs]: https://integration.wikimedia.org/ci/view/Default/search/?q=marvin
+[Jenkins Job Builder configuration]: https://phabricator.wikimedia.org/diffusion/CICF/browse/master/jjb/misc.yaml
