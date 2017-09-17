@@ -49,7 +49,7 @@ const configuration: webpack.Configuration = {
     // `src/client/index` has no correspondence to which page a browser visits.
     // e.g., `/`, `/wiki/Foobar`, and `/about` all use the client so that
     // subsequent pages can be loaded dynamically inline.
-    index: "./src/client/index",
+    index: "./src/client",
 
     // (runtime): reserved for the Webpack runtime chunk. This chunk performs
     // module resolution, dynamic importing, and more for all other code during
@@ -163,6 +163,9 @@ const configuration: webpack.Configuration = {
 
         // Log warnings and errors in the browser console.
         clientLogLevel: VERBOSE ? "info" : "warning",
+
+        // Log bundling progress in the browser console.
+        progress: VERBOSE,
 
         // Hide bundling start and finish messages.
         noInfo: !VERBOSE,
