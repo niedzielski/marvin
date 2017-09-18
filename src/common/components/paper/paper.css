@@ -8,3 +8,9 @@
   padding: var(--space);
   margin-bottom: var(--space);
 }
+
+.Paper-separator {
+  height: 1px;
+  background-color: var(--wmui-color-base80);
+  margin: var(--space) calc(-1*var(--space));
+}
