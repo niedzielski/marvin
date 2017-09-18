@@ -9,7 +9,7 @@ import { JSONObject } from "../types/json";
 export const unmarshalPageThumbnail = (json: JSONObject): PageThumbnail => {
   const type: RESTBase.PageThumbnail = json as any;
   return {
-    URL: type.source,
+    url: type.source,
     originalURL: type.original,
     width: type.width,
     height: type.height
@@ -18,7 +18,7 @@ export const unmarshalPageThumbnail = (json: JSONObject): PageThumbnail => {
 
 export const unmarshalPageImage = (json: JSONObject): PageImage => {
   const type: RESTBase.PageImage = json as any;
-  return { URL: type.source, width: type.width, height: type.height };
+  return { url: type.source, width: type.width, height: type.height };
 };
 
 export const unmarshalPageGeolocation = (json: JSONObject): PageGeolocation => {

@@ -1,12 +1,12 @@
 export interface PageThumbnail {
-  URL: string;
+  url: string;
   originalURL: string;
   width: number;
   height: number;
 }
 
 export interface PageImage {
-  URL: string;
+  url: string;
   width: number;
   height: number;
 }
