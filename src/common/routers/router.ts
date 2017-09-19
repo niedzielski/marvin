@@ -1,5 +1,5 @@
 import * as pathToRegExp from "path-to-regexp";
-import { AnyComponent } from "preact";
+import { AnyComponent } from "../components/preact-utils";
 import { AnyRoute, Endpoint, RouteParams } from "../../common/routers/route";
 
 export interface RouteResponse<Props, State> {

@@ -1,0 +1,15 @@
+.Page {}
+
+.Page-title {
+  /* TODO: Extract to typography components once we have the specs */
+  font-size: var(--font-size-h4);
+  font-weight: bold;
+}
+
+.Page-subtitle {
+  /* TODO: Extract to typography components once we have the specs */
+  font-size: var(--font-size-note);
+  color: var(--wmui-color-base20);
+}
+
+.Page-content {}

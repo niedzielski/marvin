@@ -9,6 +9,8 @@ import {
   WEBPACK_DEV_SERVER_URL
 } from "./src/server/configuration";
 
+const pkg = require("./package.json");
+
 const PATHS = {
   // Files used by the client and the server.
   public: {
@@ -181,6 +183,10 @@ const configuration: webpack.Configuration = {
 // See also
 // https://medium.com/webpack/predictable-long-term-caching-with-webpack-d3eee1d3fa31.
 configuration.plugins = [
+  new webpack.DefinePlugin({
+    "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+    VERSION: JSON.stringify(pkg.version)
+  }),
   // Reference modules by name instead of by chunk ID so hashes don't change
   // when new files are added. For example,
   // `"./node_modules/preact/dist/preact.esm.js"` instead of `18`.
