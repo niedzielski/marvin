@@ -4,8 +4,8 @@ import { newRouter } from "./router";
 const routes = [
   newRoute({
     path: "/",
-    endpoint: () => import("../pages/index"),
-    chunkName: "components/pages/index"
+    endpoint: () => import("../pages/home"),
+    chunkName: "components/pages/home"
   })
 ];
 

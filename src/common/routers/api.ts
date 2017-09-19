@@ -3,9 +3,8 @@ import { AnyRoute, Route, newRoute } from "./route";
 
 export const index: Route = newRoute({
   path: "/",
-  endpoint: () =>
-    import(/* webpackChunkName: "pages/index" */ "../pages/index"),
-  chunkName: "pages/index"
+  endpoint: () => import(/* webpackChunkName: "pages/home" */ "../pages/home"),
+  chunkName: "pages/home"
 });
 
 export const about: Route = newRoute({
