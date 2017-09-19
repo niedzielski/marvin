@@ -5,3 +5,7 @@ import "./paper.css";
 export default function Paper({ children }: ChildrenProps): JSX.Element {
   return <div class="Paper">{children}</div>;
 }
+
+export function Separator() {
+  return <div class="Paper-separator" />;
+}
