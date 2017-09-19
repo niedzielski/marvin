@@ -1,5 +1,5 @@
 import * as pathToRegExp from "path-to-regexp";
-import { AnyComponent } from "preact";
+import { AnyComponent } from "../components/preact-utils";
 
 export interface RouteParams {
   [name: string]: string;

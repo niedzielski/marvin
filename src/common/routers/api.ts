@@ -1,4 +1,5 @@
 import { Props as WikiProps, Params as WikiParams } from "../pages/wiki";
+import { State as AboutState } from "../pages/about";
 import { AnyRoute, Route, newRoute } from "./route";
 
 export const index: Route = newRoute({
@@ -8,7 +9,7 @@ export const index: Route = newRoute({
   chunkName: "pages/index"
 });
 
-export const about: Route = newRoute({
+export const about: Route<void, AboutState> = newRoute({
   path: "/about",
   endpoint: () =>
     import(/* webpackChunkName: "pages/about" */ "../pages/about"),
