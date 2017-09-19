@@ -5,9 +5,10 @@ import {
   PageThumbnail
 } from "../models/page";
 import { JSONObject } from "../types/json";
+import { RESTBase } from "./restbase";
 
 export const unmarshalPageThumbnail = (json: JSONObject): PageThumbnail => {
-  const type: RESTBase.PageThumbnail = json as any;
+  const type: RESTBase.PageSummary.Thumbnail = json as any;
   return {
     url: type.source,
     originalURL: type.original,
@@ -18,7 +19,7 @@ export const unmarshalPageThumbnail = (json: JSONObject): PageThumbnail => {
 };
 
 export const unmarshalPageImage = (json: JSONObject): PageImage => {
-  const type: RESTBase.PageImage = json as any;
+  const type: RESTBase.PageSummary.Image = json as any;
   return {
     url: type.source,
     width: type.width,
@@ -28,12 +29,12 @@ export const unmarshalPageImage = (json: JSONObject): PageImage => {
 };
 
 export const unmarshalPageGeolocation = (json: JSONObject): PageGeolocation => {
-  const type: RESTBase.PageGeolocation = json as any;
+  const type: RESTBase.PageSummary.Geolocation = json as any;
   return { latitude: type.lat, longitude: type.lon };
 };
 
 export const unmarshalPageSummary = (json: JSONObject): PageSummary => {
-  const type: RESTBase.PageSummary = json as any;
+  const type: RESTBase.PageSummary.PageSummary = json as any;
   return {
     wikiLanguageCode: type.lang,
     localeDirection: type.dir,
@@ -50,38 +51,3 @@ export const unmarshalPageSummary = (json: JSONObject): PageSummary => {
       type.coordinates && unmarshalPageGeolocation(type.coordinates as {})
   };
 };
-
-namespace RESTBase {
-  export interface PageThumbnail {
-    source: string;
-    original: string;
-    width: number;
-    height: number;
-  }
-
-  export interface PageImage {
-    source: string;
-    width: number;
-    height: number;
-  }
-
-  export interface PageGeolocation {
-    lat: number;
-    lon: number;
-  }
-
-  export interface PageSummary {
-    title: string;
-    displaytitle: string;
-    pageid: number;
-    extract: string;
-    extract_html: string; // eslint-disable-line camelcase
-    thumbnail?: PageThumbnail;
-    originalimage?: PageImage;
-    lang: string;
-    dir: string;
-    timestamp: string;
-    description: string;
-    coordinates?: PageGeolocation;
-  }
-}
