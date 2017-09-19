@@ -1,10 +1,10 @@
 import * as assert from "assert";
 import { render } from "preact-render-to-string";
-import { Page } from "../../../src/server/components/page";
+import HTMLPage from "../../../src/server/components/html-page";
 
-describe("Page()", () => {
+describe("HTMLPage()", () => {
   it("contains a root div with the children when rendered", () => {
-    const vNode = Page({
+    const vNode = HTMLPage({
       title: "Test",
       manifest: "",
       chunkName: "",
@@ -19,7 +19,7 @@ describe("Page()", () => {
   });
 
   it("contains a <title/> when rendered", () => {
-    const vNode = Page({ title: "Test", manifest: "", chunkName: "" });
+    const vNode = HTMLPage({ title: "Test", manifest: "", chunkName: "" });
     const html = render(vNode);
     const expected = "<title>Test - Marvin</title>";
     assert.ok(

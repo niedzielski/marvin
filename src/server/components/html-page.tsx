@@ -9,7 +9,7 @@ export interface Props extends ChildrenProps {
   chunkName: string;
 }
 
-export function Page({
+export default function HTMLPage({
   title = "",
   manifest,
   chunkName,

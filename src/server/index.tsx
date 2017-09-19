@@ -13,7 +13,7 @@ import {
   SERVER_URL,
   WEBPACK_DEV_SERVER_URL
 } from "./configuration";
-import { Page } from "./components/page";
+import HTMLPage from "./components/html-page";
 
 // The asset manifest built or the webpack-dev-server URL (which has no
 // manifest).
@@ -29,9 +29,9 @@ const render = ({ chunkName, Component, props }: RouteResponse<any, any>) => {
   return (
     "<!doctype html>" + // eslint-disable-line prefer-template
     renderToString(
-      <Page title="" manifest={manifest} chunkName={chunkName}>
+      <HTMLPage title="" manifest={manifest} chunkName={chunkName}>
         <Component {...props} />
-      </Page>
+      </HTMLPage>
     )
   );
 };
