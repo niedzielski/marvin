@@ -30,7 +30,7 @@ html, body, #root { margin: 0; height: 100%; }
 
 /* Base layer */
 body {
-  background-color: var(--wmui-color-base90);
+  background-color: var(--wmui-color-base80);
 }
 
 /* Default typography */
