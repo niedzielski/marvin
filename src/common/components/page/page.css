@@ -18,3 +18,10 @@
 }
 
 .Page-content {}
+
+.Page-content>:last-child {
+  /* Remove extrinsic bottom spacing (margin) from the last element in the
+  content, given that it will accumulate with padding in the Paper sheet and
+  present double spacing at the bottom of the container */
+  margin-bottom: 0;
+}
