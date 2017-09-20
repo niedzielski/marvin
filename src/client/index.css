@@ -19,7 +19,7 @@
   --font-family-base: var(--font-family-sans);
 
   /* TODO: Upstream to wikimedia-ui-base once reviewed by design */
-  --space: var(--font-size-base);
+  --space: 15px;
 
   /* TODO: Upstream to wikimedia-ui-base once reviewed by design */
   --box-shadow-paper: 0 1px 3px 0 rgba( 0, 0, 0, 0.1 );
