@@ -8,6 +8,7 @@
   /* TODO: Extract to typography components once we have the specs */
   font-size: var(--font-size-h4);
   font-weight: bold;
+  line-height: var(--line-height-heading);
 }
 
 .Page-subtitle {
