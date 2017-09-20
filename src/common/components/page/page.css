@@ -1,5 +1,9 @@
 .Page {}
 
+.Page-header {
+  padding-top: calc(var(--space)*3);
+}
+
 .Page-title {
   /* TODO: Extract to typography components once we have the specs */
   font-size: var(--font-size-h4);
