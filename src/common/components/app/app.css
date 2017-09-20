@@ -2,8 +2,8 @@
   /* Expand the app box full height even if content doesn't fill it */
   min-height: 100%;
 
-  /* Provide spacing for rounded corners. */
-  padding: var(--space);
+  /* Provide top/bottom spacing, but not horizontal spacing */
+  padding: var(--space) 0;
 
   /* Cap max-width of app in big screens and center it horizontally */
   /* TODO: Remove magic number and replace with variable, matching the responsive cuts */
