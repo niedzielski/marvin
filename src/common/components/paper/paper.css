@@ -4,8 +4,9 @@
   background-color: var(--background-color-base);
   box-shadow: var(--box-shadow-paper);
 
-  /* Spacing */
+  /* Inner spacing */
   padding: var(--space);
+  /* Outer spacing */
   margin-bottom: var(--space);
 }
 
