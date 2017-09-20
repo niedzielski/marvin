@@ -1,6 +1,6 @@
 import { h } from "preact";
 import App from "../components/app/app";
-import { about, index, wiki, styleGuide } from "../../common/routers/api";
+import { about, home, wiki, styleGuide } from "../../common/routers/api";
 import Page from "../components/page/page";
 import Link from "../components/link";
 
@@ -11,7 +11,7 @@ export const Component = (): JSX.Element => (
       <p>Here are some test links for the time being:</p>
       <ul>
         <li>
-          <Link href={index.url()}>Home</Link>
+          <Link href={home.url()}>Home</Link>
         </li>
         <li>
           <Link href={about.url()}>About</Link>

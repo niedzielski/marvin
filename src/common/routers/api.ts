@@ -2,7 +2,7 @@ import { Props as WikiProps, Params as WikiParams } from "../pages/wiki";
 import { State as AboutState } from "../pages/about";
 import { AnyRoute, Route, newRoute } from "./route";
 
-export const index: Route = newRoute({
+export const home: Route = newRoute({
   path: "/",
   endpoint: () => import(/* webpackChunkName: "pages/home" */ "../pages/home"),
   chunkName: "pages/home"
@@ -38,4 +38,4 @@ export const notFound: Route = newRoute({
   status: 404
 });
 
-export const routes: AnyRoute[] = [index, about, wiki, styleGuide, notFound];
+export const routes: AnyRoute[] = [home, about, wiki, styleGuide, notFound];
