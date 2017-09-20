@@ -12,13 +12,19 @@ export const unmarshalPageThumbnail = (json: JSONObject): PageThumbnail => {
     url: type.source,
     originalURL: type.original,
     width: type.width,
-    height: type.height
+    height: type.height,
+    landscape: type.width > type.height
   };
 };
 
 export const unmarshalPageImage = (json: JSONObject): PageImage => {
   const type: RESTBase.PageImage = json as any;
-  return { url: type.source, width: type.width, height: type.height };
+  return {
+    url: type.source,
+    width: type.width,
+    height: type.height,
+    landscape: type.width > type.height
+  };
 };
 
 export const unmarshalPageGeolocation = (json: JSONObject): PageGeolocation => {

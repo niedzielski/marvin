@@ -11,17 +11,54 @@
   text-transform: uppercase;
 }
 
-.PageSummary-body {
-}
+.PageSummary-body {}
 .PageSummary-thumbnail {
-  float: left;
-  margin: 0 var(--space) var(--space) 0;
+  background: var(--wmui-color-base0);
+
+  /* Center the image within the container. */
+  text-align: center;
+
+  /* Set the container to occupy the full-width. */
+  display: inline-block;
+  width: 100%;
 }
-.PageSummary-extract {
+/* TODO: use CSS variable. */
+@media (min-width: 1024px) {
+  .PageSummary-thumbnail {
+    /* Wrap the container to the width of the image and left-align it. Floating
+       takes precedence over display. */
+    width: unset;
+    float: left;
+
+    /* Since the image is side-by-side with the text, add a margin. */
+    margin-right: var(--space);
+  }
 }
+.PageSummary-thumbnail-image {
+  /* Don't pad the linked image with text descender space. */
+  vertical-align: top;
+}
+.PageSummary-thumbnail-image-landscape {
+  /* Stretch the image to occupy the available width and proprotionally scale
+     the height. */
+  width: 100%;
+  height: auto;
+}
+/* TODO: use CSS variable. */
+@media (min-width: 1024px) {
+  .PageSummary-thumbnail-image-landscape {
+    /* The screen is too large to maximize the image. Use the image's native
+       width and height. */
+    width: unset;
+    height: unset;
+  }
+}
+.PageSummary-thumbnail-image-portrait {}
+
+.PageSummary-extract {}
 
 .PageSummary-footer {
+  /* The footer must appear on its own line when the image is floated. */
   clear: both;
 }
-.PageSummary-lastModified {
-}
+.PageSummary-lastModified {}

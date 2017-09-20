@@ -34,6 +34,11 @@ export const Component = (): JSX.Element => (
           <Link href={wiki.url({ title: "Ice_cream" })}>Ice cream</Link>
         </li>
         <li>
+          <Link href={wiki.url({ title: "Plaintext" })}>
+            Article without image
+          </Link>
+        </li>
+        <li>
           <Link href="/404">404</Link>
         </li>
       </ul>

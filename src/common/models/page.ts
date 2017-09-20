@@ -17,17 +17,15 @@ export type PageTitlePath = string;
  */
 export type PageTitleText = string;
 
-export interface PageThumbnail {
-  url: string;
-  originalURL: string;
-  width: number;
-  height: number;
-}
-
 export interface PageImage {
   url: string;
   width: number;
   height: number;
+  landscape: boolean;
+}
+
+export interface PageThumbnail extends PageImage {
+  originalURL: string;
 }
 
 export interface PageGeolocation {
