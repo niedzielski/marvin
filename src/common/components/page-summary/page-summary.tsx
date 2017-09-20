@@ -23,6 +23,7 @@ export const PageSummary = ({ summary }: Props): JSX.Element => (
           /* todo: replace with Link. */
           <a href={summary.image.url}>
             <img
+              key={summary.thumbnail.url}
               class="PageSummary-thumbnail"
               src={summary.thumbnail.url}
               width={summary.thumbnail.width}
