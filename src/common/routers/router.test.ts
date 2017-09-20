@@ -1,10 +1,15 @@
+// Import the module statically to avoid potential timeouts in CI for a dynamic
+// import, given ts-node compiles files when required (inside the test if using
+// a dynamic import)
+import * as HomeModule from "../pages/home";
+
 import { newRoute } from "./route";
 import { newRouter } from "./router";
 
 const routes = [
   newRoute({
     path: "/",
-    endpoint: () => import("../pages/home"),
+    endpoint: () => Promise.resolve(HomeModule),
     chunkName: "components/pages/home"
   })
 ];
