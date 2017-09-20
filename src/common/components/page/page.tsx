@@ -14,15 +14,15 @@ export default function Page({
   children
 }: Props): JSX.Element {
   return (
-    <Paper>
-      <div class="Page">
+    <div class="Page">
+      <Paper>
         <div class="Page-header">
           <div class="Page-title">{title}</div>
           <div class="Page-subtitle">{subtitle}</div>
         </div>
         {children && <Separator />}
         <div class="Page-content">{children}</div>
-      </div>
-    </Paper>
+      </Paper>
+    </div>
   );
 }
