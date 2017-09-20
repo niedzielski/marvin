@@ -6,12 +6,14 @@ import "./page.css";
 
 interface Props extends ChildrenProps {
   title: ComponentChild;
-  subtitle: ComponentChild;
+  subtitle?: ComponentChild;
+  footer?: ComponentChild;
 }
 
 export default function Page({
   title,
   subtitle,
+  footer,
   children
 }: Props): JSX.Element {
   return (
@@ -23,6 +25,8 @@ export default function Page({
         </div>
         {children && <Separator class="Page-content-separator" />}
         <div class="Page-content">{children}</div>
+        {footer && <Separator class="Page-footer-separator" />}
+        <div class="Page-footer">{footer}</div>
       </Paper>
     </div>
   );

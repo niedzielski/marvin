@@ -6,7 +6,7 @@ import {
   PageTitleID,
   PageTitlePath
 } from "../models/page";
-import Paper from "../components/paper/paper";
+import Page from "../components/page/page";
 import { RouteParams } from "../routers/route";
 import { requestPageSummary } from "../data-clients/page-data-client";
 
@@ -27,8 +27,20 @@ export const initialProps = ({ title }: Params): Promise<Props> =>
 
 export const Component = ({ summary }: Props): JSX.Element => (
   <App>
-    <Paper>
+    <Page
+      title={<Title summary={summary} />}
+      subtitle={summary.descriptionText}
+      footer={<Footer summary={summary} />}
+    >
       <PageSummary summary={summary} />
-    </Paper>
+    </Page>
   </App>
+);
+
+const Title = ({ summary }: Props) => (
+  <span dangerouslySetInnerHTML={{ __html: summary.titleHTML }} />
+);
+
+const Footer = ({ summary }: Props) => (
+  <span>{summary.lastModified.toLocaleString("en-GB")}</span>
 );

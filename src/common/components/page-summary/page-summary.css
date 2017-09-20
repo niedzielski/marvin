@@ -1,17 +1,20 @@
-.PageSummary {
-  /* TODO: remove once the pages/Wiki is using a ContentPage component that has
-  its own inner spacing rules */
-  padding: var(--space);
+.PageSummary {}
+.PageSummary:after {
+  /* Add an empty node that clears the left and right so the page summary
+     container can wrap its contents fully even if they're floated. */
+  content: "";
+  clear: both;
+
+  /* Make the node dimensionless. */
+  display: block;
+  width: 0;
+  height: 0;
+
+  /* Forbid scrollbars and hide. */
+  overflow: hidden;
+  visibility: hidden;
 }
 
-.PageSummary-header {}
-.PageSummary-title {}
-.PageSummary-description {}
-.PageSummary-description::first-letter {
-  text-transform: uppercase;
-}
-
-.PageSummary-body {}
 .PageSummary-thumbnail {
   background: var(--wmui-color-base0);
 
@@ -56,9 +59,3 @@
 .PageSummary-thumbnail-image-portrait {}
 
 .PageSummary-extract {}
-
-.PageSummary-footer {
-  /* The footer must appear on its own line when the image is floated. */
-  clear: both;
-}
-.PageSummary-lastModified {}

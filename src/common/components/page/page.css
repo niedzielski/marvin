@@ -29,7 +29,7 @@
 .Page-content-separator {}
 
 .Page-content {
-  padding: 0 var(--page-spacing) var(--page-spacing);
+  padding: 0 var(--page-spacing);
   /* Use margin at the top to collapse with content spacing */
   margin-top: var(--page-spacing);
 }
@@ -39,4 +39,13 @@
   content, given that it will accumulate with padding in the Paper sheet and
   present double spacing at the bottom of the container */
   margin-bottom: 0;
+}
+
+.Page-footer-separator {}
+
+.Page-footer {
+  /* Spacing everywhere except top. */
+  padding: 0 var(--page-spacing) var(--page-spacing);
+  /* Use margin in the top to collapse with separator if necessary. */
+  margin-top: var(--page-spacing);
 }

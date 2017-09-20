@@ -6,6 +6,18 @@ export interface Props {
   summary: PageSummaryModel;
 }
 
+export const PageSummary = ({ summary }: Props): JSX.Element => (
+  <div class="PageSummary">
+    <Thumbnail summary={summary} />
+    {summary.extractHTML && (
+      <div
+        class="PageSummary-extract"
+        dangerouslySetInnerHTML={{ __html: summary.extractHTML }}
+      />
+    )}
+  </div>
+);
+
 const Thumbnail = ({ summary }: Props) => {
   if (!summary.thumbnail || !summary.image) {
     return null;
@@ -30,31 +42,3 @@ const Thumbnail = ({ summary }: Props) => {
     </span>
   );
 };
-
-export const PageSummary = ({ summary }: Props): JSX.Element => (
-  <div class="PageSummary">
-    <div class="PageSummary-header">
-      <h2
-        class="PageSummary-title"
-        dangerouslySetInnerHTML={{ __html: summary.titleHTML }}
-      />
-      {summary.descriptionText && (
-        <p class="PageSummary-description">{summary.descriptionText}</p>
-      )}
-    </div>
-    <div class="PageSummary-body">
-      <Thumbnail summary={summary} />
-      {summary.extractHTML && (
-        <p
-          class="PageSummary-extract"
-          dangerouslySetInnerHTML={{ __html: summary.extractHTML }}
-        />
-      )}
-    </div>
-    <div class="PageSummary-footer">
-      <p class="PageSummary-lastModified">
-        {summary.lastModified.toLocaleString()}
-      </p>
-    </div>
-  </div>
-);
