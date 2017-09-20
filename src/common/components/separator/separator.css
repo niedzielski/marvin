@@ -1,0 +1,8 @@
+.Separator {
+  height: 1px;
+  background-color: var(--wmui-color-base80);
+  /* Specify spacing separate so that users of the separator can modify it at
+  their will and don't have to deal with default horizontal margins */
+  margin-top: var(--space);
+  margin-bottom: var(--space);
+}

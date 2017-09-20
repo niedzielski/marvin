@@ -17,9 +17,16 @@
   color: var(--wmui-color-base20);
 }
 
+.Page-content-separator {
+  /* TODO: Change --space to the Page's spacing var once migrated from Paper */
+  --horizontal-negative-spacing: calc(var(--space) * -1);
+  margin-left: var(--horizontal-negative-spacing);
+  margin-right: var(--horizontal-negative-spacing);
+}
+
 .Page-content {}
 
-.Page-content>:last-child {
+.Page-content > :last-child {
   /* Remove extrinsic bottom spacing (margin) from the last element in the
   content, given that it will accumulate with padding in the Paper sheet and
   present double spacing at the bottom of the container */

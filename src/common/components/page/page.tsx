@@ -1,5 +1,6 @@
 import { h } from "preact";
-import Paper, { Separator } from "../paper/paper";
+import Paper from "../paper/paper";
+import Separator from "../separator/separator";
 import { ComponentChild, ChildrenProps } from "../preact-utils";
 import "./page.css";
 
@@ -20,7 +21,7 @@ export default function Page({
           <div class="Page-title">{title}</div>
           <div class="Page-subtitle">{subtitle}</div>
         </div>
-        {children && <Separator />}
+        {children && <Separator class="Page-content-separator" />}
         <div class="Page-content">{children}</div>
       </Paper>
     </div>
