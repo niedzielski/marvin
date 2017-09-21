@@ -1,6 +1,9 @@
 .Page {
   /* Variable to apply the same spacing to heading, content and separator */
   --page-spacing: var(--space);
+
+  /* This size is an intentional deviation from the base typography. */
+  --page-title-font-size: 24px;
 }
 
 .Page-header {
@@ -11,8 +14,8 @@
 }
 
 .Page-title {
+  font-size: var(--page-title-font-size);
   /* TODO: Extract to typography components once we have the specs */
-  font-size: var(--font-size-h4);
   font-weight: bold;
   line-height: var(--line-height-heading);
 }
