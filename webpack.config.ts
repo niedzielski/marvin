@@ -35,6 +35,8 @@ const STATS = {
   warnings: true
 };
 
+const PREACT = PRODUCTION ? "preact" : "preact/debug";
+
 const configuration: webpack.Configuration = {
   // Bundled outputs and their source inputs. For each entry, the source input
   // and any dependencies are compiled together into one chunk file output
@@ -62,7 +64,7 @@ const configuration: webpack.Configuration = {
     // Client package dependencies (these should be a subset of package.json's
     // `dependencies`). This chunk changes when one of the specified
     // dependencies changes.
-    vendor: ["history", "isomorphic-unfetch", "path-to-regexp", "preact"]
+    vendor: ["history", "isomorphic-unfetch", "path-to-regexp", PREACT]
   },
 
   stats: STATS,
@@ -184,9 +186,12 @@ const configuration: webpack.Configuration = {
 // https://medium.com/webpack/predictable-long-term-caching-with-webpack-d3eee1d3fa31.
 configuration.plugins = [
   new webpack.DefinePlugin({
-    "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+    "process.env": {
+      NODE_ENV: JSON.stringify(PRODUCTION ? "production" : "development")
+    },
     VERSION: JSON.stringify(pkg.version)
   }),
+
   // Reference modules by name instead of by chunk ID so hashes don't change
   // when new files are added. For example,
   // `"./node_modules/preact/dist/preact.esm.js"` instead of `18`.
