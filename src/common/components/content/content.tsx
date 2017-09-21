@@ -1,10 +1,22 @@
-import { h } from "preact";
+import { h, DangerouslySetInnerHTML } from "preact";
 import { classOf, ClassProps, ChildrenProps } from "../preact-utils";
 import "./content.css";
 
+interface Props extends ChildrenProps, ClassProps {
+  dangerouslySetInnerHTML?: DangerouslySetInnerHTML;
+}
+
 export default function Content({
   children,
+  dangerouslySetInnerHTML,
   ...props
-}: ChildrenProps & ClassProps): JSX.Element {
-  return <div class={classOf("Content", props.class)}>{children}</div>;
+}: Props): JSX.Element {
+  return (
+    <div
+      class={classOf("Content", props.class)}
+      dangerouslySetInnerHTML={dangerouslySetInnerHTML}
+    >
+      {children}
+    </div>
+  );
 }

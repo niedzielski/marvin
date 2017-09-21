@@ -1,6 +1,7 @@
 import { h } from "preact";
 import "./page-summary.css";
 import { PageSummary as PageSummaryModel } from "../../models/page";
+import Content from "../content/content";
 
 export interface Props {
   summary: PageSummaryModel;
@@ -10,7 +11,7 @@ export const PageSummary = ({ summary }: Props): JSX.Element => (
   <div class="PageSummary">
     <Thumbnail summary={summary} />
     {summary.extractHTML && (
-      <div
+      <Content
         class="PageSummary-extract"
         dangerouslySetInnerHTML={{ __html: summary.extractHTML }}
       />
