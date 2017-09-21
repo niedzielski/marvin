@@ -1,6 +1,8 @@
 :root {
   /*
-    Font sizes, see https://wikimedia.github.io/WikimediaUI-Style-Guide/visual-style_typography.html
+    Font sizes, see:
+    * https://wikimedia.github.io/WikimediaUI-Style-Guide/visual-style_typography.html
+    * https://app.zeplin.io/project/59a0bcd4dc66f1a973f36568/screen/59c02dbc0df0559ebb12a527
 
     TODO: Remove when the typography scale is upstreamed in wikimedia-ui-base
       See https://gerrit.wikimedia.org/r/378041 Add typograpy scale variables
@@ -8,18 +10,30 @@
   --font-size-caption: 13px;
   --font-size-note: 14px;
   --font-size-base: 16px;
-  --font-size-h5: 18px;
-  --font-size-h4: 23px;
-  --font-size-h3: 28px;
-  --font-size-h2: 36px;
-  --font-size-h1: 46px;
+  --font-size-blockquote: 18px;
+
+  --font-size-h1: 28px;
+  --font-size-h2: 22px;
+  --font-size-h3: 18px;
+  --font-size-h4: var(--font-size-base);
+  --font-size-h5: var(--font-size-base);
+  --font-size-h6: var(--font-size-base);
+
+
+  /* This size is an intentional deviation from the base typography. */
+  --font-size-page-title: 24px;
+  --font-size-page-subtitle: var(--font-size-note);
 
   /* TODO: Remove once https://gerrit.wikimedia.org/r/#/c/378016/ is merged */
-  --font-family-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-family-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Cantarell, Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --font-family-base: var(--font-family-sans);
 
+  --font-weight-semibold: 500;
+
   /* TODO: Upstream to wikimedia-ui-base once reviewed by design */
-  --space: 15px;
+  --space: 16px;
+  --half-space: calc(var(--space) / 2);
+  --double-space: calc(var(--space) * 2);
 
   /* TODO: Upstream to wikimedia-ui-base once reviewed by design */
   --box-shadow-paper: 0 1px 3px 0 rgba( 0, 0, 0, 0.1 );
@@ -33,7 +47,7 @@ body {
   background-color: var(--wmui-color-base80);
 }
 
-/* Default typography */
+/* Default application chrome typography */
 body, input, button, textarea, td {
   font-family: var(--font-family-base);
   line-height: var(--line-height-base);
@@ -41,23 +55,27 @@ body, input, button, textarea, td {
   color: var(--color-base);
 }
 
-blockquote {
-  font-family: var(--font-family-serif);
-  font-size: var(--font-size-h4);
-}
-
 h1, h2, h3, h4, h5, h6 {
-  font-weight: normal;
-  line-height: 1.25;
+  font-family: var(--font-family-base);
+  line-height: var(--line-height-heading);
+}
+h1 { font-size: var(--font-size-h1); }
+h2 { font-size: var(--font-size-h2); }
+h3 { font-size: var(--font-size-h3); }
+h4 { font-size: var(--font-size-h4); }
+h5 { font-size: var(--font-size-h5); }
+h6 { font-size: var(--font-size-h6); }
+
+blockquote { font-size: var(--font-size-blockquote); }
+
+/* Default application chrome spacing */
+h1 {
   margin: 0 0 var(--space) 0;
 }
+h2, h3, h4, h5, h6 {
+  margin: 0 0 var(--half-space) 0;
+}
 
-h5, h6 { font-weight: bold; }
-h6 { font-size: var(--font-size-base); }
-h5 { font-size: var(--font-size-h5); }
-
-h1, h2, h3, h4 { font-family: var(--font-family-serif); }
-h4 { font-weight: bold; font-size: var(--font-size-h4); }
-h3 { font-size: var(--font-size-h3); }
-h2 { font-size: var(--font-size-h2); }
-h1 { font-size: var(--font-size-h1); }
+p {
+  margin: var(--space) 0;
+}

@@ -1,20 +1,12 @@
-.Page {
-  /* Variable to apply the same spacing to heading, content and separator */
-  --page-spacing: var(--space);
-
-  /* This size is an intentional deviation from the base typography. */
-  --page-title-font-size: 24px;
-}
+.Page {}
 
 .Page-header {
-  /* Top spacing of 4 units */
-  padding: calc(var(--page-spacing) * 4) var(--page-spacing) 0;
-  /* Use margin in the bottom to collapse with content if necessary */
-  margin-bottom: var(--page-spacing);
+  /* Top spacing of 3 units */
+  padding-top: calc(var(--space) * 3);
 }
 
 .Page-title {
-  font-size: var(--page-title-font-size);
+  font-size: var(--font-size-page-title);
   /* TODO: Extract to typography components once we have the specs */
   font-weight: bold;
   line-height: var(--line-height-heading);
@@ -22,30 +14,6 @@
 
 .Page-subtitle {
   /* TODO: Extract to typography components once we have the specs */
-  font-size: var(--font-size-note);
+  font-size: var(--font-size-page-subtitle);
   color: var(--wmui-color-base20);
-}
-
-.Page-content-separator {}
-
-.Page-content {
-  padding: 0 var(--page-spacing);
-  /* Use margin at the top to collapse with content spacing */
-  margin-top: var(--page-spacing);
-}
-
-.Page-content > :last-child {
-  /* Remove extrinsic bottom spacing (margin) from the last element in the
-  content, given that it will accumulate with padding in the Paper sheet and
-  present double spacing at the bottom of the container */
-  margin-bottom: 0;
-}
-
-.Page-footer-separator {}
-
-.Page-footer {
-  /* Spacing everywhere except top. */
-  padding: 0 var(--page-spacing) var(--page-spacing);
-  /* Use margin in the top to collapse with separator if necessary. */
-  margin-top: var(--page-spacing);
 }

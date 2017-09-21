@@ -1,0 +1,46 @@
+.Content {}
+
+/* Remove margin bottom on the last and top on the first child so that content
+    wraps the inner elements exactly right. */
+.Content > :last-child { margin-bottom: 0; }
+.Content > :first-child { margin-top: 0; }
+
+/* Typography */
+.Content h1,
+.Content h2 {
+  font-family: var(--font-family-serif);
+}
+
+.Content h2 {
+  font-weight: normal;
+}
+
+.Content h3 {
+  font-weight: var(--font-weight-semibold);
+}
+
+.Content h2,
+.Content h3,
+.Content h4,
+.Content h5,
+.Content h6 {
+  margin-top: var(--double-space);
+}
+
+.Content p {
+  /* Remove margin top on paragraphs to allow them to come closer to the top
+     element, like h2-6 */
+  margin-top: 0;
+}
+
+.Content blockquote {
+  font-family: var(--font-family-serif);
+  font-style: italic;
+
+  border-left: 3px solid var(--wmui-color-base80);
+
+  /* Inner spacing */
+  padding: var(--half-space) 0 var(--space) var(--space);
+  /* Outer spacing */
+  margin: 0 0 var(--space) 0;
+}
