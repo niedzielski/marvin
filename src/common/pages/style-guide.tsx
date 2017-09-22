@@ -4,6 +4,7 @@ import Card from "../components/card/card";
 import Page from "../components/page/page";
 import Content from "../components/content/content";
 import Separator from "../components/separator/separator";
+import Header from "../components/header/header";
 
 const lorem = `
   Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident quisquam
@@ -16,6 +17,10 @@ export function Component(): JSX.Element {
       <h1 style={{ margin: "var(--double-space)", textAlign: "center" }}>
         Style guide
       </h1>
+
+      <Card header={<h3>Header</h3>}>
+        <Header />
+      </Card>
       <Card header={<h3>Card</h3>}>
         <p>{lorem}</p>
       </Card>
