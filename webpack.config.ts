@@ -226,6 +226,15 @@ configuration.plugins = [
     minChunks: Infinity
   }),
 
+  // When using code splitting, move common chunks of child chunks into the
+  // parent chunks, when used a minimum number of times. 3 times used is
+  // considered right now like a good tradeoff.
+  // https://webpack.js.org/plugins/commons-chunk-plugin/#move-common-modules-into-the-parent-chunk
+  new webpack.optimize.CommonsChunkPlugin({
+    children: true,
+    minChunks: 3
+  }),
+
   // Create a separate chunk for the client's Webpack runtime. When a name with
   // no corresponding entry is specified, Webpack injects all the code needed
   // during execution for module resolution, dynamic importing, and more.
