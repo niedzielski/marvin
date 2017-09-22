@@ -1,5 +1,15 @@
+import * as fs from "fs";
 // Ignore importing style and image files when running on Node.js
-import "ignore-styles";
+import register from "ignore-styles";
+register(undefined, (module: any, filename: string) => {
+  // Fake that requiring SVG files returns a default export with the string of
+  // the svg, which is what svg-inline-loader does with webpack for the client
+  // code.
+  // TODO: Consider using wepback for node code to avoid this and the CSS hacks
+  if (filename.endsWith(".svg")) {
+    module.exports = { default: fs.readFileSync(filename).toString() };
+  }
+});
 
 import * as express from "express";
 import { h } from "preact";

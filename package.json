@@ -19,7 +19,7 @@
     "--- INTERNAL ---": "# Private scripts.",
     "start:server": "nodemon -i dist -i src/client -e js,json,ts,tsx ${VERBOSE:--q} -x 'ts-node -P src/server src/server'",
     "start:client": "webpack-dev-server -dw",
-    "build:server": "tsc -p src/server && copyup 'src/**/*.css' dist/",
+    "build:server": "tsc -p src/server && copyup 'src/**/*.{css,svg}' dist/",
     "build:client": "webpack -p"
   },
   "repository": {
@@ -79,6 +79,7 @@
     "prettier": "^1.7.0",
     "sinon": "^3.0.0",
     "style-loader": "^0.18.2",
+    "svg-inline-loader": "^0.8.0",
     "touch": "^3.1.0",
     "ts-loader": "^2.3.7",
     "ts-node": "^3.3.0",
