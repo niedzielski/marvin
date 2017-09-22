@@ -1,0 +1,35 @@
+.Header {
+  /* Header height set by design spec */
+  height: 60px;
+
+  /* Evenly space out placeholders and vertically align them */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  /* Spacing */
+  padding: 0 var(--space);
+}
+
+/* Vertically align placeholder's contents too */
+.Header-left,
+.Header-right,
+.Header-center {
+  display: flex;
+  align-items: center;
+}
+
+.Header-left > * {
+  /* Contained items on the left part are spaced to the right */
+  margin-right: var(--space);
+}
+.Header-right > * {
+  /* Contained items on the right part are spaced to the left */
+  margin-left: var(--space);
+}
+
+.Header-wordmark {
+  /* Per design specs, wordmark needs extra separation between the menu icon and
+  itself */
+  margin-left: var(--half-space);
+}
