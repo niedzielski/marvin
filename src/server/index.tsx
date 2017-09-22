@@ -12,6 +12,7 @@ register(undefined, (module: any, filename: string) => {
 });
 
 import * as express from "express";
+import * as compression from "compression";
 import { h } from "preact";
 import { render as renderToString } from "preact-render-to-string";
 
@@ -32,6 +33,8 @@ const manifest = PRODUCTION
   : WEBPACK_DEV_SERVER_URL;
 
 const server = express();
+
+server.use(compression());
 
 server.use("/public", express.static("dist/public"));
 
