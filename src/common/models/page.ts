@@ -42,7 +42,7 @@ export interface PageSummary {
   titleHTML: string;
   descriptionText: string;
   extractText: string;
-  extractHTML: string;
+  extractHTML: string[];
   thumbnail?: PageThumbnail;
   image?: PageImage;
   geolocation?: PageGeolocation;

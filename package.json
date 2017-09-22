@@ -44,6 +44,7 @@
     "npm": ">= 5"
   },
   "dependencies": {
+    "domino": "^1.0.29",
     "express": "^4.15.3",
     "isomorphic-unfetch": "^2.0.0",
     "path-to-regexp": "^2.0.0",

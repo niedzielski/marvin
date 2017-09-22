@@ -194,6 +194,8 @@ const configuration: webpack.Configuration = {
 // See also
 // https://medium.com/webpack/predictable-long-term-caching-with-webpack-d3eee1d3fa31.
 configuration.plugins = [
+  new webpack.IgnorePlugin(/domino/),
+
   new webpack.DefinePlugin({
     "process.env": {
       NODE_ENV: JSON.stringify(PRODUCTION ? "production" : "development")

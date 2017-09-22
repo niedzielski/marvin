@@ -7,17 +7,22 @@ export interface Props {
   summary: PageSummaryModel;
 }
 
-export const PageSummary = ({ summary }: Props): JSX.Element => (
-  <div class="PageSummary">
-    <Thumbnail summary={summary} />
-    {summary.extractHTML && (
+export const PageSummary = ({ summary }: Props): JSX.Element => {
+  const [lead, ...body] = summary.extractHTML;
+  return (
+    <div class="PageSummary">
       <Content
-        class="PageSummary-extract"
-        dangerouslySetInnerHTML={{ __html: summary.extractHTML }}
+        class="PageSummary-extract-lead"
+        dangerouslySetInnerHTML={{ __html: lead }}
       />
-    )}
-  </div>
-);
+      <Thumbnail summary={summary} />
+      <div
+        class="PageSummary-extract-body"
+        dangerouslySetInnerHTML={{ __html: body.join("") }}
+      />
+    </div>
+  );
+};
 
 const Thumbnail = ({ summary }: Props) => {
   if (!summary.thumbnail || !summary.image) {

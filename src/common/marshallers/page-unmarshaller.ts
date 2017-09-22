@@ -33,6 +33,44 @@ export const unmarshalPageGeolocation = (json: JSONObject): PageGeolocation => {
   return { latitude: type.lat, longitude: type.lon };
 };
 
+// todo: remove this function and Domino package from package*.json, the
+//       corresponding Webpack IgnorePlugin, and the Domino typing, when
+//       isomorphic HTML parsing is unneeded. Some other options explored:
+// - undom advertises itself as "DOM but not a parser". Parsing, serialization,
+//   and selectors are all unsupported. There is a recipe for rudimentary
+//   serialization but the real issue is the lack of a parser which is essential
+//   to Marvin's use case. The GitHub issues have several discussions of an
+//   extensible plugin system that may help fill in these gaps but to date these
+//   features are unavailable.
+// - This parsing logic could live in the Preact components render cycle but:
+//   - Rendering in a component will still require a DOM on the server.
+//   - The expected place to receive this data is at unmarshalling time.
+// - Only Domino was considered. jsdom and other alternatives were not explored.
+// - A new Marvin service endpoint gives the project a great deal of flexibility
+//   in how it handles server responses. However, it comes at the great expense
+//   of increased complexity and reduced performance:
+//   - Marvin already offers client and server code. Adding a service API is a
+//     refactor that decreases code clarity.
+//   - Requests from the server and the client must be issued to Marvin then
+//     reissued to the real data endpoints.
+//   - Example implementation: https://gerrit.wikimedia.org/r/#/c/379698/4.
+// Domino was chosen for familiarity and because it's already used on the MCS
+// backend. This is a service-only dependency so the client filesize is not
+// affected at the expense of two different code paths.
+const parseExtract = (extract: string) => {
+  const element =
+    typeof document === "undefined"
+      ? require("domino").createDocument().body
+      : document.implementation.createHTMLDocument("").body;
+  element.innerHTML = extract;
+  const paragraphs = Array.prototype.slice.call(element.querySelectorAll("p"));
+  return (
+    paragraphs.map(
+      (paragraph: HTMLParagraphElement) => paragraph.outerHTML
+    ) || [extract]
+  );
+};
+
 export const unmarshalPageSummary = (json: JSONObject): PageSummary => {
   const type: RESTBase.PageSummary.PageSummary = json as any;
   return {
@@ -44,7 +82,7 @@ export const unmarshalPageSummary = (json: JSONObject): PageSummary => {
     titleHTML: type.displaytitle,
     descriptionText: type.description,
     extractText: type.extract,
-    extractHTML: type.extract_html,
+    extractHTML: parseExtract(type.extract_html),
     thumbnail: type.thumbnail && unmarshalPageThumbnail(type.thumbnail as {}),
     image: type.originalimage && unmarshalPageImage(type.originalimage as {}),
     geolocation:
