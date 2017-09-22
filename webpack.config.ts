@@ -77,9 +77,10 @@ const configuration: webpack.Configuration = {
 
     // The base web request path for chunk files to appear in the asset
     // manifest. This is just a prefix, not a filename join, so a trailing slash
-    // is necessary. For production, use a relative path. For development, use
-    // the Webpack development server.
-    publicPath: PRODUCTION ? "public/" : `${WEBPACK_DEV_SERVER_URL}/public/`,
+    // is necessary. For production, use an absolute path for assets to load
+    // fine in nested pathnames. For development, use the Webpack development
+    // server.
+    publicPath: PRODUCTION ? "/public/" : `${WEBPACK_DEV_SERVER_URL}/public/`,
 
     // `configuration.entry` chunk filenames. e.g.:
     //
