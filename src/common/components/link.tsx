@@ -24,7 +24,9 @@ export default function Link(
       href={href}
       onClick={event => {
         const origin = window.location.origin;
-        const link = event.target as HTMLAnchorElement;
+        // Use currentTarget as target may be other DOM elements inside the
+        // anchor element
+        const link = event.currentTarget as HTMLAnchorElement;
         // TODO: Move all the logic to check if an event should be captured to a
         // DOM utilities module and add unit tests
         if (
