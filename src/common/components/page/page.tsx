@@ -1,6 +1,5 @@
 import { h } from "preact";
-import Paper from "../paper/paper";
-import Separator from "../separator/separator";
+import Card from "../card/card";
 import { ComponentChild, ChildrenProps } from "../preact-utils";
 import "./page.css";
 
@@ -17,17 +16,17 @@ export default function Page({
   children
 }: Props): JSX.Element {
   return (
-    <div class="Page">
-      <Paper>
+    <Card
+      class="Page"
+      header={
         <div class="Page-header">
           <div class="Page-title">{title}</div>
           <div class="Page-subtitle">{subtitle}</div>
         </div>
-        {children && <Separator class="Page-content-separator" />}
-        <div class="Page-content">{children}</div>
-        {footer && <Separator class="Page-footer-separator" />}
-        <div class="Page-footer">{footer}</div>
-      </Paper>
-    </div>
+      }
+      footer={footer}
+    >
+      {children}
+    </Card>
   );
 }

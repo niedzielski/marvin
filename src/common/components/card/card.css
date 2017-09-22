@@ -1,0 +1,40 @@
+.Card {
+  /* Variable to apply the same spacing to heading, content and separator */
+  --card-spacing: var(--space);
+}
+
+.Card-header {
+  /* Inner spacing */
+  padding: var(--card-spacing) var(--card-spacing) 0;
+  /* Use margin in the bottom to collapse with content if necessary */
+  margin-bottom: var(--card-spacing);
+}
+
+.Card-content {
+  /* Keep bottom spacing, for when there is no footer */
+  padding: 0 var(--card-spacing) var(--card-spacing);
+  /* Use margin at the top to collapse with content spacing */
+  margin-top: var(--card-spacing);
+}
+
+.Card-content > :last-child {
+  /* Remove extrinsic bottom spacing (margin) from the last element in the
+  content, given that it will accumulate with padding in the Paper sheet and
+  present double spacing at the bottom of the container */
+  margin-bottom: 0;
+}
+
+.Card-footer-separator {
+  /* Given the footer part is optional on the card, Card-content has its own
+  bottom inner spacing. That means that the Separator's margin will add up with
+  it causing double space. As such, remove the top spacing of the footer
+  separator given the Card-content provides non-collapsable space there */
+  margin-top: 0;
+}
+
+.Card-footer {
+  /* Spacing everywhere except top. */
+  padding: 0 var(--card-spacing) var(--card-spacing);
+  /* Use margin in the top to collapse with separator if necessary. */
+  margin-top: var(--card-spacing);
+}
