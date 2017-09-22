@@ -145,6 +145,14 @@ const configuration: webpack.Configuration = {
           fallback: "style-loader",
           use: ["css-loader"]
         })
+      },
+      {
+        test: /\.svg$/,
+        loader: "svg-inline-loader",
+        options: {
+          /* Don't remove SVG attributes, which defaulted to true */
+          removeSVGTagAttrs: false
+        }
       }
     ]
   },
