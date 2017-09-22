@@ -24,6 +24,9 @@
   /* Set the container to occupy the full-width. */
   display: inline-block;
   width: 100%;
+
+  /* Since the image is below the extract, set a top margin. */
+  margin-top: var(--space);
 }
 /* TODO: use CSS variable. */
 @media (min-width: 1024px) {
@@ -33,9 +36,11 @@
     width: unset;
     float: left;
 
-    /* Since the image is side-by-side with, and possibly below the text, add a
+    /* Since the image is both side-by-side and below the extract, set a right
+       margin too. Since the side-by-side text may wrap around, set a bottom
        margin. */
-    margin: var(--space) var(--space) 0 0;
+    margin-right: var(--space);
+    margin-bottom: var(--space);
   }
 }
 .PageSummary-thumbnail-image {
