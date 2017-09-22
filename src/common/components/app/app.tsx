@@ -1,14 +1,12 @@
 import { h } from "preact";
 import "./app.css";
 import { ChildrenProps } from "../preact-utils";
-import Link from "../link";
+import Header from "../header/header";
 
 export default function App({ children }: ChildrenProps): JSX.Element {
   return (
     <div class="App">
-      <h5>
-        <Link href="/">Home</Link>
-      </h5>
+      <Header />
       <div>{children}</div>
     </div>
   );
