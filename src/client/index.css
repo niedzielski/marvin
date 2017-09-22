@@ -36,7 +36,7 @@
   --double-space: calc(var(--space) * 2);
 
   /* TODO: Upstream to wikimedia-ui-base once reviewed by design */
-  --box-shadow-paper: 0 1px 3px 0 rgba( 0, 0, 0, 0.1 );
+  --box-shadow-paper: 0 1px 4px 0 rgba( 0, 0, 0, 0.1 );
 }
 
 /* Remove extra margin, expand base elements to the viewport height */
