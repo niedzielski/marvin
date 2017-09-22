@@ -1,0 +1,11 @@
+.Icon {
+  display: inline-block;
+  vertical-align: middle;
+  --icon-size: 20px;
+  width: var(--icon-size);
+  height: var(--icon-size);
+}
+.Icon > svg {
+  width: var(--icon-size);
+  height: var(--icon-size);
+}
