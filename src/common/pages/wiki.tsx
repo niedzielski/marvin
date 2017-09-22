@@ -1,5 +1,6 @@
 import { h } from "preact";
 import App from "../components/app/app";
+import Content from "../components/content/content";
 import { PageSummary } from "../components/page-summary/page-summary";
 import {
   PageSummary as PageSummaryModel,
@@ -38,9 +39,11 @@ export const Component = ({ summary }: Props): JSX.Element => (
 );
 
 const Title = ({ summary }: Props) => (
-  <span dangerouslySetInnerHTML={{ __html: summary.titleHTML }} />
+  <Content>
+    <h1 dangerouslySetInnerHTML={{ __html: summary.titleHTML }} />
+  </Content>
 );
 
 const Footer = ({ summary }: Props) => (
-  <span>{summary.lastModified.toLocaleString("en-GB")}</span>
+  <span>Last updated {summary.lastModified.toLocaleString("en-GB")}</span>
 );
