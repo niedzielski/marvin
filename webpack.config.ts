@@ -64,7 +64,12 @@ const configuration: webpack.Configuration = {
     // Client package dependencies (these should be a subset of package.json's
     // `dependencies`). This chunk changes when one of the specified
     // dependencies changes.
-    vendor: ["history", "isomorphic-unfetch", "path-to-regexp", PREACT]
+    vendor: [
+      "history/createBrowserHistory",
+      "isomorphic-unfetch",
+      "path-to-regexp",
+      PREACT
+    ]
   },
 
   stats: STATS,
