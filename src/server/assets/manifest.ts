@@ -21,7 +21,7 @@ export const asset = ({
 }: AssetParameters): string =>
   typeof manifest === "string"
     ? `${manifest}/public/${entry}.${extension}`
-    : `/${manifest[entry][extension]}`;
+    : `${manifest[entry][extension]}`;
 
 // Note: scripts must be included in the correct order: runtime, vendor, index.
 // Example errors:
