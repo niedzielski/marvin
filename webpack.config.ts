@@ -35,41 +35,26 @@ const STATS = {
   warnings: true
 };
 
-const PREACT = PRODUCTION ? "preact" : "preact/debug";
-
 const config: webpack.Configuration = {
-  // Bundled outputs and their source inputs. For each entry, the source input
-  // and any dependencies are compiled together into one chunk file output
-  // except where split by the CommonsChunkPlugin.
   entry: {
-    // _The_ client. A single page app. This statically specified output or
-    // "entry point" is needed to dynamically load and render any subsequent
-    // page or content a browser requests and has full-control over the site's
-    // browsing experience when included and executed on a page by the browser.
+    // _The_ browser entry point is needed to load and render pages and perform
+    // routing and has full-control over the site's browsing experience
     //
-    // This output changes whenever a client source or its non-vendor dependency
-    // changes.
+    // This output changes whenever the entry or its dependencies, or common
+    // modules lifted from pages from CommonsChunkPlugin changes.
     //
     // `src/client/index` has no correspondence to which page a browser visits.
     // e.g., `/`, `/wiki/Foobar`, and `/about` all use the client so that
     // subsequent pages can be loaded dynamically inline.
-    index: "./src/client",
+    index: "./src/client"
 
-    // (runtime): reserved for the Webpack runtime chunk. This chunk performs
-    // module resolution, dynamic importing, and more for all other code during
-    // execution. Without a distinct runtime chunk, it's instead bundled into
-    // each entry which breaks caching. This chunk changes whenever any code
-    // anywhere changes.
-
-    // Client package dependencies (these should be a subset of package.json's
-    // `dependencies`). This chunk changes when one of the specified
-    // dependencies changes.
-    vendor: [
-      "history/createBrowserHistory",
-      "isomorphic-unfetch",
-      "path-to-regexp",
-      PREACT
-    ]
+    // (runtime): reserved for the Webpack runtime chunk.
+    //   DO NOT DEFINE AN entry NAMED "runtime"
+    //
+    // This chunk performs module resolution, dynamic importing, and more for
+    // all other code during execution. Without a distinct runtime chunk, it's
+    // instead bundled into each entry which breaks caching. This chunk changes
+    // whenever any code anywhere changes.
   },
 
   stats: STATS,
@@ -200,6 +185,10 @@ const config: webpack.Configuration = {
 config.plugins = [
   new webpack.IgnorePlugin(/domino/),
 
+  // Embed values of process.env.NODE_ENV and other variables in the code.
+  // This allows to embed information in the source itself at build time, and it
+  // is used for example to have uglify remove code at minification time,
+  // getting rid of development only code (for exmaple, like preact/debug)
   new webpack.DefinePlugin({
     "process.env": {
       NODE_ENV: JSON.stringify(PRODUCTION ? "production" : "development")
@@ -230,13 +219,20 @@ config.plugins = [
   // them to a separate chunk improves the cacheability of a significant portion
   // of the client. This chunk changes whenever external dependencies change.
   new webpack.optimize.CommonsChunkPlugin({
-    // This name should match `config.entry.vendor`.
     name: "vendor",
 
     // Do not include common code identified from other entries. Only include
-    // what was explicitly specified in the vendor entry to keep the result
+    // what was explicitly required from node_modules to keep the result
     // strictly limited to external package dependencies.
-    minChunks: Infinity
+    // https://webpack.js.org/plugins/commons-chunk-plugin/#passing-the-minchunks-property-a-function
+    minChunks(module) {
+      // This prevents stylesheet resources with the .css extension from being
+      // moved from their original chunk to the vendor chunk
+      if (module.resource && /^.*\.(css)$/.test(module.resource)) {
+        return false;
+      }
+      return module.context && module.context.indexOf("node_modules") !== -1;
+    }
   }),
 
   // When using code splitting, move common chunks of child chunks into the
@@ -249,12 +245,16 @@ config.plugins = [
   }),
 
   // Create a separate chunk for the client's Webpack runtime. When a name with
-  // no corresponding entry is specified, Webpack injects all the code needed
-  // during execution for module resolution, dynamic importing, and more.
-  // Without this distinct runtime chunk, it's instead bundled into each entry,
-  // including vendor, which breaks caching. This chunk changes whenever any
-  // other file changes. See
+  // no corresponding entry and no chunks configuration is specified, Webpack's
+  // CommonsChunkPlugin injects all the code needed during execution for module
+  // resolution, dynamic importing, and more. Without this distinct runtime
+  // chunk, it's instead bundled into each entry, which breaks caching. This
+  // chunk changes whenever any other file changes. See
   // https://webpack.js.org/plugins/commons-chunk-plugin/#manifest-file.
+  // This runtime plugin instance needs to happen after the previous
+  // CommonsChunkPlugin invocations, order matters between them, see:
+  // * https://webpack.js.org/plugins/commons-chunk-plugin/#combining-implicit-common-vendor-chunks-and-manifest-file
+  // * and https://webpack.js.org/guides/caching/#extracting-boilerplate
   new webpack.optimize.CommonsChunkPlugin({
     // This name should NOT match any `config.entry`.
     name: "runtime"

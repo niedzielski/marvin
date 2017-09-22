@@ -6,6 +6,13 @@ import { RouteResponse, newRouter } from "../common/routers/router";
 import { WithContext } from "../common/components/with-context";
 import { routes } from "../common/routers/api";
 
+// Include preact/debug only in development for React DevTools integration.
+// This check needs to be as defined with DefinePlugin in the webpack config so
+// that Uglify can remove this if statement in production.
+if (process.env.NODE_ENV !== "production") {
+  require("preact/debug");
+}
+
 const history = newHistory();
 const router = newRouter(routes);
 const pageRoot = document.getElementById("root");
