@@ -17,9 +17,10 @@ export interface PageModule<Props = void> {
 
   /**
    * A function that returns a Promise for the dependencies needed to construct
-   * the view component such as a remote resource.
+   * the view component such as a remote resource. This method will likely issue
+   * a network request.
    */
-  initialProps?: (params: RouteParams) => Promise<Props>;
+  getInitialProps?: (params: RouteParams) => Promise<Props>;
 }
 
 export interface RouteConfiguration<Props = void> {

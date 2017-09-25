@@ -6,12 +6,7 @@ export interface RouteResponse<Props> {
   chunkName: string;
   status: number;
   Component: AnyComponent<Props, any>;
-  props: {
-    path: string;
-    url: string;
-    params: { [name: string]: string };
-  };
-  initialProps: any;
+  props: Props;
 }
 
 export interface Router {
@@ -49,12 +44,13 @@ function requestInitialProps<Props>(
   module: PageModule<Props>,
   params: RouteParams
 ): Promise<Props | void> {
-  return module.initialProps ? module.initialProps(params) : Promise.resolve();
+  return module.getInitialProps
+    ? module.getInitialProps(params)
+    : Promise.resolve();
 }
 
 const respond = (
   route: ParsedRoute,
-  url: string,
   params: RouteParams
 ): Promise<RouteResponse<any>> =>
   route.importModule().then((module: PageModule<any>) =>
@@ -62,13 +58,7 @@ const respond = (
       chunkName: route.chunkName,
       status: route.status,
       Component: module.Component,
-      props: {
-        ...props,
-        path: route.path,
-        url,
-        params
-      },
-      initialProps: props
+      props
     }))
   );
 
@@ -80,9 +70,9 @@ export const newRouter = (routes: AnyRoute[]): Router => {
       for (const route of parsedRoutes) {
         const matches = route.regularExpression.exec(url);
         if (matches) {
-          const [url, ...paramValues] = matches;
+          const [, ...paramValues] = matches;
           const params = newRouteParams(route.paramNames, paramValues);
-          return respond(route, url, params);
+          return respond(route, params);
         }
       }
       return Promise.reject(new Error("No route matched."));

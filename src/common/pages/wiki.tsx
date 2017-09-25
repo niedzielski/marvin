@@ -23,7 +23,7 @@ export interface Props {
   summary: PageSummaryModel;
 }
 
-export const initialProps = ({ title }: Params): Promise<Props> =>
+export const getInitialProps = ({ title }: Params): Promise<Props> =>
   requestPageSummary({ titlePath: title }).then(summary => ({ summary }));
 
 export const Component = ({ summary }: Props): JSX.Element => (
