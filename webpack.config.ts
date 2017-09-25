@@ -216,7 +216,14 @@ configuration.plugins = [
   new ExtractTextPlugin({
     // `contenthash` is not actually a chunk hash:
     // https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/504#issuecomment-306581954.
-    filename: PRODUCTION ? "[name].[contenthash].css" : "[name].css"
+    filename: PRODUCTION ? "[name].[contenthash].css" : "[name].css",
+
+    // Extract from all additional chunks too (by default it extracts only from
+    // the initial chunks). When using CommonsChunkPlugin (see plugin below) and
+    // there are extracted chunks (from ExtractTextPlugin.extract module rule
+    // above) in the commons chunk, allChunks must be set to true.
+    // https://github.com/webpack-contrib/extract-text-webpack-plugin/blob/8de6558/README.md#options
+    allChunks: true
   }),
 
   // Create a separate chunk for client package dependencies. External
