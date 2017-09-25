@@ -33,7 +33,7 @@ export default function HTMLPage({
       </head>
       <body>
         <div id="root">{children}</div>
-        {assets.map(path => <script type="text/javascript" src={path} />)}
+        {assets.map(path => <script type="text/javascript" src={path} defer />)}
       </body>
     </html>
   );
