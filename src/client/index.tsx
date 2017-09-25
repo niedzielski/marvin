@@ -14,7 +14,7 @@ if (!pageRoot) {
   throw new Error('Missing element with "root" ID.');
 }
 
-const renderPageRoot = ({ Component, props }: RouteResponse<any, any>) => {
+const renderPageRoot = ({ Component, props }: RouteResponse<any>) => {
   render(
     <WithContext history={history}>
       <Component {...props} />

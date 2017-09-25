@@ -2,10 +2,10 @@ import * as pathToRegExp from "path-to-regexp";
 import { AnyComponent } from "../components/preact-utils";
 import { AnyRoute, PageModule, RouteParams } from "../../common/routers/route";
 
-export interface RouteResponse<Props, State> {
+export interface RouteResponse<Props> {
   chunkName: string;
   status: number;
-  Component: AnyComponent<Props, State>;
+  Component: AnyComponent<Props, any>;
   props: {
     path: string;
     url: string;
@@ -15,7 +15,7 @@ export interface RouteResponse<Props, State> {
 }
 
 export interface Router {
-  route(url: string): Promise<RouteResponse<any, any>>;
+  route(url: string): Promise<RouteResponse<any>>;
 }
 
 interface ParsedRoute extends AnyRoute {
@@ -46,21 +46,18 @@ const newRouteParams = (
   );
 
 function requestInitialProps<Props>(
-  module: PageModule<Props, any>,
+  module: PageModule<Props>,
   params: RouteParams
-): Promise<Props | {}> {
-  if (module.initialProps) {
-    return module.initialProps(params);
-  }
-  return Promise.resolve({});
+): Promise<Props | void> {
+  return module.initialProps ? module.initialProps(params) : Promise.resolve();
 }
 
 const respond = (
   route: ParsedRoute,
   url: string,
   params: RouteParams
-): Promise<RouteResponse<any, any>> =>
-  route.importModule().then((module: PageModule<any, any>) =>
+): Promise<RouteResponse<any>> =>
+  route.importModule().then((module: PageModule<any>) =>
     requestInitialProps(module, params).then((props: any) => ({
       chunkName: route.chunkName,
       status: route.status,

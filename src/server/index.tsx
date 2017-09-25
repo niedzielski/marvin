@@ -38,7 +38,7 @@ server.use(compression());
 
 server.use("/public", express.static("dist/public"));
 
-const render = ({ chunkName, Component, props }: RouteResponse<any, any>) => {
+const render = ({ chunkName, Component, props }: RouteResponse<any>) => {
   return (
     "<!doctype html>" + // eslint-disable-line prefer-template
     renderToString(
