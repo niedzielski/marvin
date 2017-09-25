@@ -13,7 +13,7 @@ export interface Endpoint<Props = void, State = void> {
    * A function that returns a Promise for the dependencies needed to construct
    * the view component such as a remote resource.
    */
-  initialProps?: (parameters: RouteParams) => Promise<Props>;
+  initialProps?: (params: RouteParams) => Promise<Props>;
 }
 
 export interface RouteConfiguration<Props = void, State = void> {
@@ -23,22 +23,22 @@ export interface RouteConfiguration<Props = void, State = void> {
   status?: number;
 }
 
-export interface Route<Props = void, State = void, Parameters = void>
+export interface Route<Props = void, State = void, Params = void>
   extends RouteConfiguration<Props, State> {
   status: number;
 
   /** Generates a URL from parameters. */
-  url: (parameters?: Parameters) => string;
+  url: (params?: Params) => string;
 }
 
 export type AnyRoute = Route<any, any, any>;
 
-export const newRoute = <Props, State, Parameters>({
+export const newRoute = <Props, State, Params>({
   path,
   endpoint,
   chunkName,
   status = 200
-}: RouteConfiguration<Props, State>): Route<Props, State, Parameters> => ({
+}: RouteConfiguration<Props, State>): Route<Props, State, Params> => ({
   path,
   endpoint,
   chunkName,

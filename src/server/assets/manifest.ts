@@ -3,7 +3,7 @@ import { Assets } from "assets-webpack-plugin";
 /** Manifest of filename entry points to bundled asset paths. */
 export type Manifest = Assets | string;
 
-export interface AssetParameters {
+export interface AssetParams {
   manifest: Manifest;
   entry: string;
   extension: string;
@@ -14,11 +14,7 @@ export interface AssetParameters {
  *         index.js); either a URL (development) or a filesystem path
  *         (production).
  */
-export const asset = ({
-  manifest,
-  entry,
-  extension
-}: AssetParameters): string =>
+export const asset = ({ manifest, entry, extension }: AssetParams): string =>
   typeof manifest === "string"
     ? `${manifest}/public/${entry}.${extension}`
     : `${manifest[entry][extension]}`;

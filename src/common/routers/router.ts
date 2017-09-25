@@ -9,7 +9,7 @@ export interface RouteResponse<Props, State> {
   props: {
     path: string;
     url: string;
-    parameters: { [name: string]: string };
+    params: { [name: string]: string };
   };
   initialProps: any;
 }
@@ -19,42 +19,38 @@ export interface Router {
 }
 
 interface ParsedRoute extends AnyRoute {
-  parameterNames: pathToRegExp.Key[];
+  paramNames: pathToRegExp.Key[];
   regularExpression: RegExp;
 }
 
 const parseRoutes = (routes: AnyRoute[]) =>
   routes.map((route: AnyRoute): ParsedRoute => {
-    const parameterNames: pathToRegExp.Key[] = [];
+    const paramNames: pathToRegExp.Key[] = [];
     return {
       ...route,
-      parameterNames,
-      regularExpression: pathToRegExp(route.path, parameterNames)
+      paramNames,
+      regularExpression: pathToRegExp(route.path, paramNames)
     };
   });
 
-const newRouteParameters = (
-  parameterNames: pathToRegExp.Key[],
-  parameterValues: string[]
+const newRouteParams = (
+  paramNames: pathToRegExp.Key[],
+  paramValues: string[]
 ): RouteParams =>
-  parameterNames.reduce(
-    (
-      parameters: RouteParams,
-      parameterName: pathToRegExp.Key,
-      index: number
-    ) => {
-      parameters[parameterName.name] = parameterValues[index];
-      return parameters;
+  paramNames.reduce(
+    (params: RouteParams, paramName: pathToRegExp.Key, index: number) => {
+      params[paramName.name] = paramValues[index];
+      return params;
     },
     {}
   );
 
 function requestInitialProps<Props>(
   endpoint: Endpoint<Props, any>,
-  parameters: RouteParams
+  params: RouteParams
 ): Promise<Props | {}> {
   if (endpoint.initialProps) {
-    return endpoint.initialProps(parameters);
+    return endpoint.initialProps(params);
   }
   return Promise.resolve({});
 }
@@ -62,10 +58,10 @@ function requestInitialProps<Props>(
 const respond = (
   route: ParsedRoute,
   url: string,
-  parameters: RouteParams
+  params: RouteParams
 ): Promise<RouteResponse<any, any>> =>
   route.endpoint().then((endpoint: Endpoint<any, any>) =>
-    requestInitialProps(endpoint, parameters).then((props: any) => ({
+    requestInitialProps(endpoint, params).then((props: any) => ({
       chunkName: route.chunkName,
       status: route.status,
       Component: endpoint.Component,
@@ -73,7 +69,7 @@ const respond = (
         ...props,
         path: route.path,
         url,
-        parameters
+        params
       },
       initialProps: props
     }))
@@ -87,12 +83,9 @@ export const newRouter = (routes: AnyRoute[]): Router => {
       for (const route of parsedRoutes) {
         const matches = route.regularExpression.exec(url);
         if (matches) {
-          const [url, ...parameterValues] = matches;
-          const parameters = newRouteParameters(
-            route.parameterNames,
-            parameterValues
-          );
-          return respond(route, url, parameters);
+          const [url, ...paramValues] = matches;
+          const params = newRouteParams(route.paramNames, paramValues);
+          return respond(route, url, params);
         }
       }
       return Promise.reject(new Error("No route matched."));
