@@ -9,7 +9,7 @@ import { newRouter } from "./router";
 const routes = [
   newRoute({
     path: "/",
-    endpoint: () => Promise.resolve(HomeModule),
+    importModule: () => Promise.resolve(HomeModule),
     chunkName: "components/pages/home"
   })
 ];

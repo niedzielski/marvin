@@ -4,26 +4,28 @@ import { AnyRoute, Route, newRoute } from "./route";
 
 export const home: Route = newRoute({
   path: "/",
-  endpoint: () => import(/* webpackChunkName: "pages/home" */ "../pages/home"),
+  importModule: () =>
+    import(/* webpackChunkName: "pages/home" */ "../pages/home"),
   chunkName: "pages/home"
 });
 
 export const about: Route<void, AboutState> = newRoute({
   path: "/about",
-  endpoint: () =>
+  importModule: () =>
     import(/* webpackChunkName: "pages/about" */ "../pages/about"),
   chunkName: "pages/about"
 });
 
 export const wiki: Route<WikiProps, void, WikiParams> = newRoute({
   path: "/wiki/:title",
-  endpoint: () => import(/* webpackChunkName: "pages/wiki" */ "../pages/wiki"),
+  importModule: () =>
+    import(/* webpackChunkName: "pages/wiki" */ "../pages/wiki"),
   chunkName: "pages/wiki"
 });
 
 export const styleGuide: Route = newRoute({
   path: "/dev/style-guide",
-  endpoint: () =>
+  importModule: () =>
     import(/* webpackChunkName: "pages/style-guide" */ "../pages/style-guide"),
   chunkName: "pages/style-guide"
 });
@@ -32,7 +34,7 @@ export const notFound: Route = newRoute({
   // `(.*)` is the new `*`. See
   // https://github.com/pillarjs/path-to-regexp/issues/37.
   path: "(.*)",
-  endpoint: () =>
+  importModule: () =>
     import(/* webpackChunkName: "pages/not-found" */ "../pages/not-found"),
   chunkName: "pages/not-found",
   status: 404

@@ -5,7 +5,13 @@ export interface RouteParams {
   [name: string]: string;
 }
 
-export interface Endpoint<Props = void, State = void> {
+/**
+ * A file that exposes a Preact UI component and optionally a function to
+ * request properties needed to construct the component. Modules within the
+ * pages/ subdirectory should implicitly implement this interface or typing will
+ * fail in routers/api.
+ */
+export interface PageModule<Props = void, State = void> {
   /** A Preact view component. */
   Component: AnyComponent<Props, State>;
 
@@ -18,7 +24,7 @@ export interface Endpoint<Props = void, State = void> {
 
 export interface RouteConfiguration<Props = void, State = void> {
   path: string;
-  endpoint: () => Promise<Endpoint<Props, State>>;
+  importModule: () => Promise<PageModule<Props, State>>;
   chunkName: string;
   status?: number;
 }
@@ -35,12 +41,12 @@ export type AnyRoute = Route<any, any, any>;
 
 export const newRoute = <Props, State, Params>({
   path,
-  endpoint,
+  importModule,
   chunkName,
   status = 200
 }: RouteConfiguration<Props, State>): Route<Props, State, Params> => ({
   path,
-  endpoint,
+  importModule,
   chunkName,
   status,
   url: pathToRegExp.compile(path)

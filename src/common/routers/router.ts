@@ -1,6 +1,6 @@
 import * as pathToRegExp from "path-to-regexp";
 import { AnyComponent } from "../components/preact-utils";
-import { AnyRoute, Endpoint, RouteParams } from "../../common/routers/route";
+import { AnyRoute, PageModule, RouteParams } from "../../common/routers/route";
 
 export interface RouteResponse<Props, State> {
   chunkName: string;
@@ -46,11 +46,11 @@ const newRouteParams = (
   );
 
 function requestInitialProps<Props>(
-  endpoint: Endpoint<Props, any>,
+  module: PageModule<Props, any>,
   params: RouteParams
 ): Promise<Props | {}> {
-  if (endpoint.initialProps) {
-    return endpoint.initialProps(params);
+  if (module.initialProps) {
+    return module.initialProps(params);
   }
   return Promise.resolve({});
 }
@@ -60,11 +60,11 @@ const respond = (
   url: string,
   params: RouteParams
 ): Promise<RouteResponse<any, any>> =>
-  route.endpoint().then((endpoint: Endpoint<any, any>) =>
-    requestInitialProps(endpoint, params).then((props: any) => ({
+  route.importModule().then((module: PageModule<any, any>) =>
+    requestInitialProps(module, params).then((props: any) => ({
       chunkName: route.chunkName,
       status: route.status,
-      Component: endpoint.Component,
+      Component: module.Component,
       props: {
         ...props,
         path: route.path,
