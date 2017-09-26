@@ -53,18 +53,19 @@ function getInitialProps<Params extends RouteParams, Props>(
     : Promise.resolve();
 }
 
-const respond = (
+function respond<Props>(
   route: ParsedRoute,
   params: RouteParams
-): Promise<RouteResponse<any>> =>
-  route.importModule().then((module: PageModule<any>) =>
-    getInitialProps(module, params).then((props: any) => ({
+): Promise<RouteResponse<Props>> {
+  return route.importModule().then((module: PageModule<RouteParams, Props>) =>
+    getInitialProps(module, params).then((props: Props) => ({
       chunkName: route.chunkName,
       status: route.status,
       Component: module.Component,
       props
     }))
   );
+}
 
 export const newRouter = (routes: AnyRoute[]): Router => {
   const parsedRoutes: ParsedRoute[] = parseRoutes(routes);
