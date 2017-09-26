@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { home, about, wiki, styleGuide, notFound } from "./api";
+import { home, about, summary, styleGuide, notFound } from "./api";
 import { Route, RouteParams } from "./route";
 
 const testPathParams = <Params extends RouteParams | void, Props>({
@@ -33,9 +33,9 @@ describe("api", () => {
   // eslint-disable-next-line max-len
   describe("each route's path, URL parameters, and route parameters match:", () => {
     [
-      { name: "wiki", route: wiki, params: { title: "title" } },
       { name: "home", route: home, params: undefined },
       { name: "about", route: about, params: undefined },
+      { name: "summary", route: summary, params: { title: "title" } },
       { name: "styleGuide", route: styleGuide, params: undefined },
       { name: "notFound", route: notFound, params: { 0: "/404" } }
     ].forEach(testPathParams);
