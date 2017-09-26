@@ -4,6 +4,7 @@ import {
   PageSummary,
   PageThumbnail
 } from "../models/page";
+import { IsomorphicHeaders } from "../types/isomorphic-unfetch-extras";
 import { JSONObject } from "../types/json";
 import { RESTBase } from "./restbase";
 
@@ -71,7 +72,21 @@ const parseExtract = (extract: string) => {
   );
 };
 
-export const unmarshalPageSummary = (json: JSONObject): PageSummary => {
+export const unmarshalETag = (headers: IsomorphicHeaders): RESTBase.ETag => {
+  const eTag = headers.get("ETag");
+  if (!eTag) {
+    throw new Error("ETag is undefined.");
+  }
+  return eTag;
+};
+
+export const unmarshalPageSummary = ({
+  headers,
+  json
+}: {
+  headers: IsomorphicHeaders;
+  json: JSONObject;
+}): PageSummary => {
   const type: RESTBase.PageSummary.PageSummary = json as any;
   return {
     wikiLanguageCode: type.lang,
@@ -86,6 +101,7 @@ export const unmarshalPageSummary = (json: JSONObject): PageSummary => {
     thumbnail: type.thumbnail && unmarshalPageThumbnail(type.thumbnail as {}),
     image: type.originalimage && unmarshalPageImage(type.originalimage as {}),
     geolocation:
-      type.coordinates && unmarshalPageGeolocation(type.coordinates as {})
+      type.coordinates && unmarshalPageGeolocation(type.coordinates as {}),
+    etag: unmarshalETag(headers)
   };
 };

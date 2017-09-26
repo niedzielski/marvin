@@ -1,3 +1,5 @@
+import { RESTBase } from "../marshallers/restbase";
+
 /**
  * URL-decoded normalized wiki URL path. e.g.: Main_Page,
  * Bill_&_Ted's_Excellent_Adventure.
@@ -46,6 +48,7 @@ export interface PageSummary {
   thumbnail?: PageThumbnail;
   image?: PageImage;
   geolocation?: PageGeolocation;
+  etag: RESTBase.ETag;
 }
 
 export const pageSummaryReviver = (key: string, value: any): any =>
