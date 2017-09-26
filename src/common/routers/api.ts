@@ -15,7 +15,7 @@ export const about: Route = newRoute({
   chunkName: "pages/about"
 });
 
-export const wiki: Route<WikiProps, WikiParams> = newRoute({
+export const wiki: Route<WikiParams, WikiProps> = newRoute({
   path: "/wiki/:title",
   importModule: () =>
     import(/* webpackChunkName: "pages/wiki" */ "../pages/wiki"),

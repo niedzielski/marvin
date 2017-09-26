@@ -11,7 +11,7 @@ export interface RouteParams {
  * pages/ subdirectory should implicitly implement this interface or typing will
  * fail in routers/api.
  */
-export interface PageModule<Props = void> {
+export interface PageModule<Params extends RouteParams = {}, Props = void> {
   /** A Preact view component. */
   Component: AnyComponent<Props, any>;
 
@@ -20,18 +20,21 @@ export interface PageModule<Props = void> {
    * the view component such as a remote resource. This method will likely issue
    * a network request.
    */
-  getInitialProps?: (params: RouteParams) => Promise<Props>;
+  getInitialProps?: (params: Params) => Promise<Props>;
 }
 
-export interface RouteConfiguration<Props = void> {
+export interface RouteConfiguration<
+  Params extends RouteParams = {},
+  Props = void
+> {
   path: string;
-  importModule: () => Promise<PageModule<Props>>;
+  importModule: () => Promise<PageModule<Params, Props>>;
   chunkName: string;
   status?: number;
 }
 
-export interface Route<Props = void, Params extends RouteParams = {}>
-  extends RouteConfiguration<Props> {
+export interface Route<Params extends RouteParams = {}, Props = void>
+  extends RouteConfiguration<Params, Props> {
   status: number;
 
   /** Generates a URL from parameters. */
@@ -45,7 +48,7 @@ export const newRoute = <Props, Params extends RouteParams>({
   importModule,
   chunkName,
   status = 200
-}: RouteConfiguration<Props>): Route<Props, Params> => ({
+}: RouteConfiguration<Params, Props>): Route<Params, Props> => ({
   path,
   importModule,
   chunkName,

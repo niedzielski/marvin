@@ -28,6 +28,10 @@ const parseRoutes = (routes: AnyRoute[]) =>
     };
   });
 
+// This method is tightly coupled with Route.path and the parameters supplied to
+// PageModule.getInitialProps. Route.path must use names that match the typing
+// for the parameters of PageModule.getInitialProps(). This method only
+// associates the names of Route.path with the values found in the matched URL.
 const newRouteParams = (
   paramNames: pathToRegExp.Key[],
   paramValues: string[]
@@ -40,9 +44,9 @@ const newRouteParams = (
     {}
   );
 
-function requestInitialProps<Props>(
-  module: PageModule<Props>,
-  params: RouteParams
+function getInitialProps<Params extends RouteParams, Props>(
+  module: PageModule<Params, Props>,
+  params: Params
 ): Promise<Props | void> {
   return module.getInitialProps
     ? module.getInitialProps(params)
@@ -54,7 +58,7 @@ const respond = (
   params: RouteParams
 ): Promise<RouteResponse<any>> =>
   route.importModule().then((module: PageModule<any>) =>
-    requestInitialProps(module, params).then((props: any) => ({
+    getInitialProps(module, params).then((props: any) => ({
       chunkName: route.chunkName,
       status: route.status,
       Component: module.Component,
