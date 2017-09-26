@@ -1,6 +1,11 @@
 import * as pathToRegExp from "path-to-regexp";
 import { AnyComponent } from "../components/preact-utils";
-import { AnyRoute, PageModule, RouteParams } from "../../common/routers/route";
+import {
+  AnyRoute,
+  PageModule,
+  Route,
+  RouteParams
+} from "../../common/routers/route";
 
 export interface RouteResponse<Props> {
   chunkName: string;
@@ -12,20 +17,6 @@ export interface RouteResponse<Props> {
 export interface Router {
   route(url: string): Promise<RouteResponse<any>>;
 }
-
-interface ParsedRoute extends AnyRoute {
-  paramNames: pathToRegExp.Key[];
-  regularExpression: RegExp;
-}
-
-const parseRoute = (route: AnyRoute): ParsedRoute => {
-  const paramNames: pathToRegExp.Key[] = [];
-  return {
-    ...route,
-    paramNames,
-    regularExpression: pathToRegExp(route.path, paramNames)
-  };
-};
 
 // This method is tightly coupled with Route.path and the parameters supplied to
 // PageModule.getInitialProps. Route.path must use names that match the typing
@@ -43,7 +34,7 @@ const newRouteParams = (
     {}
   );
 
-function getInitialProps<Params extends RouteParams, Props>(
+function getInitialProps<Params extends RouteParams | void, Props>(
   module: PageModule<Params, Props>,
   params: Params
 ): Promise<Props | void> {
@@ -52,27 +43,25 @@ function getInitialProps<Params extends RouteParams, Props>(
     : Promise.resolve();
 }
 
-function respond<Props>(
-  route: ParsedRoute,
-  params: RouteParams
+function respond<Params extends RouteParams | void, Props>(
+  route: Route<Params, Props>,
+  params: Params
 ): Promise<RouteResponse<Props>> {
-  return route.importModule().then((module: PageModule<RouteParams, Props>) =>
+  return route.importModule().then((module: PageModule<Params, Props>) =>
     getInitialProps(module, params).then((props: Props) => ({
       chunkName: route.chunkName,
       status: route.status,
-      Component: module.Component,
+      Component: module.Component as AnyComponent<Props, any>,
       props
     }))
   );
 }
 
 export const newRouter = (routes: AnyRoute[]): Router => {
-  const parsedRoutes: ParsedRoute[] = routes.map(route => parseRoute(route));
-
   return {
     route(url) {
-      for (const route of parsedRoutes) {
-        const matches = route.regularExpression.exec(url);
+      for (const route of routes) {
+        const matches = route.pathRe.exec(url);
         if (matches) {
           const [, ...paramValues] = matches;
           const params = newRouteParams(route.paramNames, paramValues);

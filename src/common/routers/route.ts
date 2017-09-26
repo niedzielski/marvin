@@ -1,6 +1,11 @@
 import * as pathToRegExp from "path-to-regexp";
 import { AnyComponent } from "../components/preact-utils";
 
+/**
+ * A map of path-to-regexp router path names to matches. The keys must match
+ * those specified in RouteConfig.path. Passed to PageModule.requestProps() and
+ * Route.url().
+ */
 export interface RouteParams {
   [name: string]: string;
 }
@@ -11,44 +16,81 @@ export interface RouteParams {
  * pages/ subdirectory should implicitly implement this interface or typing will
  * fail in routers/api.
  */
-export interface PageModule<Params extends RouteParams = {}, Props = void> {
-  /** A Preact view component. */
-  Component: AnyComponent<Props, any>;
+export type PageModule<
+  Params extends RouteParams | void = void,
+  Props = void
+> =
+  | {
+      /**
+       * A function that returns a Promise for the dependencies needed to
+       * construct the view component such as a remote resource. This method
+       * will likely issue a network request.
+       */
+      getInitialProps(params: Params): Promise<Props>;
 
+      /** A Preact view component. */
+      Component: AnyComponent<Props, any>;
+    }
+  | { getInitialProps?: void; Component: AnyComponent<void, any> };
+
+/** A plain configuration used to generate a Route. */
+export interface RouteConfig<
+  Params extends RouteParams | void = void,
+  Props = void
+> {
   /**
-   * A function that returns a Promise for the dependencies needed to construct
-   * the view component such as a remote resource. This method will likely issue
-   * a network request.
+   * A path-to-regexp URL path. This is tightly coupled to RouteParams which
+   * must define a subset of properties.
    */
-  getInitialProps?: (params: Params) => Promise<Props>;
-}
-
-export interface RouteConfig<Params extends RouteParams = {}, Props = void> {
   path: string;
-  importModule: () => Promise<PageModule<Params, Props>>;
+
+  /** Requests a PageModule. */
+  importModule(): Promise<PageModule<Params, Props>>;
+
+  /** The chunk filename of the module. */
   chunkName: string;
+
+  /** The request status if import and request for properties succeed. */
   status?: number;
 }
 
-export interface Route<Params extends RouteParams = {}, Props = void>
+export interface Route<Params extends RouteParams | void = void, Props = void>
   extends RouteConfig<Params, Props> {
   status: number;
 
-  /** Generates a URL from parameters. */
-  url: (params?: Params) => string;
+  /** A regular expression for matching a URL path and capturing RouteParams. */
+  pathRe: RegExp;
+
+  /** Parameter names. These are used to generate a Params object. */
+  paramNames: pathToRegExp.Key[];
+
+  /** Generates a URL from RouteParams. */
+  url(params: Params): string;
+}
+
+export interface NoPropsRoute extends Route<void, void> {
+  url(params?: void): string;
 }
 
 export type AnyRoute = Route<any, any>;
 
-export const newRoute = <Props, Params extends RouteParams>({
+export function newRoute<
+  Params extends RouteParams | void = void,
+  Props = void
+>({
   path,
   importModule,
   chunkName,
   status = 200
-}: RouteConfig<Params, Props>): Route<Params, Props> => ({
-  path,
-  importModule,
-  chunkName,
-  status,
-  url: pathToRegExp.compile(path)
-});
+}: RouteConfig<Params, Props>): Route<Params, Props> {
+  const paramNames: pathToRegExp.Key[] = [];
+  return {
+    path,
+    importModule,
+    chunkName,
+    status,
+    pathRe: pathToRegExp(path, paramNames),
+    paramNames,
+    url: pathToRegExp.compile(path)
+  } as Route<Params, Props>;
+}

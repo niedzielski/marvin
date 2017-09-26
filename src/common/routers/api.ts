@@ -1,14 +1,15 @@
+import { Params as NotFoundParams } from "../pages/not-found";
 import { Props as WikiProps, Params as WikiParams } from "../pages/wiki";
-import { AnyRoute, Route, newRoute } from "./route";
+import { AnyRoute, NoPropsRoute, Route, newRoute } from "./route";
 
-export const home: Route = newRoute({
+export const home: NoPropsRoute = newRoute({
   path: "/",
   importModule: () =>
     import(/* webpackChunkName: "pages/home" */ "../pages/home"),
   chunkName: "pages/home"
 });
 
-export const about: Route = newRoute({
+export const about: NoPropsRoute = newRoute({
   path: "/about",
   importModule: () =>
     import(/* webpackChunkName: "pages/about" */ "../pages/about"),
@@ -22,14 +23,14 @@ export const wiki: Route<WikiParams, WikiProps> = newRoute({
   chunkName: "pages/wiki"
 });
 
-export const styleGuide: Route = newRoute({
+export const styleGuide: NoPropsRoute = newRoute({
   path: "/dev/style-guide",
   importModule: () =>
     import(/* webpackChunkName: "pages/style-guide" */ "../pages/style-guide"),
   chunkName: "pages/style-guide"
 });
 
-export const notFound: Route = newRoute({
+export const notFound: Route<NotFoundParams> = newRoute({
   // `(.*)` is the new `*`. See
   // https://github.com/pillarjs/path-to-regexp/issues/37.
   path: "(.*)",
