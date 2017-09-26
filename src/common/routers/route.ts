@@ -23,10 +23,7 @@ export interface PageModule<Params extends RouteParams = {}, Props = void> {
   getInitialProps?: (params: Params) => Promise<Props>;
 }
 
-export interface RouteConfiguration<
-  Params extends RouteParams = {},
-  Props = void
-> {
+export interface RouteConfig<Params extends RouteParams = {}, Props = void> {
   path: string;
   importModule: () => Promise<PageModule<Params, Props>>;
   chunkName: string;
@@ -34,7 +31,7 @@ export interface RouteConfiguration<
 }
 
 export interface Route<Params extends RouteParams = {}, Props = void>
-  extends RouteConfiguration<Params, Props> {
+  extends RouteConfig<Params, Props> {
   status: number;
 
   /** Generates a URL from parameters. */
@@ -48,7 +45,7 @@ export const newRoute = <Props, Params extends RouteParams>({
   importModule,
   chunkName,
   status = 200
-}: RouteConfiguration<Params, Props>): Route<Params, Props> => ({
+}: RouteConfig<Params, Props>): Route<Params, Props> => ({
   path,
   importModule,
   chunkName,

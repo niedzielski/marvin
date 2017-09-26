@@ -23,7 +23,7 @@ import {
   SERVER_PORT,
   SERVER_URL,
   WEBPACK_DEV_SERVER_URL
-} from "./configuration";
+} from "./config";
 import HTMLPage from "./components/html-page";
 
 // The asset manifest built or the webpack-dev-server URL (which has no

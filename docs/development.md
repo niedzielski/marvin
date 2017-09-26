@@ -129,6 +129,7 @@ Additionally, prefer a default export when only one export is needed.
 
 Marvin uses the following abbreviations:
 
+- Configuration => config
 - Parameters => params
 - Properties => props
 - Utilities => utils
@@ -151,7 +152,7 @@ Marvin uses the following abbreviations:
 
 ## Environment variables
 
-See [configuration](../src/server/configuration.ts).
+See [configuration](../src/server/config.ts).
 
 ## Continuous integration
 

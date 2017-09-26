@@ -20,9 +20,9 @@ export class Component extends PreactComponent<void, State> {
   componentDidMount() {
     // todo: figure out a common way across entry points for defining
     // configuration variables that common code could consume. The server has
-    // server specific vars in configuration.ts and this here for example are
-    // used only on DOM capable envs (componentDidMount will only fire on DOM
-    // capable environments). It would be ideal if we had a common place with
+    // server specific vars in config.ts and this here for example are used only
+    // on DOM capable envs (componentDidMount will only fire on DOM capable
+    // environments). It would be ideal if we had a common place with
     // configuration for common code. We need to also take into account UglifyJS
     // and the dead code elimination when using DefinePlugin, so that we can
     // leverage it to remove dev-only code in production builds
