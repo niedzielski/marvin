@@ -18,15 +18,14 @@ interface ParsedRoute extends AnyRoute {
   regularExpression: RegExp;
 }
 
-const parseRoutes = (routes: AnyRoute[]) =>
-  routes.map((route: AnyRoute): ParsedRoute => {
-    const paramNames: pathToRegExp.Key[] = [];
-    return {
-      ...route,
-      paramNames,
-      regularExpression: pathToRegExp(route.path, paramNames)
-    };
-  });
+const parseRoute = (route: AnyRoute): ParsedRoute => {
+  const paramNames: pathToRegExp.Key[] = [];
+  return {
+    ...route,
+    paramNames,
+    regularExpression: pathToRegExp(route.path, paramNames)
+  };
+};
 
 // This method is tightly coupled with Route.path and the parameters supplied to
 // PageModule.getInitialProps. Route.path must use names that match the typing
@@ -68,7 +67,7 @@ function respond<Props>(
 }
 
 export const newRouter = (routes: AnyRoute[]): Router => {
-  const parsedRoutes: ParsedRoute[] = parseRoutes(routes);
+  const parsedRoutes: ParsedRoute[] = routes.map(route => parseRoute(route));
 
   return {
     route(url) {
