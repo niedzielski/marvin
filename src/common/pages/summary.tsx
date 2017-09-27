@@ -9,7 +9,7 @@ import {
 } from "../models/page";
 import Page from "../components/page/page";
 import { RouteParams } from "../routers/route";
-import { requestPageSummary } from "../data-clients/page-data-client";
+import { request } from "../data-clients/page-summary-data-client";
 
 export interface Params extends RouteParams {
   /**
@@ -24,7 +24,7 @@ export interface Props {
 }
 
 export const getInitialProps = ({ title }: Params): Promise<Props> =>
-  requestPageSummary({ titlePath: title }).then(summary => ({ summary }));
+  request({ titlePath: title }).then(summary => ({ summary }));
 
 export const Component = ({ summary }: Props): JSX.Element => (
   <App>

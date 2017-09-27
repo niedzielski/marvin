@@ -23,6 +23,9 @@ export namespace RESTBase {
 
   // https://en.wikipedia.org/api/rest_v1/#!/Page_content/get_page_summary_title
   export namespace PageSummary {
+    export const ACCEPT_HEADER: string =
+      'application/json; charset=utf-8; profile="https://www.mediawiki.org/wiki/Specs/Summary/1.2.0"';
+
     // https://phabricator.wikimedia.org/diffusion/GRES/browse/master/v1/summary.yaml;efa0412225221d49e901fdce0ba2ae88cd6ccc11$138
     export interface Thumbnail {
       source: string;

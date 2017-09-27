@@ -1,5 +1,6 @@
 import * as fetch from "isomorphic-unfetch";
 import { PageSummary, PageTitlePath } from "../models/page";
+import { RESTBase } from "../marshallers/restbase";
 import { unmarshalPageSummary } from "../marshallers/page-unmarshaller";
 
 // https://en.wikipedia.org/api/rest_v1/#!/Page_content/get_page_summary_title
@@ -27,11 +28,10 @@ const url = ({ titlePath, redirect }: Params) => {
 };
 
 const HEADERS = {
-  accept:
-    'application/json; charset=utf-8; profile="https://www.mediawiki.org/wiki/Specs/Summary/1.2.0"'
+  accept: RESTBase.PageSummary.ACCEPT_HEADER
 };
 
-export const requestPageSummary = (params: Params): Promise<PageSummary> =>
+export const request = (params: Params): Promise<PageSummary> =>
   fetch(url(params), { headers: HEADERS })
     .then(response => Promise.all([response.headers, response.json()]))
     .then(([headers, json]) => unmarshalPageSummary({ headers, json }));
