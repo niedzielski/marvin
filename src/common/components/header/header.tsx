@@ -2,6 +2,7 @@ import { h } from "preact";
 import Icon, { menu, search } from "../icon/icon";
 import Wordmark from "../wordmark/wordmark";
 import Link from "../link";
+import { home } from "../../routers/api";
 
 import "./header.css";
 
@@ -10,7 +11,7 @@ export default function Header(): JSX.Element {
     <div className="Header">
       <div className="Header-left">
         <Icon svg={menu} />
-        <Link href="/" class="Header-wordmark">
+        <Link href={home.url()} class="Header-wordmark">
           <Wordmark />
         </Link>
       </div>
