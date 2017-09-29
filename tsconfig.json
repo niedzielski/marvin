@@ -1,10 +1,4 @@
 {
-  "exclude": [
-    "src/**/*.test.ts",
-    "src/**/*.test.js",
-    "test/**/*.test.ts",
-    "test/**/*.test.js"
-  ],
   "include": [
     "src/common"
   ],
