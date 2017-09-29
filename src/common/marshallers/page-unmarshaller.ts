@@ -58,18 +58,17 @@ export const unmarshalPageGeolocation = (json: JSONObject): PageGeolocation => {
 // Domino was chosen for familiarity and because it's already used on the MCS
 // backend. This is a service-only dependency so the client filesize is not
 // affected at the expense of two different code paths.
-const parseExtract = (extract: string) => {
+const parseExtractHTML = (extractHTML: string) => {
   const element =
     typeof document === "undefined"
       ? require("domino").createDocument().body
       : document.implementation.createHTMLDocument("").body;
-  element.innerHTML = extract;
-  const paragraphs = Array.prototype.slice.call(element.querySelectorAll("p"));
-  return (
-    paragraphs.map(
-      (paragraph: HTMLParagraphElement) => paragraph.outerHTML
-    ) || [extract]
-  );
+  element.innerHTML = extractHTML;
+
+  const paragraphs = Array.from(element.querySelectorAll("p"));
+  return paragraphs.length
+    ? paragraphs.map((paragraph: HTMLParagraphElement) => paragraph.outerHTML)
+    : [extractHTML];
 };
 
 export const unmarshalETag = (headers: IsomorphicHeaders): RESTBase.ETag => {
@@ -88,7 +87,7 @@ export const unmarshalPageSummary = ({
   json: JSONObject;
 }): PageSummary => {
   const type: RESTBase.PageSummary.PageSummary = json as any;
-  return {
+  const result: PageSummary = {
     wikiLanguageCode: type.lang,
     localeDirection: type.dir,
     pageID: type.pageid,
@@ -97,11 +96,17 @@ export const unmarshalPageSummary = ({
     titleHTML: type.displaytitle,
     descriptionText: type.description,
     extractText: type.extract,
-    extractHTML: parseExtract(type.extract_html),
-    thumbnail: type.thumbnail && unmarshalPageThumbnail(type.thumbnail as {}),
-    image: type.originalimage && unmarshalPageImage(type.originalimage as {}),
-    geolocation:
-      type.coordinates && unmarshalPageGeolocation(type.coordinates as {}),
+    extractHTML: parseExtractHTML(type.extract_html),
     etag: unmarshalETag(headers)
   };
+  if (type.coordinates) {
+    result.geolocation = unmarshalPageGeolocation(type.coordinates as {});
+  }
+  if (type.thumbnail) {
+    result.thumbnail = unmarshalPageThumbnail(type.thumbnail as {});
+  }
+  if (type.originalimage) {
+    result.image = unmarshalPageImage(type.originalimage as {});
+  }
+  return result;
 };

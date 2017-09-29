@@ -8,6 +8,6 @@
     // https://github.com/Microsoft/TypeScript/issues/16675
     // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/15020
     "module": "esnext",
-    "lib": [ "es5", "es2015.promise", "dom" ]
+    "lib": [ "es5", "es2015.iterable", "es2015.promise", "dom" ]
   }
 }
