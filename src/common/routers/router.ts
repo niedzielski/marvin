@@ -34,7 +34,7 @@ const newRouteParams = (
     {}
   );
 
-function getInitialProps<Params extends RouteParams | void, Props>(
+function getInitialProps<Params extends RouteParams | undefined, Props>(
   module: PageModule<Params, Props>,
   params: Params
 ): Promise<Props | void> {
@@ -43,7 +43,7 @@ function getInitialProps<Params extends RouteParams | void, Props>(
     : Promise.resolve();
 }
 
-function respond<Params extends RouteParams | void, Props>(
+function respond<Params extends RouteParams | undefined, Props>(
   route: Route<Params, Props>,
   params: Params
 ): Promise<RouteResponse<Props>> {

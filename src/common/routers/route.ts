@@ -17,8 +17,8 @@ export interface RouteParams {
  * fail in routers/api.
  */
 export type PageModule<
-  Params extends RouteParams | void = void,
-  Props = void
+  Params extends RouteParams | undefined = undefined,
+  Props = undefined
 > =
   | {
       /**
@@ -31,12 +31,12 @@ export type PageModule<
       /** A Preact view component. */
       Component: AnyComponent<Props, any>;
     }
-  | { getInitialProps?: void; Component: AnyComponent<void, any> };
+  | { getInitialProps?: undefined; Component: AnyComponent<undefined, any> };
 
 /** A plain configuration used to generate a Route. */
 export interface RouteConfig<
-  Params extends RouteParams | void = void,
-  Props = void
+  Params extends RouteParams | undefined = undefined,
+  Props = undefined
 > {
   /**
    * A path-to-regexp URL path. This is tightly coupled to RouteParams which
@@ -54,8 +54,10 @@ export interface RouteConfig<
   status?: number;
 }
 
-export interface Route<Params extends RouteParams | void = void, Props = void>
-  extends RouteConfig<Params, Props> {
+export interface Route<
+  Params extends RouteParams | undefined = undefined,
+  Props = undefined
+> extends RouteConfig<Params, Props> {
   status: number;
 
   /** A regular expression for matching a URL path and capturing RouteParams. */
@@ -68,15 +70,15 @@ export interface Route<Params extends RouteParams | void = void, Props = void>
   url(params: Params): string;
 }
 
-export interface NoPropsRoute extends Route<void, void> {
-  url(params?: void): string;
+export interface NoPropsRoute extends Route<undefined, undefined> {
+  url(params?: undefined): string;
 }
 
 export type AnyRoute = Route<any, any>;
 
 export function newRoute<
-  Params extends RouteParams | void = void,
-  Props = void
+  Params extends RouteParams | undefined = undefined,
+  Props = undefined
 >({
   path,
   importModule,

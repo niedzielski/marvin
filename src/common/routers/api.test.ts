@@ -2,7 +2,7 @@ import * as assert from "assert";
 import { home, about, summary, styleGuide, notFound } from "./api";
 import { Route, RouteParams } from "./route";
 
-const testPathParams = <Params extends RouteParams | void, Props>({
+const testPathParams = <Params extends RouteParams | undefined, Props>({
   name,
   route,
   params

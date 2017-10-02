@@ -11,7 +11,7 @@ export interface State {
   subtitle: string;
 }
 
-export class Component extends PreactComponent<void, State> {
+export class Component extends PreactComponent<undefined, State> {
   constructor() {
     super();
     this.state = { subtitle: "" };
