@@ -60,21 +60,47 @@ export interface Route<
 > extends RouteConfig<Params, Props> {
   status: number;
 
-  /** A regular expression for matching a URL path and capturing RouteParams. */
-  pathRe: RegExp;
+  /**
+   * Generate a Params object from a given URL path or void if the path does not
+   * match. An empty object is returned for matching NoPropsRoutes.
+   */
+  toParams(path: string): Params | void; // eslint-disable-line no-use-before-define
 
-  /** Parameter names. These are used to generate a Params object. */
-  paramNames: pathToRegExp.Key[];
-
-  /** Generates a URL from RouteParams. */
-  url(params: Params): string;
+  /** Generates a URL path from Params. */
+  toPath(params: Params): string;
 }
 
 export interface NoPropsRoute extends Route<undefined, undefined> {
-  url(params?: undefined): string;
+  toPath(params?: undefined): string;
 }
 
 export type AnyRoute = Route<any, any>;
+
+// This function is tightly coupled with Route.path and the parameters supplied
+// to PageModule.getInitialProps. Route.path must use names that match the
+// typing for the parameters of PageModule.getInitialProps(). This method only
+// associates the names of Route.path with the values found in the matched URL
+// path.
+const toParams = ({
+  pathRegExp,
+  paramNames,
+  path
+}: {
+  pathRegExp: RegExp;
+  paramNames: pathToRegExp.Key[];
+  path: string;
+}) => {
+  const matches = pathRegExp.exec(path);
+  if (matches) {
+    const [, ...paramValues] = matches;
+    const params: RouteParams = {};
+    paramNames.forEach((param, index) => {
+      params[param.name] = paramValues[index];
+    });
+    return params;
+  }
+  return undefined;
+};
 
 export function newRoute<
   Params extends RouteParams | undefined = undefined,
@@ -86,13 +112,13 @@ export function newRoute<
   status = 200
 }: RouteConfig<Params, Props>): Route<Params, Props> {
   const paramNames: pathToRegExp.Key[] = [];
+  const pathRegExp = pathToRegExp(path, paramNames);
   return {
     path,
     importModule,
     chunkName,
     status,
-    pathRe: pathToRegExp(path, paramNames),
-    paramNames,
-    url: pathToRegExp.compile(path)
+    toParams: (path: string) => toParams({ pathRegExp, paramNames, path }),
+    toPath: pathToRegExp.compile(path)
   } as Route<Params, Props>;
 }

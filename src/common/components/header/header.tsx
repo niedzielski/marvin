@@ -11,7 +11,7 @@ export default function Header(): JSX.Element {
     <div className="Header">
       <div className="Header-left">
         <Icon svg={menu} />
-        <Link href={home.url()} class="Header-wordmark">
+        <Link href={home.toPath()} class="Header-wordmark">
           <Wordmark />
         </Link>
       </div>

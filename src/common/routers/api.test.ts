@@ -12,26 +12,19 @@ const testPathParams = <Params extends RouteParams | undefined, Props>({
   params: Params;
 }) =>
   it(name, () => {
-    const url = route.url(params);
-    const [, ...paramValues] = route.pathRe.exec(url) || [];
-    assert.ok(
-      route.paramNames.length ===
-        Object.keys((params as RouteParams) || {}).length
-    );
-    route.paramNames.forEach((key, index) => {
-      const expected = encodeURIComponent((params as RouteParams)[key.name]);
-      const actual = paramValues[index];
-      assert.deepStrictEqual(
-        actual,
-        expected,
-        `${key.name} value differs. Expected: ${expected}; actual: ${actual}.`
-      );
+    const expected: RouteParams = {};
+    Object.keys((params as RouteParams) || {}).forEach(name => {
+      const value = (params as RouteParams)[name];
+      expected[name] = encodeURIComponent(value);
     });
+
+    const path = route.toPath(params);
+    const result = route.toParams(path);
+    assert.deepStrictEqual(result, expected);
   });
 
 describe("api", () => {
-  // eslint-disable-next-line max-len
-  describe("each route's path, URL parameters, and route parameters match:", () => {
+  describe("each route's path and URL path parameters match:", () => {
     [
       { name: "home", route: home, params: undefined },
       { name: "about", route: about, params: undefined },

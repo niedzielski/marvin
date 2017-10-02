@@ -11,32 +11,32 @@ export const Component = (): JSX.Element => (
       <p>Here are some test links for the time being:</p>
       <ul>
         <li>
-          <Link href={home.url()}>Home</Link>
+          <Link href={home.toPath()}>Home</Link>
         </li>
         <li>
-          <Link href={about.url()}>About</Link>
+          <Link href={about.toPath()}>About</Link>
         </li>
         <li>
-          <Link href={styleGuide.url()}>Style Guide</Link>
+          <Link href={styleGuide.toPath()}>Style Guide</Link>
         </li>
         <li>
-          <Link href={summary.url({ title: "Banana" })}>Banana</Link>
+          <Link href={summary.toPath({ title: "Banana" })}>Banana</Link>
         </li>
         <li>
           <Link
-            href={summary.url({ title: "Bill_&_Ted's_Excellent_Adventure" })}
+            href={summary.toPath({ title: "Bill_&_Ted's_Excellent_Adventure" })}
           >
             Bill & Ted's Excellent Adventure
           </Link>
         </li>
         <li>
-          <Link href={summary.url({ title: "Cucumber" })}>Cucumber</Link>
+          <Link href={summary.toPath({ title: "Cucumber" })}>Cucumber</Link>
         </li>
         <li>
-          <Link href={summary.url({ title: "Ice_cream" })}>Ice cream</Link>
+          <Link href={summary.toPath({ title: "Ice_cream" })}>Ice cream</Link>
         </li>
         <li>
-          <Link href={summary.url({ title: "Plaintext" })}>
+          <Link href={summary.toPath({ title: "Plaintext" })}>
             Article without image
           </Link>
         </li>

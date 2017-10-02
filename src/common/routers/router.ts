@@ -1,4 +1,3 @@
-import * as pathToRegExp from "path-to-regexp";
 import { AnyComponent } from "../components/preact-utils";
 import {
   AnyRoute,
@@ -17,22 +16,6 @@ export interface RouteResponse<Props> {
 export interface Router {
   route(path: string): Promise<RouteResponse<any>>;
 }
-
-// This method is tightly coupled with Route.path and the parameters supplied to
-// PageModule.getInitialProps. Route.path must use names that match the typing
-// for the parameters of PageModule.getInitialProps(). This method only
-// associates the names of Route.path with the values found in the matched URL.
-const newRouteParams = (
-  paramNames: pathToRegExp.Key[],
-  paramValues: string[]
-): RouteParams =>
-  paramNames.reduce(
-    (params: RouteParams, paramName: pathToRegExp.Key, index: number) => {
-      params[paramName.name] = paramValues[index];
-      return params;
-    },
-    {}
-  );
 
 function getInitialProps<Params extends RouteParams | undefined, Props>(
   module: PageModule<Params, Props>,
@@ -61,10 +44,8 @@ export const newRouter = (routes: AnyRoute[]): Router => {
   return {
     route(path) {
       for (const route of routes) {
-        const matches = route.pathRe.exec(path);
-        if (matches) {
-          const [, ...paramValues] = matches;
-          const params = newRouteParams(route.paramNames, paramValues);
+        const params = route.toParams(path);
+        if (params) {
           return respond(route, params);
         }
       }
