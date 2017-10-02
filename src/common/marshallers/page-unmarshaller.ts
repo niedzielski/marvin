@@ -1,9 +1,6 @@
-import {
-  PageGeolocation,
-  PageImage,
-  PageSummary,
-  PageThumbnail
-} from "../models/page";
+import { PageImage, PageThumbnail } from "../models/page/image";
+import { PageGeolocation } from "../models/page/geolocation";
+import { PageSummary } from "../models/page/summary";
 import { IsomorphicHeaders } from "../types/isomorphic-unfetch-extras";
 import { JSONObject } from "../types/json";
 import { RESTBase } from "./restbase";

@@ -2,11 +2,8 @@ import { h } from "preact";
 import App from "../components/app/app";
 import Content from "../components/content/content";
 import { PageSummary } from "../components/page-summary/page-summary";
-import {
-  PageSummary as PageSummaryModel,
-  PageTitleID,
-  PageTitlePath
-} from "../models/page";
+import { PageSummary as PageSummaryModel } from "../models/page/summary";
+import { PageTitleID, PageTitlePath } from "../models/page/title";
 import Page from "../components/page/page";
 import { RouteParams } from "../routers/route";
 import { request } from "../data-clients/page-summary-data-client";

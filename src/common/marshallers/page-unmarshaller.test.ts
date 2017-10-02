@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import * as fetch from "node-fetch";
-import { PageSummary, pageSummaryReviver } from "../models/page";
+import { PageSummary, pageSummaryReviver } from "../models/page/summary";
 import { unmarshalPageSummary } from "./page-unmarshaller";
 import { RESTBase } from "./restbase";
 

@@ -1,5 +1,6 @@
 import * as fetch from "isomorphic-unfetch";
-import { PageSummary, PageTitlePath } from "../models/page";
+import { PageSummary } from "../models/page/summary";
+import { PageTitlePath } from "../models/page/title";
 import { RESTBase } from "../marshallers/restbase";
 import { unmarshalPageSummary } from "../marshallers/page-unmarshaller";
 import { PageRedirect } from "./page-redirect";

@@ -1,6 +1,6 @@
 import { h } from "preact";
 import "./page-summary.css";
-import { PageSummary as PageSummaryModel } from "../../models/page";
+import { PageSummary as PageSummaryModel } from "../../models/page/summary";
 import Content from "../content/content";
 
 export interface Props {
