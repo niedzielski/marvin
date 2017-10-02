@@ -15,7 +15,7 @@ export interface RouteResponse<Props> {
 }
 
 export interface Router {
-  route(url: string): Promise<RouteResponse<any>>;
+  route(path: string): Promise<RouteResponse<any>>;
 }
 
 // This method is tightly coupled with Route.path and the parameters supplied to
@@ -59,9 +59,9 @@ function respond<Params extends RouteParams | void, Props>(
 
 export const newRouter = (routes: AnyRoute[]): Router => {
   return {
-    route(url) {
+    route(path) {
       for (const route of routes) {
-        const matches = route.pathRe.exec(url);
+        const matches = route.pathRe.exec(path);
         if (matches) {
           const [, ...paramValues] = matches;
           const params = newRouteParams(route.paramNames, paramValues);
