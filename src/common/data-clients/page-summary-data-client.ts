@@ -8,12 +8,17 @@ import { PageRedirect } from "./page-redirect";
 // https://en.wikipedia.org/api/rest_v1/#!/Page_content/get_page_summary_title
 export interface Params {
   titlePath: PageTitlePath;
+  revision?: number;
+  timeID?: string;
   redirect?: PageRedirect;
 }
 
-const url = ({ titlePath, redirect }: Params) => {
+const url = ({ titlePath, revision, timeID, redirect }: Params) => {
+  const revisionPath = revision === undefined ? "" : `/${revision}`;
+  const timeIDPath = timeID === undefined ? "" : `/${timeID}`;
   const redirectParam = redirect === undefined ? "" : `&redirect=${redirect}`;
-  return `https://en.wikipedia.org/api/rest_v1/page/summary/${titlePath}${redirectParam}`;
+  return `${RESTBase.PageSummary
+    .BASE_URL}/${titlePath}${revisionPath}${timeIDPath}${redirectParam}`;
 };
 
 const HEADERS = {

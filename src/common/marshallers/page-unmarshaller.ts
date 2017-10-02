@@ -1,4 +1,5 @@
 import { PageImage, PageThumbnail } from "../models/page/image";
+import { ETag } from "../models/etag";
 import { PageGeolocation } from "../models/page/geolocation";
 import { PageSummary } from "../models/page/summary";
 import { IsomorphicHeaders } from "../types/isomorphic-unfetch-extras";
@@ -68,12 +69,13 @@ const parseExtractHTML = (extractHTML: string) => {
     : [extractHTML];
 };
 
-export const unmarshalETag = (headers: IsomorphicHeaders): RESTBase.ETag => {
-  const eTag = headers.get("ETag");
-  if (!eTag) {
+export const unmarshalETag = (headers: IsomorphicHeaders): ETag => {
+  const etag = headers.get("ETag");
+  if (!etag) {
     throw new Error("ETag is undefined.");
   }
-  return eTag;
+  const [revision, timeID] = etag.split("/");
+  return { revision: parseInt(revision, 10), timeID };
 };
 
 export const unmarshalPageSummary = ({

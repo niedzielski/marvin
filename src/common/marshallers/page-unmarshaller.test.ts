@@ -4,9 +4,10 @@ import { PageSummary, pageSummaryReviver } from "../models/page/summary";
 import { unmarshalPageSummary } from "./page-unmarshaller";
 import { RESTBase } from "./restbase";
 
-const ETAG = "802006980/4f754377-a235-11e7-a776-efb84f18649a";
+const ETAG_REVISION = 802006980;
+const ETAG_TIME_ID = "4f754377-a235-11e7-a776-efb84f18649a";
 const HEADERS = new fetch.Headers();
-HEADERS.append("etag", ETAG);
+HEADERS.append("etag", `${ETAG_REVISION}/${ETAG_TIME_ID}`);
 
 const NOW = new Date(Date.now()).toString();
 
@@ -31,7 +32,7 @@ describe("page-unmarshaller", () => {
         titleHTML: "displaytitle",
         descriptionText: "description",
         lastModified: new Date(Date.parse(NOW)),
-        etag: ETAG,
+        etag: { revision: ETAG_REVISION, timeID: ETAG_TIME_ID },
         wikiLanguageCode: "en",
         localeDirection: "ltr",
         extractText: "extract",
