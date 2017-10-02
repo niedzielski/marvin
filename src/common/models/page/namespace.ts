@@ -11,7 +11,7 @@ const TALK_MASK = 0x1;
  * @see {@link https://www.mediawiki.org/wiki/Manual:Namespace#Built-in_namespaces Manual:Namespace}
  * @see {@link https://en.wikipedia.org/w/api.php?action=query&meta=siteinfo&siprop=namespaces|namespacealiases Namespaces reported by API}
  */
-export enum Namespace {
+export enum PageNamespace {
   MEDIA = -2,
   SPECIAL = -1, // The only namespace where a bitwise test of TALK_MASK fails.
   /** Main page, disambiguation page, or article. */
@@ -33,15 +33,15 @@ export enum Namespace {
   CATEGORY_TALK = 15
 }
 
-export const special = (namespace: Namespace): boolean =>
-  namespace === Namespace.SPECIAL;
+export const special = (namespace: PageNamespace): boolean =>
+  namespace === PageNamespace.SPECIAL;
 
-export const main = (namespace: Namespace): boolean =>
-  namespace === Namespace.MAIN;
+export const main = (namespace: PageNamespace): boolean =>
+  namespace === PageNamespace.MAIN;
 
-export const talk = (namespace: Namespace): boolean =>
+export const talk = (namespace: PageNamespace): boolean =>
   // eslint-disable-next-line no-bitwise
   (namespace & TALK_MASK) === TALK_MASK && !special(namespace);
 
-export const file = (namespace: Namespace): boolean =>
-  namespace === Namespace.FILE;
+export const file = (namespace: PageNamespace): boolean =>
+  namespace === PageNamespace.FILE;
