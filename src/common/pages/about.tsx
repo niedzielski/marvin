@@ -1,5 +1,6 @@
 import { h, Component as PreactComponent } from "preact";
 import App from "../components/app/app";
+import Link from "../components/link";
 import Page from "../components/page/page";
 
 // Fake a type declaration for the global variable VERSION that will be replaced
@@ -69,7 +70,7 @@ export class Component extends PreactComponent<undefined, State> {
           <ul>
             {links.map(({ href, text }) => (
               <li>
-                <a href={href}>{text}</a>
+                <Link href={href}>{text}</Link>
               </li>
             ))}
           </ul>

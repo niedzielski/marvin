@@ -1,4 +1,5 @@
 import { Params as NotFoundParams } from "../pages/not-found";
+import { Props as PageProps, Params as PageParams } from "../pages/wiki";
 import {
   Props as SummaryProps,
   Params as SummaryParams
@@ -17,6 +18,13 @@ export const about: NoPropsRoute = newRoute({
   importModule: () =>
     import(/* webpackChunkName: "pages/about" */ "../pages/about"),
   chunkName: "pages/about"
+});
+
+export const wiki: Route<PageParams, PageProps> = newRoute({
+  path: "/wiki/:title",
+  importModule: () =>
+    import(/* webpackChunkName: "pages/wiki" */ "../pages/wiki"),
+  chunkName: "pages/wiki"
 });
 
 export const summary: Route<SummaryParams, SummaryProps> = newRoute({
@@ -43,4 +51,11 @@ export const notFound: Route<NotFoundParams> = newRoute({
   status: 404
 });
 
-export const routes: AnyRoute[] = [home, about, summary, styleGuide, notFound];
+export const routes: AnyRoute[] = [
+  home,
+  about,
+  wiki,
+  summary,
+  styleGuide,
+  notFound
+];

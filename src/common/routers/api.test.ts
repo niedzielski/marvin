@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { home, about, summary, styleGuide, notFound } from "./api";
+import { home, about, wiki, summary, styleGuide, notFound } from "./api";
 import { Route, RouteParams } from "./route";
 
 const testPathParams = <Params extends RouteParams | undefined, Props>({
@@ -28,6 +28,7 @@ describe("api", () => {
     [
       { name: "home", route: home, params: undefined },
       { name: "about", route: about, params: undefined },
+      { name: "wiki", route: wiki, params: { title: "title" } },
       { name: "summary", route: summary, params: { title: "title" } },
       { name: "styleGuide", route: styleGuide, params: undefined },
       { name: "notFound", route: notFound, params: { 0: "/404" } }
