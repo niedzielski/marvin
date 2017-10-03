@@ -30,7 +30,7 @@ export class Component extends PreactComponent<undefined, State> {
     //
     // Fill the subtitle on the DOM-capable env with the information embedded in
     // the assets by webpack#DefinePlugin
-    const env = process.env.NODE_ENV || "development";
+    const env = process.env.NODE_ENV;
     const subtitle = `Version ${VERSION}; Env: ${env}`;
     this.setState({ subtitle });
   }
