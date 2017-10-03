@@ -76,11 +76,15 @@ export interface NoPropsRoute extends Route<undefined, undefined> {
 
 export type AnyRoute = Route<any, any>;
 
-// This function is tightly coupled with Route.path and the parameters supplied
-// to PageModule.getInitialProps. Route.path must use names that match the
-// typing for the parameters of PageModule.getInitialProps(). This method only
-// associates the names of Route.path with the values found in the matched URL
-// path.
+/**
+ * Decompose a URL path into a Params map for use by
+ * PageModule.getInitialProps(). This method uses a path regular expression to
+ * split URL path values into the named properties of a corresponding Params
+ * object. There is no compile-time validation performed on the result, so
+ * Route.path's encoding and Params must be in sync (tested in api.test.ts).
+ * Note: paramNames is equivalent to manually writing an ordered array of names
+ * matching Route.path's encoding. e.g., `/^\/wiki\/([^/]+)$/i` and `["title"]`.
+ */
 const toParams = ({
   pathRegExp,
   paramNames,
