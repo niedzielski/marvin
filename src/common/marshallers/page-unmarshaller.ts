@@ -2,8 +2,10 @@ import { PageImage, PageThumbnail } from "../models/page/image";
 import { ETag } from "../models/etag";
 import { PageGeolocation } from "../models/page/geolocation";
 import { PageSummary } from "../models/page/summary";
+import { Page, PageLead, PageBody, PageSection } from "../models/page/page";
+import { PageUser, PageUserGender } from "../models/page/user";
 import { IsomorphicHeaders } from "../types/isomorphic-unfetch-extras";
-import { JSONObject } from "../types/json";
+import { JSONArray, JSONObject } from "../types/json";
 import { RESTBase } from "./restbase";
 
 export const unmarshalPageThumbnail = (json: JSONObject): PageThumbnail => {
@@ -27,9 +29,24 @@ export const unmarshalPageImage = (json: JSONObject): PageImage => {
   };
 };
 
+export const unmarshalPageImageMap = (json: JSONObject): PageImage[] => {
+  const type: RESTBase.PageSections.ThumbnailMap = json as any;
+  return Object.keys(type.urls)
+    .sort((lhs, rhs) => lhs.localeCompare(rhs, undefined, { numeric: true }))
+    .map((width: string) => ({
+      url: type.urls[width],
+      width: parseInt(width, 10)
+    }));
+};
+
 export const unmarshalPageGeolocation = (json: JSONObject): PageGeolocation => {
-  const type: RESTBase.PageSummary.Geolocation = json as any;
-  return { latitude: type.lat, longitude: type.lon };
+  if (json.latitude) {
+    const type: RESTBase.PageSections.Geolocation = json as any;
+    return { latitude: type.latitude, longitude: type.longitude };
+  } else {
+    const type: RESTBase.PageSummary.Geolocation = json as any;
+    return { latitude: type.lat, longitude: type.lon };
+  }
 };
 
 // todo: remove this function and Domino package from package*.json, the
@@ -70,10 +87,7 @@ const parseExtractHTML = (extractHTML: string) => {
 };
 
 export const unmarshalETag = (headers: IsomorphicHeaders): ETag => {
-  const etag = headers.get("ETag");
-  if (!etag) {
-    throw new Error("ETag is undefined.");
-  }
+  const etag = headers.get("ETag") as string;
   const [revision, timeID] = etag.split("/");
   return { revision: parseInt(revision, 10), timeID };
 };
@@ -108,4 +122,112 @@ export const unmarshalPageSummary = ({
     result.image = unmarshalPageImage(type.originalimage as {});
   }
   return result;
+};
+
+export const unmarshalPageUserGender = (json: string): PageUserGender => {
+  // Reverse mappings are not yet available for string enums. todo: reevaluate
+  // something like:
+  //   return json in PageUserGender
+  //     ? json as PageUserGender
+  //     : PageUserGender.UNKNOWN;
+  // https://blogs.msdn.microsoft.com/typescript/2017/06/12/announcing-typescript-2-4-rc/
+  switch (json) {
+    case "female":
+      return PageUserGender.FEMALE;
+    case "male":
+      return PageUserGender.MALE;
+    default:
+      return PageUserGender.UNKNOWN;
+  }
+};
+
+export const unmarshalPageUser = (json: JSONObject): PageUser => {
+  const type: RESTBase.PageSections.User = json as any;
+  return {
+    anonymous: type.anon || false,
+    user: type.user,
+    gender: unmarshalPageUserGender(type.gender)
+  };
+};
+
+export const unmarshalPageSection = (json: JSONObject): PageSection => {
+  const type: RESTBase.PageSections.AnySection = json as any;
+  return {
+    index: type.id,
+    level: type.toclevel || 0,
+    titleHTML: type.line || "",
+    fragment: type.anchor || "",
+    contentHTML: type.text || "",
+    reference: type.isReferenceSection || false
+  };
+};
+
+export const unmarshalPageSections = (json: JSONArray): PageSection[] => {
+  const type: RESTBase.PageSections.AnySection[] = json as any;
+  return type.map(section => unmarshalPageSection(section as {}));
+};
+
+export const unmarshalPageLead = ({
+  headers,
+  json
+}: {
+  headers: IsomorphicHeaders;
+  json: JSONObject;
+}): PageLead => {
+  const type: RESTBase.PageSections.Lead = json as any;
+  const result: PageLead = {
+    pageID: type.id,
+    titleText: type.normalizedtitle,
+    titleHTML: type.displaytitle,
+    lastModified: new Date(type.lastmodified),
+    descriptionText: type.description || "",
+    etag: unmarshalETag(headers),
+    revision: parseInt(type.revision, 10),
+    namespace: type.ns,
+    mainPage: type.mainpage || false,
+    disambiguationPage: type.disambiguation || false,
+    lastModifier: unmarshalPageUser(type.lastmodifier as {}),
+    permissions: type.protection || {},
+    editable: type.editable,
+    languageCount: type.languagecount,
+    thumbnail: (type.image && unmarshalPageImageMap(type.image as {})) || [],
+    htmlHatnotes: type.hatnotes || [],
+    sections:
+      (type.sections && unmarshalPageSections(type.sections as {}[])) || []
+  };
+  if (type.geo) {
+    result.geolocation = unmarshalPageGeolocation(type.geo as {});
+  }
+  if (type.wikibase_item) {
+    result.wikibaseID = type.wikibase_item;
+  }
+  if (type.pronunciation) {
+    result.pronunciationURL = type.pronunciation.url;
+  }
+  return result;
+};
+
+export const unmarshalPageBody = (json: JSONObject): PageBody => {
+  const type: RESTBase.PageSections.Body = json as any;
+  return {
+    sections:
+      (type.sections && unmarshalPageSections(type.sections as {}[])) || []
+  };
+};
+
+export const unmarshalPage = ({
+  headers,
+  json
+}: {
+  headers: IsomorphicHeaders;
+  json: JSONObject;
+}): Page => {
+  const type: RESTBase.PageSections.Page = json as any;
+  const lead = unmarshalPageLead({ headers, json: type.lead as {} });
+  const body = unmarshalPageBody(type.remaining as {});
+  return {
+    ...lead,
+    sections:
+      (lead.sections.length && [lead.sections[0], ...body.sections]) || []
+  };
 };

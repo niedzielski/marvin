@@ -23,7 +23,6 @@ export namespace RESTBase {
   export namespace PageSummary {
     export const ACCEPT_HEADER: string =
       'application/json; charset=utf-8; profile="https://www.mediawiki.org/wiki/Specs/Summary/1.2.0"';
-    export const BASE_URL: string = `${RESTBase.BASE_URL}/page/summary`; // eslint-disable-line no-redeclare
 
     // https://phabricator.wikimedia.org/diffusion/GRES/browse/master/v1/summary.yaml;efa0412225221d49e901fdce0ba2ae88cd6ccc11$138
     export interface Thumbnail {
@@ -61,6 +60,103 @@ export namespace RESTBase {
       timestamp: string;
       description: string;
       coordinates?: Geolocation;
+    }
+  }
+
+  // https://en.wikipedia.org/api/rest_v1/#!/Mobile/get_page_mobile_sections_title_revision
+  export namespace PageSections {
+    export const ACCEPT_HEADER: string = // eslint-disable-line no-redeclare
+      'application/json; charset=utf-8; profile="https://www.mediawiki.org/wiki/Specs/mobile-sections/0.12.4"';
+
+    export interface PermissionMap {
+      [action: string]: string[];
+    }
+
+    export interface ThumbnailMap {
+      file: string;
+      // Currently: "320", "640", "800", "1024".
+      urls: { [width: string]: string };
+    }
+
+    export interface Issue {
+      text: string;
+    }
+
+    export interface User {
+      anon?: boolean;
+      user: string;
+      gender: string;
+    }
+
+    export interface Geolocation {
+      latitude: number;
+      longitude: number;
+    }
+
+    export interface TitlePronunciation {
+      url: string;
+    }
+
+    export interface AnySection {
+      id: number;
+      toclevel?: number;
+      anchor?: string;
+      line?: string;
+      text?: string;
+      isReferenceSection?: boolean;
+    }
+
+    export interface LeadSection {
+      id: number;
+      text: string;
+    }
+
+    export interface SectionOutline {
+      id: number;
+      toclevel: number;
+      anchor: string;
+      line: string;
+    }
+
+    export interface BodySection extends LeadSection, SectionOutline {
+      isReferenceSection?: boolean;
+    }
+
+    // https://phabricator.wikimedia.org/diffusion/GMOA/browse/master/spec.yaml;399c85e3e782ffa7fef2d4a73c4ee85e98c9114d$642
+    // https://phabricator.wikimedia.org/diffusion/GMOA/browse/master/spec.yaml;399c85e3e782ffa7fef2d4a73c4ee85e98c9114d$625
+    export interface Lead {
+      error?: Error; // is this possible or only on bad http status code?
+      ns: number;
+      id: number;
+      revision: string;
+      lastmodified: string;
+      lastmodifier: User;
+      displaytitle: string;
+      normalizedtitle: string;
+      wikibase_item?: string; // eslint-disable-line camelcase
+      description?: string;
+      protection?: PermissionMap;
+      editable: boolean;
+      languagecount: number;
+      image?: ThumbnailMap;
+      hatnotes?: string[];
+      sections?: (LeadSection | SectionOutline)[];
+      geo?: Geolocation;
+      pronunciation?: TitlePronunciation;
+      mainpage?: boolean;
+      disambiguation?: boolean;
+    }
+
+    // https://phabricator.wikimedia.org/diffusion/GMOA/browse/master/spec.yaml;399c85e3e782ffa7fef2d4a73c4ee85e98c9114d$680
+    // https://phabricator.wikimedia.org/diffusion/GMOA/browse/master/spec.yaml;399c85e3e782ffa7fef2d4a73c4ee85e98c9114d$639
+    export interface Body {
+      sections?: BodySection[];
+    }
+
+    // https://phabricator.wikimedia.org/diffusion/GMOA/browse/master/spec.yaml;399c85e3e782ffa7fef2d4a73c4ee85e98c9114d$608
+    export interface Page {
+      lead: Lead;
+      remaining: Body;
     }
   }
 }

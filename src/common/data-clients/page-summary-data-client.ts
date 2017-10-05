@@ -17,8 +17,9 @@ const url = ({ titlePath, revision, timeID, redirect }: Params) => {
   const revisionPath = revision === undefined ? "" : `/${revision}`;
   const timeIDPath = timeID === undefined ? "" : `/${timeID}`;
   const redirectParam = redirect === undefined ? "" : `&redirect=${redirect}`;
-  return `${RESTBase.PageSummary
-    .BASE_URL}/${titlePath}${revisionPath}${timeIDPath}${redirectParam}`;
+
+  // eslint-disable-next-line max-len
+  return `${RESTBase.BASE_URL}/page/summary/${titlePath}${revisionPath}${timeIDPath}${redirectParam}`;
 };
 
 const HEADERS = {

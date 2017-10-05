@@ -1,8 +1,8 @@
 export interface PageImage {
   url: string;
   width: number;
-  height: number;
-  landscape: boolean;
+  height?: number;
+  landscape?: boolean;
 }
 
 export interface PageThumbnail extends PageImage {
