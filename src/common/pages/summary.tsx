@@ -1,12 +1,13 @@
 import { h } from "preact";
 import App from "../components/app/app";
-import Content from "../components/content/content";
 import { PageSummary } from "../components/page-summary/page-summary";
 import { PageSummary as PageSummaryModel } from "../models/page/summary";
 import { PageTitleID, PageTitlePath } from "../models/page/title";
 import Page from "../components/page/page";
 import { RouteParams } from "../routers/route";
 import { request } from "../data-clients/page-summary-data-client";
+import ContentHeader from "../components/content-header/content-header";
+import ContentFooter from "../components/content-footer/content-footer";
 
 export interface Params extends RouteParams {
   /**
@@ -26,21 +27,11 @@ export const getInitialProps = ({ title }: Params): Promise<Props> =>
 export const Component = ({ summary }: Props): JSX.Element => (
   <App>
     <Page
-      title={<Title summary={summary} />}
+      title={<ContentHeader titleHTML={summary.titleHTML} />}
       subtitle={summary.descriptionText}
-      footer={<Footer summary={summary} />}
+      footer={<ContentFooter lastModified={summary.lastModified} />}
     >
       <PageSummary summary={summary} />
     </Page>
   </App>
-);
-
-const Title = ({ summary }: Props) => (
-  <Content>
-    <h1 dangerouslySetInnerHTML={{ __html: summary.titleHTML }} />
-  </Content>
-);
-
-const Footer = ({ summary }: Props) => (
-  <span>Last updated {summary.lastModified.toLocaleString("en-GB")}</span>
 );

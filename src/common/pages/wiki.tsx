@@ -1,12 +1,13 @@
 import { h } from "preact";
 import App from "../components/app/app";
-import Content from "../components/content/content";
+import ContentHeader from "../components/content-header/content-header";
 import { Page as PageModel } from "../models/page/page";
 import { PageTitleID, PageTitlePath } from "../models/page/title";
 import Page from "../components/page/page";
 import { RouteParams } from "../routers/route";
 import { requestPage } from "../data-clients/page-data-client";
 import Section from "../components/section";
+import ContentFooter from "../components/content-footer/content-footer";
 
 export interface Params extends RouteParams {
   /**
@@ -26,21 +27,11 @@ export const getInitialProps = ({ title }: Params): Promise<Props> =>
 export const Component = ({ page }: Props): JSX.Element => (
   <App>
     <Page
-      title={<Title page={page} />}
+      title={<ContentHeader titleHTML={page.titleHTML} />}
       subtitle={page.descriptionText}
-      footer={<Footer page={page} />}
+      footer={<ContentFooter lastModified={page.lastModified} />}
     >
       {page.sections.map(section => <Section section={section} />)}
     </Page>
   </App>
-);
-
-const Title = ({ page }: Props) => (
-  <Content>
-    <h1 dangerouslySetInnerHTML={{ __html: page.titleHTML }} />
-  </Content>
-);
-
-const Footer = ({ page }: Props) => (
-  <span>Last updated {page.lastModified.toLocaleString("en-GB")}</span>
 );
