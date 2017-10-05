@@ -26,13 +26,25 @@ export const Component = (): JSX.Element => {
     },
     {
       title: "Bill_&_Ted's_Excellent_Adventure",
-      text: "With two paragraphs"
+      text: "With two paragraphs, unencoded path, and styled title"
     }
   ];
   const testPages = [
     {
       title: "Ice_cream",
       text: "A normal article"
+    },
+    {
+      title: "Cake_(disambiguation)",
+      text: "Disambiguation"
+    },
+    {
+      title: "Cheese_cake",
+      text: "Redirect"
+    },
+    {
+      title: "Carrot cake",
+      text: "Encoding redirect"
     }
   ];
   return (

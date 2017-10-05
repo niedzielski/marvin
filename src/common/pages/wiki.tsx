@@ -1,7 +1,12 @@
 import { h } from "preact";
 import App from "../components/app/app";
+import Content from "../components/content/content";
+import { Page as PageModel } from "../models/page/page";
 import { PageTitleID, PageTitlePath } from "../models/page/title";
+import Page from "../components/page/page";
 import { RouteParams } from "../routers/route";
+import { requestPage } from "../data-clients/page-data-client";
+import Section from "../components/section";
 
 export interface Params extends RouteParams {
   /**
@@ -12,10 +17,30 @@ export interface Params extends RouteParams {
 }
 
 export interface Props {
-  title: string;
+  page: PageModel;
 }
 
 export const getInitialProps = ({ title }: Params): Promise<Props> =>
-  Promise.resolve({ title });
+  requestPage({ titlePath: title }).then(page => ({ page }));
 
-export const Component = ({ title }: Props): JSX.Element => <App>{title}</App>;
+export const Component = ({ page }: Props): JSX.Element => (
+  <App>
+    <Page
+      title={<Title page={page} />}
+      subtitle={page.descriptionText}
+      footer={<Footer page={page} />}
+    >
+      {page.sections.map(section => <Section section={section} />)}
+    </Page>
+  </App>
+);
+
+const Title = ({ page }: Props) => (
+  <Content>
+    <h1 dangerouslySetInnerHTML={{ __html: page.titleHTML }} />
+  </Content>
+);
+
+const Footer = ({ page }: Props) => (
+  <span>Last updated {page.lastModified.toLocaleString("en-GB")}</span>
+);
