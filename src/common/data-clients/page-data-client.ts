@@ -18,42 +18,18 @@ export interface Params {
   redirect?: PageRedirect;
 }
 
-type UnmarshalParams = {
-  headers: IsomorphicHeaders;
-  json: JSONObject;
+const section = {
+  ALL: { path: "page/mobile-sections", unmarshal: unmarshalPage },
+  LEAD: { path: "page/mobile-sections-lead", unmarshal: unmarshalPageLead },
+  BODY: {
+    path: "page/mobile-sections-remaining",
+    unmarshal: ({ json }: { headers: IsomorphicHeaders; json: JSONObject }) =>
+      unmarshalPageBody(json)
+  }
 };
 
-const ALL = new class All {
-  get path() {
-    return "page/mobile-sections";
-  }
-  unmarshal({ headers, json }: UnmarshalParams) {
-    return unmarshalPage({ headers, json });
-  }
-}();
-
-const LEAD = new class Lead {
-  get path() {
-    return "page/mobile-sections-lead";
-  }
-  unmarshal({ headers, json }: UnmarshalParams) {
-    return unmarshalPageLead({ headers, json });
-  }
-}();
-
-const BODY = new class Body {
-  get path() {
-    return "page/mobile-sections-remaining";
-  }
-  unmarshal({ json }: UnmarshalParams) {
-    return unmarshalPageBody(json);
-  }
-}();
-
-type Section = typeof ALL | typeof LEAD | typeof BODY;
-
 interface SectionParam {
-  section: Section;
+  section: typeof section.ALL | typeof section.LEAD | typeof section.BODY;
 }
 
 const url = ({
@@ -79,10 +55,10 @@ const request = (params: Params & SectionParam) =>
     .then(([headers, json]) => params.section.unmarshal({ headers, json }));
 
 export const requestPage = (params: Params): Promise<Page> =>
-  request({ section: ALL, ...params }) as Promise<Page>;
+  request({ section: section.ALL, ...params }) as Promise<Page>;
 
 export const requestPageLead = (params: Params): Promise<PageLead> =>
-  request({ section: LEAD, ...params }) as Promise<PageLead>;
+  request({ section: section.LEAD, ...params }) as Promise<PageLead>;
 
 export const requestPageBody = (params: Params): Promise<PageBody> =>
-  request({ section: BODY, ...params }) as Promise<PageBody>;
+  request({ section: section.BODY, ...params }) as Promise<PageBody>;
