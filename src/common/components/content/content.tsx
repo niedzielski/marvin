@@ -1,6 +1,6 @@
 import { h, DangerouslySetInnerHTML } from "preact";
 import { classOf, ClassProps, ChildrenProps } from "../preact-utils";
-import "./content.css";
+import "./styles/content.css";
 
 interface Props extends ChildrenProps, ClassProps {
   dangerouslySetInnerHTML?: DangerouslySetInnerHTML;

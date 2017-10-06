@@ -6,7 +6,7 @@ import { PageTitleID, PageTitlePath } from "../models/page/title";
 import Page from "../components/page/page";
 import { RouteParams } from "../routers/route";
 import { requestPage } from "../data-clients/page-data-client";
-import Section from "../components/section";
+import ContentSection from "../components/content-section/content-section";
 import ContentFooter from "../components/content-footer/content-footer";
 
 export interface Params extends RouteParams {
@@ -31,7 +31,7 @@ export const Component = ({ page }: Props): JSX.Element => (
       subtitle={page.descriptionText}
       footer={<ContentFooter lastModified={page.lastModified} />}
     >
-      {page.sections.map(section => <Section section={section} />)}
+      {page.sections.map(section => <ContentSection section={section} />)}
     </Page>
   </App>
 );
