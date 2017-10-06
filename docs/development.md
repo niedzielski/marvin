@@ -58,7 +58,9 @@ If you want to run the production version, then:
 
 ## Coding conventions
 
-### Typing
+### TypeScript
+
+#### Typing
 
 In TypeScript, data types may be explicitly specified or (often) inferred by the
 compiler. Marvin's coding convention is to favor inference except for module
@@ -119,13 +121,72 @@ The following are possible internal implementations but the second is preferred:
 
 Additionally, prefer a default export when only one export is needed.
 
-### Identifier Naming
+#### Function signatures
+
+- Prefer arrow-functions for short inline expressions that return a value and
+  lambda or anonymous functions.
+- Prefer the function keyword for top-level declarations, especially those
+  requiring brackets.
+- Prefer destructuring for options parameter objects that encapsulate arguments
+  and functions with many parameters. e.g.:
+  - **Preferred:**
+    ```ts
+    function addEventListener(type: string, listener: Event, {capture, once, passive}: Options) { ... }
+    ```
+  - **Preferred:**
+    ```ts
+    interface Props extends ChildrenProps {
+      titleText: ComponentChild;
+      manifest: Manifest;
+      chunkName: string;
+    }
+
+    export default function Page({
+      titleText,
+      manifest,
+      chunkName,
+      children
+    }: Props): JSX.Element {
+      ...
+    }
+    ```
+  - **Avoid:**
+    ```ts
+    function addEventListener(type: string, listener: Event, options: Options) { ... }
+    ```
+
+#### Function invocations
+
+- Callers should prefer destructuring as opposed to manually assembling the
+  object outside the invocation:
+  - **Preferred:**
+    ```ts
+    fnc({ foo: …, bar: … });
+    ```
+  - **Avoid:**
+    ```ts
+    const foo = …;
+    const bar = …;
+    const param = { foo, bar };
+    fnc(param);
+    ```
+
+#### Naming
 
 - Static constants should be written in `SHOUTING_SNAKE_CASE`. All other
   variables should be written in `camelCase`.
 - Preact components should be written in PascalCase.
 
-#### Abbreviations
+### CSS
+
+#### Naming
+
+Marvin uses [SUIT naming conventions]. Please see the linked two page document
+for more information.
+
+[SUIT naming conventions]: https://github.com/suitcss/suit/blob/master/doc/naming-conventions.md#suit-css-naming-conventions
+
+### Abbreviations
 
 Marvin uses the following abbreviations:
 
@@ -145,7 +206,7 @@ Marvin uses the following abbreviations:
   everything "index.x" makes it difficult to distinguish among files quickly.
   Client and server files are excluded as frontend client and backend server
   entry points.
-- Avoid component folders with only one file. e.g.:
+- Avoid folders with only one file. e.g.:
   - Prefer a folder when multiple files exist such as components/foo/foo.tsx and
     components/foo/foo.test.tsx.
   - Avoid a folder when only one file exists such as components/foo.tsx.
