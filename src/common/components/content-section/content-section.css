@@ -1,0 +1,5 @@
+.ContentSection-header {
+  /* Add a bottom divider under each section header. */
+  border-bottom: 1px solid var(--wmui-color-base80);
+  padding: var(--half-space);
+}
