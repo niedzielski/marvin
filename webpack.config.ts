@@ -132,7 +132,13 @@ const config: webpack.Configuration = {
       {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
+          fallback: {
+            loader: "style-loader",
+            options: {
+              // Hot module replacement is not enabled.
+              hmr: false
+            }
+          },
           use: ["css-loader"]
         })
       },
