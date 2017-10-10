@@ -21,7 +21,7 @@ export const about: NoPropsRoute = newRoute({
 });
 
 export const wiki: Route<PageParams, PageProps> = newRoute({
-  path: "/wiki/:title",
+  path: "/wiki/:title/:revision?",
   importModule: () =>
     import(/* webpackChunkName: "pages/wiki" */ "../pages/wiki"),
   chunkName: "pages/wiki"

@@ -15,7 +15,8 @@ const testPathParams = <Params extends RouteParams | undefined, Props>({
     const expected: RouteParams = {};
     Object.keys((params as RouteParams) || {}).forEach(name => {
       const value = (params as RouteParams)[name];
-      expected[name] = encodeURIComponent(value);
+      expected[name] =
+        value === undefined ? undefined : encodeURIComponent(value);
     });
 
     const path = route.toPath(params);
@@ -28,7 +29,16 @@ describe("api", () => {
     [
       { name: "home", route: home, params: undefined },
       { name: "about", route: about, params: undefined },
-      { name: "wiki", route: wiki, params: { title: "title" } },
+      {
+        name: "wiki (latest)",
+        route: wiki,
+        params: { title: "title", revision: undefined }
+      },
+      {
+        name: "wiki (revision)",
+        route: wiki,
+        params: { title: "title", revision: "1" }
+      },
       { name: "summary", route: summary, params: { title: "title" } },
       { name: "styleGuide", route: styleGuide, params: undefined },
       { name: "notFound", route: notFound, params: { 0: "/404" } }

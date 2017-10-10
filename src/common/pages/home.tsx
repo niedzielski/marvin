@@ -45,6 +45,11 @@ export const Component = (): JSX.Element => {
     {
       title: "Carrot cake",
       text: "Encoding redirect"
+    },
+    {
+      title: "Ice_cream_cake",
+      revision: "24242119",
+      text: "An arbitrary revision"
     }
   ];
   return (
@@ -69,11 +74,21 @@ export const Component = (): JSX.Element => {
 
         <h3>Pages</h3>
         <ul>
-          {testPages.map(({ title, text }) => (
-            <li>
-              <Link href={wiki.toPath({ title })}>{text}</Link>
-            </li>
-          ))}
+          {testPages.map(
+            ({
+              title,
+              revision,
+              text
+            }: {
+              title: string;
+              revision?: string;
+              text: string;
+            }) => (
+              <li>
+                <Link href={wiki.toPath({ title, revision })}>{text}</Link>
+              </li>
+            )
+          )}
         </ul>
 
         <h3>Summaries</h3>

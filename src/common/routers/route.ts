@@ -7,7 +7,7 @@ import { AnyComponent } from "../components/preact-utils";
  * Route.url().
  */
 export interface RouteParams {
-  [name: string]: string;
+  [name: string]: string | undefined;
 }
 
 /**

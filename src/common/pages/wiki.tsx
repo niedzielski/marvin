@@ -15,14 +15,19 @@ export interface Params extends RouteParams {
    * an encoded PageTitlePath.
    */
   title: PageTitleID | PageTitlePath;
+
+  revision?: string;
 }
 
 export interface Props {
   page: PageModel;
 }
 
-export const getInitialProps = ({ title }: Params): Promise<Props> =>
-  requestPage({ titlePath: title }).then(page => ({ page }));
+export const getInitialProps = ({ title, revision }: Params): Promise<Props> =>
+  requestPage({
+    titlePath: title,
+    revision: (revision && parseInt(revision, 10)) || undefined
+  }).then(page => ({ page }));
 
 export const Component = ({ page }: Props): JSX.Element => (
   <App>
