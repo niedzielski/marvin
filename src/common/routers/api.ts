@@ -1,26 +1,26 @@
 import { Params as NotFoundParams } from "../pages/not-found";
-import { Props as PageProps, Params as PageParams } from "../pages/wiki";
+import { Props as WikiProps, Params as WikiParams } from "../pages/wiki";
 import {
   Props as SummaryProps,
   Params as SummaryParams
 } from "../pages/summary";
-import { AnyRoute, NoPropsRoute, Route, newRoute } from "./route";
+import { AnyRoute, NoParamsRoute, Route, newRoute } from "./route";
 
-export const home: NoPropsRoute = newRoute({
+export const home: NoParamsRoute = newRoute({
   path: "/",
   importModule: () =>
     import(/* webpackChunkName: "pages/home" */ "../pages/home"),
   chunkName: "pages/home"
 });
 
-export const about: NoPropsRoute = newRoute({
+export const about: NoParamsRoute = newRoute({
   path: "/about",
   importModule: () =>
     import(/* webpackChunkName: "pages/about" */ "../pages/about"),
   chunkName: "pages/about"
 });
 
-export const wiki: Route<PageParams, PageProps> = newRoute({
+export const wiki: Route<WikiParams, WikiProps> = newRoute({
   path: "/wiki/:title/:revision?",
   importModule: () =>
     import(/* webpackChunkName: "pages/wiki" */ "../pages/wiki"),
@@ -34,7 +34,19 @@ export const summary: Route<SummaryParams, SummaryProps> = newRoute({
   chunkName: "pages/summary"
 });
 
-export const styleGuide: NoPropsRoute = newRoute({
+export const randomWiki: NoParamsRoute<WikiProps> = newRoute({
+  path: "/random/wiki",
+  importModule: () => wiki.importModule(),
+  chunkName: wiki.chunkName
+}) as NoParamsRoute<WikiProps>;
+
+export const randomSummary: NoParamsRoute<SummaryProps> = newRoute({
+  path: "/random/summary",
+  importModule: () => summary.importModule(),
+  chunkName: summary.chunkName
+}) as NoParamsRoute<SummaryProps>;
+
+export const styleGuide: NoParamsRoute = newRoute({
   path: "/dev/style-guide",
   importModule: () =>
     import(/* webpackChunkName: "pages/style-guide" */ "../pages/style-guide"),
@@ -56,6 +68,8 @@ export const routes: AnyRoute[] = [
   about,
   wiki,
   summary,
+  randomWiki,
+  randomSummary,
   styleGuide,
   notFound
 ];

@@ -9,20 +9,25 @@ import { request } from "../data-clients/page-summary-data-client";
 import ContentHeader from "../components/content-header/content-header";
 import ContentFooter from "../components/content-footer/content-footer";
 
-export interface Params extends RouteParams {
+interface PageParams extends RouteParams {
   /**
    * When used as an input, an unencoded PageTitleID; when used as an output,
    * an encoded PageTitlePath.
    */
   title: PageTitleID | PageTitlePath;
 }
+// undefined means random input (Route.toPath()) and {} means random output
+// (Route.toParams()).
+export type Params = PageParams | { title?: undefined } | undefined;
 
 export interface Props {
   summary: PageSummaryModel;
 }
 
-export const getInitialProps = ({ title }: Params): Promise<Props> =>
-  request({ titlePath: title }).then(summary => ({ summary }));
+export const getInitialProps = (params: Params = {}): Promise<Props> =>
+  request(
+    params.title === undefined ? { random: true } : { titlePath: params.title }
+  ).then(summary => ({ summary }));
 
 export const Component = ({ summary }: Props): JSX.Element => (
   <App>

@@ -5,6 +5,8 @@ import {
   home,
   wiki,
   summary,
+  randomWiki,
+  randomSummary,
   styleGuide
 } from "../../common/routers/api";
 import Page from "../components/page/page";
@@ -74,6 +76,11 @@ export const Component = (): JSX.Element => {
 
         <h3>Pages</h3>
         <ul>
+          <li>
+            {/* todo: this should always appear as with the unvisited color or
+                      be a button. */}
+            <Link href={randomWiki.toPath()}>A random page</Link>
+          </li>
           {testPages.map(
             ({
               title,
@@ -93,6 +100,11 @@ export const Component = (): JSX.Element => {
 
         <h3>Summaries</h3>
         <ul>
+          <li>
+            {/* todo: this should always appear as with the unvisited color or
+                      be a button. */}
+            <Link href={randomSummary.toPath()}>A random summary</Link>
+          </li>
           {testSummaries.map(({ title, text }) => (
             <li>
               <Link href={summary.toPath({ title })}>{text}</Link>

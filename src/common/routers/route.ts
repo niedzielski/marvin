@@ -4,7 +4,10 @@ import { AnyComponent } from "../components/preact-utils";
 /**
  * A map of path-to-regexp router path names to matches. The keys must match
  * those specified in RouteConfig.path. Passed to PageModule.requestProps() and
- * Route.url().
+ * Route.toPath().
+ *
+ * Note: only strings are ever returned as outputs of Route.toParams() and all
+ *       inputs are converted to strings in Route.toPath().
  */
 export interface RouteParams {
   [name: string]: string | undefined;
@@ -70,7 +73,8 @@ export interface Route<
   toPath(params: Params): string;
 }
 
-export interface NoPropsRoute extends Route<undefined, undefined> {
+export interface NoParamsRoute<Props = undefined>
+  extends Route<undefined, Props> {
   toPath(params?: undefined): string;
 }
 

@@ -159,4 +159,10 @@ export namespace RESTBase {
       remaining: Body;
     }
   }
+
+  // https://en.wikipedia.org/api/rest_v1/#!/Page_content/get_page_random_format
+  export namespace Random {
+    export const ACCEPT_HEADER: string = // eslint-disable-line no-redeclare
+      'application/json; charset=utf-8; profile="https://www.mediawiki.org/wiki/Specs/random/0.6.0"';
+  }
 }

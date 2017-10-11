@@ -1,5 +1,14 @@
 import * as assert from "assert";
-import { home, about, wiki, summary, styleGuide, notFound } from "./api";
+import {
+  home,
+  about,
+  wiki,
+  summary,
+  randomWiki,
+  randomSummary,
+  styleGuide,
+  notFound
+} from "./api";
 import { Route, RouteParams } from "./route";
 
 const testPathParams = <Params extends RouteParams | undefined, Props>({
@@ -40,6 +49,8 @@ describe("api", () => {
         params: { title: "title", revision: "1" }
       },
       { name: "summary", route: summary, params: { title: "title" } },
+      { name: "random (wiki)", route: randomWiki, params: undefined },
+      { name: "random (summary)", route: randomSummary, params: undefined },
       { name: "styleGuide", route: styleGuide, params: undefined },
       { name: "notFound", route: notFound, params: { 0: "/404" } }
     ].forEach(testPathParams);
