@@ -10,7 +10,7 @@ export interface Props {
 
 export default function ContentSection({ section }: Props): JSX.Element {
   return (
-    <section class="ContentSection">
+    <section class="ContentSection" id={section.fragment}>
       {section.titleHTML && ( // Omit empty headers such as the lead.
         <DynamicHeader class="ContentSection-header" level={section.level}>
           <Content dangerouslySetInnerHTML={{ __html: section.titleHTML }} />
