@@ -23,8 +23,14 @@ const section = {
   LEAD: { path: "page/mobile-sections-lead", unmarshal: unmarshalPageLead },
   BODY: {
     path: "page/mobile-sections-remaining",
-    unmarshal: ({ json }: { headers: IsomorphicHeaders; json: JSONObject }) =>
-      unmarshalPageBody(json)
+    unmarshal: ({
+      json
+    }: {
+      url: string;
+      requestTitleID?: string;
+      headers: IsomorphicHeaders;
+      json: JSONObject;
+    }) => unmarshalPageBody(json)
   }
 };
 
@@ -51,8 +57,17 @@ const HEADERS = {
 
 const request = (params: Params & SectionParam) =>
   fetch(url(params), { headers: HEADERS })
-    .then(response => Promise.all([response.headers, response.json()]))
-    .then(([headers, json]) => params.section.unmarshal({ headers, json }));
+    .then(response =>
+      Promise.all([response.url, response.headers, response.json()])
+    )
+    .then(([url, headers, json]) => {
+      return params.section.unmarshal({
+        url,
+        requestTitleID: decodeURIComponent(params.titlePath),
+        headers,
+        json
+      });
+    });
 
 export const requestPage = (params: Params): Promise<Page> =>
   request({ section: section.ALL, ...params }) as Promise<Page>;

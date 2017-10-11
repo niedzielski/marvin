@@ -22,5 +22,14 @@ const HEADERS = {
 
 export const request = (params: Params): Promise<PageSummary> =>
   fetch(url(params), { headers: HEADERS })
-    .then(response => Promise.all([response.headers, response.json()]))
-    .then(([headers, json]) => unmarshalPageSummary({ headers, json }));
+    .then(response =>
+      Promise.all([response.url, response.headers, response.json()])
+    )
+    .then(([url, headers, json]) => {
+      return unmarshalPageSummary({
+        url,
+        requestTitleID: decodeURIComponent(params.titlePath),
+        headers,
+        json
+      });
+    });

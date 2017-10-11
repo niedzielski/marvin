@@ -2,6 +2,7 @@ import { PageImage, PageThumbnail } from "../models/page/image";
 import { ETag } from "../models/etag";
 import { PageGeolocation } from "../models/page/geolocation";
 import { PageSummary } from "../models/page/summary";
+import { PageTitleID } from "../models/page/title";
 import { Page, PageLead, PageBody, PageSection } from "../models/page/page";
 import { PageUser, PageUserGender } from "../models/page/user";
 import { IsomorphicHeaders } from "../types/isomorphic-unfetch-extras";
@@ -92,26 +93,43 @@ export const unmarshalETag = (headers: IsomorphicHeaders): ETag => {
   return { revision: parseInt(revision, 10), timeID };
 };
 
+export function unmarshalPageTitleID(url: string): PageTitleID {
+  const titlePath = url.split("/").pop();
+  if (titlePath === undefined) {
+    throw new Error("titlePath should be known at response time.");
+  }
+  return decodeURI(titlePath);
+}
+
 export const unmarshalPageSummary = ({
+  url,
+  requestTitleID,
   headers,
   json
 }: {
+  url: string;
+  requestTitleID?: PageTitleID | string;
   headers: IsomorphicHeaders;
   json: JSONObject;
 }): PageSummary => {
   const type: RESTBase.PageSummary.PageSummary = json as any;
   const result: PageSummary = {
-    wikiLanguageCode: type.lang,
-    localeDirection: type.dir,
     pageID: type.pageid,
-    lastModified: new Date(type.timestamp),
+    titleID: unmarshalPageTitleID(url),
     titleText: type.title,
     titleHTML: type.displaytitle,
+    lastModified: new Date(type.timestamp),
     descriptionText: type.description,
+    etag: unmarshalETag(headers),
+
+    wikiLanguageCode: type.lang,
+    localeDirection: type.dir,
     extractText: type.extract,
-    extractHTML: parseExtractHTML(type.extract_html),
-    etag: unmarshalETag(headers)
+    extractHTML: parseExtractHTML(type.extract_html)
   };
+  if (requestTitleID !== undefined) {
+    result.requestTitleID = requestTitleID;
+  }
   if (type.coordinates) {
     result.geolocation = unmarshalPageGeolocation(type.coordinates as {});
   }
@@ -168,20 +186,26 @@ export const unmarshalPageSections = (json: JSONArray): PageSection[] => {
 };
 
 export const unmarshalPageLead = ({
+  url,
+  requestTitleID,
   headers,
   json
 }: {
+  url: string;
+  requestTitleID?: PageTitleID | string;
   headers: IsomorphicHeaders;
   json: JSONObject;
 }): PageLead => {
   const type: RESTBase.PageSections.Lead = json as any;
   const result: PageLead = {
     pageID: type.id,
+    titleID: unmarshalPageTitleID(url),
     titleText: type.normalizedtitle,
     titleHTML: type.displaytitle,
     lastModified: new Date(type.lastmodified),
     descriptionText: type.description || "",
     etag: unmarshalETag(headers),
+
     revision: parseInt(type.revision, 10),
     namespace: type.ns,
     mainPage: type.mainpage || false,
@@ -195,6 +219,9 @@ export const unmarshalPageLead = ({
     sections:
       (type.sections && unmarshalPageSections(type.sections as {}[])) || []
   };
+  if (requestTitleID !== undefined) {
+    result.requestTitleID = requestTitleID;
+  }
   if (type.geo) {
     result.geolocation = unmarshalPageGeolocation(type.geo as {});
   }
@@ -216,14 +243,23 @@ export const unmarshalPageBody = (json: JSONObject): PageBody => {
 };
 
 export const unmarshalPage = ({
+  url,
+  requestTitleID,
   headers,
   json
 }: {
+  url: string;
+  requestTitleID?: PageTitleID | string;
   headers: IsomorphicHeaders;
   json: JSONObject;
 }): Page => {
   const type: RESTBase.PageSections.Page = json as any;
-  const lead = unmarshalPageLead({ headers, json: type.lead as {} });
+  const lead = unmarshalPageLead({
+    url,
+    requestTitleID,
+    headers,
+    json: type.lead as {}
+  });
   const body = unmarshalPageBody(type.remaining as {});
   return {
     ...lead,

@@ -150,6 +150,7 @@ describe("page-unmarshaller", () => {
       };
       const expected: PageSummary = {
         pageID: 1,
+        titleID: "titleID",
         titleText: "title",
         titleHTML: "displaytitle",
         descriptionText: "description",
@@ -161,6 +162,7 @@ describe("page-unmarshaller", () => {
         extractHTML: ["extract_html"]
       };
       const result = unmarshalPageSummary({
+        url: "titleID",
         headers: HEADERS,
         json: json as {}
       });
@@ -169,7 +171,12 @@ describe("page-unmarshaller", () => {
 
     it("unmarshals a server response", () => {
       const json = require("./page-summary-restbase.test.json");
-      const result = unmarshalPageSummary({ headers: HEADERS, json });
+      const result = unmarshalPageSummary({
+        requestTitleID: "mount_everest",
+        url: "https://en.wikipedia.org/api/rest_v1/page/summary/Mount_Everest",
+        headers: HEADERS,
+        json
+      });
       const expected = revive(
         "./page-summary-expected.test.json",
         pageSummaryReviver
@@ -299,6 +306,7 @@ describe("page-unmarshaller", () => {
       };
       const expected: PageLead = {
         pageID: 2,
+        titleID: "titleID",
         titleText: "normalizedtitle",
         titleHTML: "displaytitle",
         lastModified: new Date(Date.parse(NOW)),
@@ -329,13 +337,22 @@ describe("page-unmarshaller", () => {
         ],
         htmlHatnotes: []
       };
-      const result = unmarshalPageLead({ headers: HEADERS, json: json as {} });
+      const result = unmarshalPageLead({
+        url: "titleID",
+        headers: HEADERS,
+        json: json as {}
+      });
       assert.deepStrictEqual(result, expected);
     });
 
     it("unmarshals a server response", () => {
       const json = require("./page-lead-restbase.test.json");
-      const result = unmarshalPageLead({ headers: HEADERS, json });
+      const result = unmarshalPageLead({
+        url:
+          "https://zh.wikipedia.org/api/rest_v1/page/mobile-sections-lead/中國",
+        headers: HEADERS,
+        json
+      });
       const expected = revive(
         "./page-lead-expected.test.json",
         pageLeadReviver
@@ -399,6 +416,7 @@ describe("page-unmarshaller", () => {
       };
       const expected: Page = {
         pageID: 2,
+        titleID: "titleID",
         titleText: "normalizedtitle",
         titleHTML: "displaytitle",
         lastModified: new Date(Date.parse(NOW)),
@@ -420,13 +438,23 @@ describe("page-unmarshaller", () => {
         sections: [],
         htmlHatnotes: []
       };
-      const result = unmarshalPage({ headers: HEADERS, json: json as {} });
+      const result = unmarshalPage({
+        url: "titleID",
+        headers: HEADERS,
+        json: json as {}
+      });
       assert.deepStrictEqual(result, expected);
     });
 
     it("unmarshals a server response", () => {
       const json = require("./page-restbase.test.json");
-      const result = unmarshalPage({ headers: HEADERS, json });
+      const result = unmarshalPage({
+        requestTitleID: "calculus",
+        url:
+          "https://en.wikipedia.org/api/rest_v1/page/mobile-sections/Calculus",
+        headers: HEADERS,
+        json
+      });
       const expected = revive("./page-expected.test.json", pageReviver);
       assert.deepStrictEqual(result, expected);
     });

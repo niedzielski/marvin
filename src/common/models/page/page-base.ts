@@ -1,21 +1,25 @@
 import { ETag } from "../etag";
 import { PageGeolocation } from "./geolocation";
-import { PageTitleText } from "./title";
+import { PageTitleID, PageTitleText } from "./title";
 
 /**
  * A collection of properties common to page models.
  */
 export interface PageBase {
   pageID: number;
+  /**
+   * For a redirected page, the resultant PageTitleID. For a non-redirected
+   * page, identical to requestTitleID.
+   */
+  titleID: PageTitleID;
   titleText: PageTitleText;
   titleHTML: string;
+  /** A PageTitleID that is not necessarily normalized. */
+  requestTitleID?: PageTitleID | string;
   lastModified: Date;
   descriptionText: string;
   geolocation?: PageGeolocation;
   etag: ETag;
-
-  // todo: inject TitleID from the location header. Consider preserving the
-  //       _requested_ TitleID too if it's useful.
 }
 
 export const pageBaseReviver = (key: string, value: any): any =>
