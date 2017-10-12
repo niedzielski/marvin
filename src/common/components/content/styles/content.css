@@ -1,11 +1,19 @@
-.Content {}
-
 /* Remove margin bottom on the last and top on the first child so that content
-    wraps the inner elements exactly right. */
+   wraps the inner elements exactly right. */
 .Content > :last-child { margin-bottom: 0; }
 .Content > :first-child { margin-top: 0; }
 
 /* Typography */
+
+.Content {
+  /* On very small screens, lengthy words such as references often overflow
+     which causes the whole page to scroll horizontally. When there's no other
+     alternative, break the word down at the character level.
+     http://localhost:3000/wiki/Film/803321621#Notes
+     http://localhost:3000/wiki/China/804850001#Telecommunications */
+  overflow-wrap: break-word;
+}
+
 .Content h1,
 .Content h2 {
   font-family: var(--font-family-serif);
@@ -43,4 +51,59 @@
   padding: var(--half-space) 0 var(--space) var(--space);
   /* Outer spacing */
   margin: 0 0 var(--space) 0;
+}
+
+.Content .quotebox {
+  /* Allow quoteboxes with hardcoded widths to stay within the window
+     boundaries.
+     http://localhost:3000/wiki/The_Beatles/804487790#Sgt._Pepper.27s_Lonely_Hearts_Club_Band */
+  width: auto !important;
+}
+
+.Content a {
+  text-decoration: none;
+  color: var(--wmui-color-accent50);
+}
+
+.Content a:visited {
+  color: var(--wmui-color-accent30);
+}
+
+.Content a[href^="//"], .Content a[href^="http"] {
+  /* External link icon. todo: embed a versioned image. */
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAVElEQVR42n3PgQkAIAhEUXdqJ3dqJ3e6IoTPUSQcgj4EQ5IlUiLE0Jil3PECXhcHGBhZ8kg4hwxAu3MZeCGeyFnAXp4hqNQPnt7QL0nADpD6wHccLvnAKksq8iiaAAAAAElFTkSuQmCC);
+  background-repeat: no-repeat;
+  background-position: center right;
+
+  /* Offset the icon. */
+  padding-right: 13px;
+}
+
+/* References and hatnotes */
+
+/* todo: these should be semantically marked as <sup>.
+   http://localhost:3000/wiki/Picasso's_Blue_Period/801460321 */
+.Content .mw-ref {
+  vertical-align: super;
+  font-size: var(--font-size-note);
+}
+
+/* http://localhost:3000/wiki/Wikipedia:Hatnote */
+.Content .hatnote {
+  font-size: var(--font-size-note);
+  font-style: italic;
+  color: var(--wmui-color-base30);
+}
+
+/* Overflows */
+
+/* Preformatted text frequently overflows horizontally. Provide a horizontal
+   scrollbar when needed since wrapping monospaced content is often illegible.
+   http://localhost:3000/wiki/TypeScript/801562762#Classes */
+.Content pre,
+/* http://localhost:3000/wiki/Periodic_table_(large_cells)/799715731#Notes */
+.Content .navbox,
+/* http://localhost:3000/wiki/Periodic_table/803535152#External_links */
+.Content .metadata {
+  overflow-x: auto;
 }

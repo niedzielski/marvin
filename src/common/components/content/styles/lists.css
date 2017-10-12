@@ -1,0 +1,22 @@
+.Content .hlist dd,
+.Content .hlist dt,
+.Content .hlist li {
+  /* Display items inline instead of one after another.
+     http://localhost:3000/wiki/The_Beatles/804487790 */
+  display: inline;
+}
+
+.Content .hlist dd:after,
+.Content .hlist li:after {
+  /* Add a bullet to every item.
+     http://localhost:3000/wiki/The_Beatles/804487790 */
+  content: " ·   ";
+  font-weight: 700;
+}
+
+.Content .hlist dd:last-child:after,
+.Content .hlist li:last-child:after {
+  /* Suppress the last bullet so bullets only appear between items.
+     See the more general rule above. */
+  content: "";
+}

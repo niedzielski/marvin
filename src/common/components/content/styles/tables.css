@@ -1,0 +1,74 @@
+/* Tables and infobox */
+
+.Content > table,
+/* http://localhost:3000/wiki/Plasma_(physics)/804781490#Research */
+.Content table.multicol {
+  /* Table cells, including wikitext tables and infoboxes, support arbitrary
+     widths. As a well used feature, small screens are unfortunately often not
+     considered so universally change the presentation to a block-element and
+     provide a horizontal scrollbar when needed.
+     http://localhost:3000/wiki/Periodic_table/803535152#Overview
+     http://localhost:3000/wiki/Help:Table#Width.2C_height */
+  overflow-x: auto;
+  display: block;
+
+  /* Tables themselves support widths too and must be limited.
+     http://localhost:3000/wiki/Periodic_table_(large_cells)/799715731 */
+  max-width: 100%;
+
+  /* Center all tables. */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.Content table th {
+  background-color: var(--wmui-color-base90);
+}
+
+.Content table th,
+.Content td {
+  padding: .2em .5em;
+  font-size: 80%;
+
+  /* Keep cells wide enough to contain their contents. This resets the more
+     general overflow-wrap rule applied to all page text in content.css.
+     http://localhost:3000/wiki/Periodic_table_(large_cells)/799715731#32-column */
+  overflow-wrap: normal;
+}
+
+.Content .infobox {
+  background-color: var(--wmui-color-base90);
+  border: 1px solid var(--wmui-color-base80);
+
+  /* http://localhost:3000/wiki/Wolverine/804085375 */
+  width: auto !important;
+  max-width: 22em !important;
+}
+
+@media (min-width: 1000px) {
+  .Content .infobox {
+    /* http://localhost:3000/wiki/Wolverine/804085375 */
+    float: right;
+    margin: 0 0 1em 1em;
+  }
+}
+
+.Content .infobox caption {
+  font-size: 125%;
+  font-weight: var(--font-weight-semibold);
+  padding: .2em;
+}
+
+.Content .infobox td,
+.Content .infobox th {
+  /* http://localhost:3000/wiki/China/804850001 (under "Transcriptions") */
+  text-align: left;
+  border-top: 1px solid var(--wmui-color-base80);
+}
+
+.Content .infobox tr:first-child > td,
+.Content .infobox tr:first-child > th {
+  /* http://localhost:3000/wiki/China/804850001 ("Transcriptions")
+     http://localhost:3000/wiki/Pablo_Picasso/804068218 ("Pablo Picasso") */
+  border-top-width: 0;
+}

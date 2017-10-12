@@ -1,0 +1,12 @@
+/* http://localhost:3000/wiki/Template:Plainlist
+   http://localhost:3000/wiki/China/804850001 (infobox) */
+
+.Content .plainlist > ul {
+  line-height: inherit;
+  list-style: none none;
+  margin: 0;
+}
+
+.Content .plainlist > ul li {
+  margin-bottom: 0;
+}
