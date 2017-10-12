@@ -1,0 +1,10 @@
+/* (Easy) Timeline extension
+   https://phabricator.wikimedia.org/diffusion/ETLN/browse/master/resources/ext.timeline.styles/timeline.css;09b81fb90840a3cceeba063b21aaec5da110b4a0
+   http://localhost:3000/wiki/The_Beatles#Members (unnecessary when the general
+   tables rule exists in content.css) */
+
+/* Timelines can be very long and huge, like tables, so they should be scrollable. */
+.timeline-wrapper {
+  max-width: 100%;
+  overflow: auto;
+}

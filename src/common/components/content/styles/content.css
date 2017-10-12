@@ -79,14 +79,7 @@
   padding-right: 13px;
 }
 
-/* References and hatnotes */
-
-/* todo: these should be semantically marked as <sup>.
-   http://localhost:3000/wiki/Picasso's_Blue_Period/801460321 */
-.Content .mw-ref {
-  vertical-align: super;
-  font-size: var(--font-size-note);
-}
+/* Hatnotes */
 
 /* http://localhost:3000/wiki/Wikipedia:Hatnote */
 .Content .hatnote {

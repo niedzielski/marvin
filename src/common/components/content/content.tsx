@@ -1,5 +1,10 @@
 import { h, DangerouslySetInnerHTML } from "preact";
 import { classOf, ClassProps, ChildrenProps } from "../preact-utils";
+import "./styles/core/parsoid.css";
+import "./styles/core/gallery.css";
+import "./styles/extensions/cite.css";
+import "./styles/extensions/math.css";
+import "./styles/extensions/timeline.css";
 import "./styles/templates/plainlist.css";
 import "./styles/content.css";
 import "./styles/images.css";
