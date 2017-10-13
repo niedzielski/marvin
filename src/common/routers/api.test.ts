@@ -109,6 +109,18 @@ describe("api", () => {
         params: { title: "title/text", revision: "123456789" }
       },
       {
+        name: "wiki (title is a slash)",
+        route: wiki,
+        path: "/wiki//",
+        params: { title: "/", revision: undefined }
+      },
+      {
+        name: "wiki (title is a slash, revision)",
+        route: wiki,
+        path: "/wiki///123456789/",
+        params: { title: "/", revision: "123456789" }
+      },
+      {
         name: "wiki (title with every supported character class)",
         route: wiki,
         path: "/wiki/ %!\"$&'()*,-./0:;=?@A\\^_`a~\x80+",
@@ -143,6 +155,12 @@ describe("api", () => {
         route: summary,
         path: "/page/summary/title/",
         params: { title: "title" }
+      },
+      {
+        name: "summary (title is a slash)",
+        route: summary,
+        path: "/page/summary//",
+        params: { title: "/" }
       },
       {
         name: "summary (title with slash and trailing slash)",
