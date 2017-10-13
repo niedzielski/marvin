@@ -100,3 +100,17 @@
 .Content .metadata {
   overflow-x: auto;
 }
+
+/* Accessibility */
+
+/* Hide (formatting) elements from screen, but not from screenreaders.
+   http://localhost:3000/wiki/MediaWiki:Common.css/804730289
+   http://localhost:3000/wiki/1_+_1_+_1_+_1_+_⋯/793725799 */
+.Content .visualhide {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}

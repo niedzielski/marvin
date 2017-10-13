@@ -7,7 +7,7 @@
  * sending custom request headers like Api-User-Agent) will fail in most
  * current browsers due to a [spec bug].
  *
- * [redirect pages]: https://www.mediawiki.org/wiki/Help:Redirects
+ * [redirect pages]: http://localhost:3000/wiki/Help:Redirects
  * [spec bug]: https://github.com/whatwg/fetch/issues/204
  */
 export type PageRedirect = boolean;
