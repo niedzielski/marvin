@@ -127,10 +127,34 @@ describe("api", () => {
         }
       },
       {
-        name: "summary",
+        name: "summary (title)",
         route: summary,
         path: "/page/summary/title",
         params: { title: "title" }
+      },
+      {
+        name: "summary (title with slash)",
+        route: summary,
+        path: "/page/summary/title/text",
+        params: { title: "title/text" }
+      },
+      {
+        name: "summary (title with trailing slash)",
+        route: summary,
+        path: "/page/summary/title/",
+        params: { title: "title" }
+      },
+      {
+        name: "summary (title with slash and trailing slash)",
+        route: summary,
+        path: "/page/summary/title/text/",
+        params: { title: "title/text" }
+      },
+      {
+        name: "summary (title with every supported character class)",
+        route: summary,
+        path: "/page/summary/ %!\"$&'()*,-./0:;=?@A\\^_`a~\x80+",
+        params: { title: " %!\"$&'()*,-./0:;=?@A\\^_`a~\x80+" }
       },
       {
         name: "random (wiki)",

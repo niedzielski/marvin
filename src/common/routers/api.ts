@@ -20,18 +20,22 @@ export const about: NoParamsRoute = newRoute({
   chunkName: "pages/about"
 });
 
+const TITLE_CHARACTER_REGEX_STRING =
+  "[ %!\"$&'\\(\\)*,\\-.\\/0-9:;=?@A-Z\\\\^_`a-z~\\x80-\\xFF+]";
+
 export const wiki: Route<WikiParams, WikiProps> = newRoute({
   // https://www.mediawiki.org/wiki/Manual:$wgLegalTitleChars
   // https://en.wikipedia.org/w/api.php?action=query&meta=siteinfo
-  path:
-    "/wiki/:title([ %!\"$&'\\(\\)*,\\-.\\/0-9:;=?@A-Z\\\\^_`a-z~\\x80-\\xFF+]+?)/:revision(\\d+)?", // eslint-disable-line max-len
+  path: `/wiki/:title(${TITLE_CHARACTER_REGEX_STRING}+?)/:revision(\\d+)?`, // eslint-disable-line max-len
   importModule: () =>
     import(/* webpackChunkName: "pages/wiki" */ "../pages/wiki"),
   chunkName: "pages/wiki"
 });
 
 export const summary: Route<SummaryParams, SummaryProps> = newRoute({
-  path: "/page/summary/:title",
+  // Note: title is specified as non-greedy here only to omit a trailing slash
+  //       from the title as the wiki endpoint does.
+  path: `/page/summary/:title(${TITLE_CHARACTER_REGEX_STRING}+?)`,
   importModule: () =>
     import(/* webpackChunkName: "pages/summary" */ "../pages/summary"),
   chunkName: "pages/summary"
