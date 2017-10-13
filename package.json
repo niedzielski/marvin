@@ -46,11 +46,11 @@
   "dependencies": {
     "compression": "1.7.1",
     "domino": "1.0.29",
-    "express": "4.16.1",
+    "express": "4.16.2",
     "isomorphic-unfetch": "2.0.0",
     "path-to-regexp": "2.0.0",
     "preact": "8.2.5",
-    "preact-render-to-string": "3.6.3"
+    "preact-render-to-string": "3.7.0"
   },
   "devDependencies": {
     "@types/assets-webpack-plugin": "3.5.0",
@@ -59,7 +59,7 @@
     "@types/extract-text-webpack-plugin": "3.0.0",
     "@types/history": "4.6.0",
     "@types/mocha": "2.2.43",
-    "@types/node": "8.0.32",
+    "@types/node": "8.0.34",
     "@types/node-fetch": "1.6.7",
     "@types/touch": "3.1.0",
     "assets-webpack-plugin": "3.5.1",
