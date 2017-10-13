@@ -21,7 +21,10 @@ export const about: NoParamsRoute = newRoute({
 });
 
 export const wiki: Route<WikiParams, WikiProps> = newRoute({
-  path: "/wiki/:title/:revision(\\d+)?",
+  // https://www.mediawiki.org/wiki/Manual:$wgLegalTitleChars
+  // https://en.wikipedia.org/w/api.php?action=query&meta=siteinfo
+  path:
+    "/wiki/:title([ %!\"$&'\\(\\)*,\\-.\\/0-9:;=?@A-Z\\\\^_`a-z~\\x80-\\xFF+]+?)/:revision(\\d+)?", // eslint-disable-line max-len
   importModule: () =>
     import(/* webpackChunkName: "pages/wiki" */ "../pages/wiki"),
   chunkName: "pages/wiki"
