@@ -10,6 +10,7 @@ import {
   styleGuide
 } from "../../common/routers/api";
 import Page from "../components/page/page";
+import { PageTitleID } from "../models/page/title";
 import Link from "../components/link";
 
 export const Component = (): JSX.Element => {
@@ -87,7 +88,7 @@ export const Component = (): JSX.Element => {
               revision,
               text
             }: {
-              title: string;
+              title: PageTitleID | string;
               revision?: string;
               text: string;
             }) => (

@@ -11,10 +11,11 @@ import ContentFooter from "../components/content-footer/content-footer";
 
 interface PageParams extends RouteParams {
   /**
-   * When used as an input, an unencoded PageTitleID; when used as an output,
-   * an encoded PageTitlePath.
+   * When used as an input, an (unencoded) possible PageTitleID (not necessarily
+   * normalized); when used as an output, an (encoded and normalized)
+   * PageTitlePath.
    */
-  title: PageTitleID | PageTitlePath;
+  title: PageTitleID | PageTitlePath | string;
 }
 // undefined means random input (Route.toPath()) and {} means random output
 // (Route.toParams()).

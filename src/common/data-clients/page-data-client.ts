@@ -7,6 +7,7 @@ import {
 } from "../marshallers/page-unmarshaller";
 import { RESTBase } from "../marshallers/restbase";
 import { PageRedirect } from "./page-redirect";
+import reencodeRESTBaseTitlePath from "./restbase-title-encoder";
 
 // https://en.wikipedia.org/api/rest_v1/#!/Mobile/get_page_mobile_sections_title_revision
 // https://en.wikipedia.org/api/rest_v1/#!/Page_content/get_page_random_format
@@ -36,8 +37,9 @@ const url = ({ section, ...params }: Params & SectionParam) => {
   const revisionPath = revision === undefined ? "" : `/${revision}`;
   const redirectParam = redirect === undefined ? "" : `&redirect=${redirect}`;
 
-  // eslint-disable-next-line max-len
-  return `${RESTBase.BASE_URL}/page/${section.path}/${titlePath}${revisionPath}${redirectParam}`;
+  return `${RESTBase.BASE_URL}/${section.path}/${reencodeRESTBaseTitlePath(
+    titlePath
+  )}${revisionPath}${redirectParam}`;
 };
 
 const PAGE_HEADERS = {

@@ -94,6 +94,9 @@ export const unmarshalETag = (headers: IsomorphicHeaders): ETag => {
 };
 
 export function unmarshalPageTitleID(url: string): PageTitleID {
+  // Titles themselves may contain slashes, however, RESTBase only understands
+  // titles with encoded slashes so when this unmarshaller encounters a slash it
+  // may safely consider this a path segment and not part of the title.
   const titlePath = url.split("/").pop();
   if (titlePath === undefined) {
     throw new Error("titlePath should be known at response time.");

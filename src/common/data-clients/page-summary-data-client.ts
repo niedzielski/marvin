@@ -4,6 +4,7 @@ import { PageTitlePath } from "../models/page/title";
 import { RESTBase } from "../marshallers/restbase";
 import { unmarshalPageSummary } from "../marshallers/page-unmarshaller";
 import { PageRedirect } from "./page-redirect";
+import reencodeRESTBaseTitlePath from "./restbase-title-encoder";
 
 // https://en.wikipedia.org/api/rest_v1/#!/Page_content/get_page_summary_title
 // https://en.wikipedia.org/api/rest_v1/#!/Page_content/get_page_random_format
@@ -21,7 +22,9 @@ const url = (params: Params) => {
 
   const { titlePath, redirect } = params;
   const redirectParam = redirect === undefined ? "" : `&redirect=${redirect}`;
-  return `${RESTBase.BASE_URL}/page/summary/${titlePath}${redirectParam}`;
+  return `${RESTBase.BASE_URL}/page/summary/${reencodeRESTBaseTitlePath(
+    titlePath
+  )}${redirectParam}`;
 };
 
 const PAGE_HEADERS = {

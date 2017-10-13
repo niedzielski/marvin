@@ -10,6 +10,11 @@ import { AnyComponent } from "../components/preact-utils";
  *       inputs are converted to strings in Route.toPath().
  */
 export interface RouteParams {
+  /**
+   * When used as an input, an unencoded parameter; when used as an output, an
+   * encoded path segment. Where applicable, inputs may be changed by service
+   * redirects such as those for title normalization.
+   */
   [name: string]: string | undefined;
 }
 
