@@ -1,6 +1,8 @@
 import * as fetch from "isomorphic-unfetch";
+import { IsomorphicHeaders } from "../types/isomorphic-unfetch-extras";
+import { JSONObject } from "../types/json";
 import { Page, PageLead } from "../models/page/page";
-import { PageTitlePath } from "../models/page/title";
+import { PageTitleID, PageTitlePath } from "../models/page/title";
 import {
   unmarshalPage,
   unmarshalPageLead
@@ -19,55 +21,49 @@ interface PageParams {
 }
 export type Params = PageParams | { random: true };
 
-const section = {
-  ALL: { path: "mobile-sections", unmarshal: unmarshalPage },
-  LEAD: { path: "mobile-sections-lead", unmarshal: unmarshalPageLead }
-};
-
-interface SectionParam {
-  section: typeof section.ALL | typeof section.LEAD;
-}
-
-const url = ({ section, ...params }: Params & SectionParam) => {
+function url(params: Params, endpoint: string) {
   if (params.random) {
-    return `${RESTBase.BASE_URL}/page/random/${section.path}`;
+    return `${RESTBase.BASE_URL}/page/random/${endpoint}`;
   }
 
   const { titlePath, revision, redirect } = params;
   const revisionPath = revision === undefined ? "" : `/${revision}`;
   const redirectParam = redirect === undefined ? "" : `&redirect=${redirect}`;
-
-  return `${RESTBase.BASE_URL}/${section.path}/${reencodeRESTBaseTitlePath(
+  return `${RESTBase.BASE_URL}/page/${endpoint}/${reencodeRESTBaseTitlePath(
     titlePath
   )}${revisionPath}${redirectParam}`;
-};
+}
 
-const PAGE_HEADERS = {
-  accept: RESTBase.PageSections.ACCEPT_HEADER
-};
+const PAGE_HEADERS = { accept: RESTBase.PageSections.ACCEPT_HEADER };
+const RANDOM_HEADERS = { accept: RESTBase.Random.ACCEPT_HEADER };
 
-const RANDOM_HEADERS = {
-  accept: RESTBase.Random.ACCEPT_HEADER
-};
+interface UnmarshalParams {
+  url: string;
+  requestTitleID?: PageTitleID | string;
+  headers: IsomorphicHeaders;
+  json: JSONObject;
+}
 
-const request = (params: Params & SectionParam) =>
-  fetch(url(params), { headers: params.random ? RANDOM_HEADERS : PAGE_HEADERS })
+function request<Type>(
+  params: Params,
+  endpoint: string,
+  unmarshal: (params: UnmarshalParams) => Type
+): Promise<Type> {
+  const headers = params.random ? RANDOM_HEADERS : PAGE_HEADERS;
+  return fetch(url(params, endpoint), { headers })
     .then(response =>
       Promise.all([response.url, response.headers, response.json()])
     )
     .then(([url, headers, json]) => {
-      return params.section.unmarshal({
-        url,
-        requestTitleID: params.random
-          ? undefined
-          : decodeURIComponent(params.titlePath),
-        headers,
-        json
-      });
+      const requestTitleID = params.random
+        ? undefined
+        : decodeURIComponent(params.titlePath);
+      return unmarshal({ url, requestTitleID, headers, json });
     });
+}
 
 export const requestPage = (params: Params): Promise<Page> =>
-  request({ section: section.ALL, ...params }) as Promise<Page>;
+  request(params, "mobile-sections", unmarshalPage);
 
 export const requestPageLead = (params: Params): Promise<PageLead> =>
-  request({ section: section.LEAD, ...params }) as Promise<PageLead>;
+  request(params, "mobile-sections-lead", unmarshalPageLead);
