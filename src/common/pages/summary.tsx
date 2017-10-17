@@ -8,6 +8,7 @@ import { RouteParams } from "../routers/route";
 import { request } from "../data-clients/page-summary-data-client";
 import ContentHeader from "../components/content-header/content-header";
 import ContentFooter from "../components/content-footer/content-footer";
+import HttpResponse from "../data-clients/http-response";
 
 interface PageParams extends RouteParams {
   /**
@@ -25,10 +26,15 @@ export interface Props {
   summary: PageSummaryModel;
 }
 
-export const getInitialProps = (params: Params = {}): Promise<Props> =>
+export const getInitialProps = (
+  params: Params = {}
+): Promise<HttpResponse<Props>> =>
   request(
     params.title === undefined ? { random: true } : { titlePath: params.title }
-  ).then(summary => ({ summary }));
+  ).then(({ status, data }) => ({
+    status,
+    data: { summary: data }
+  }));
 
 export const Component = ({ summary }: Props): JSX.Element => (
   <App>

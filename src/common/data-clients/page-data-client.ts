@@ -8,6 +8,7 @@ import {
   unmarshalPageLead
 } from "../marshallers/page-unmarshaller";
 import { RESTBase } from "../marshallers/restbase";
+import HttpResponse from "./http-response";
 import { PageRedirect } from "./page-redirect";
 import reencodeRESTBaseTitlePath from "./restbase-title-encoder";
 
@@ -48,22 +49,29 @@ function request<Type>(
   params: Params,
   endpoint: string,
   unmarshal: (params: UnmarshalParams) => Type
-): Promise<Type> {
+): Promise<HttpResponse<Type>> {
   const headers = params.random ? RANDOM_HEADERS : PAGE_HEADERS;
   return fetch(url(params, endpoint), { headers })
     .then(response =>
-      response.json().then(json => [response.url, response.headers, json])
+      response
+        .json()
+        .then(json => [response.status, response.url, response.headers, json])
     )
-    .then(([url, headers, json]) => {
+    .then(([status, url, headers, json]) => {
       const requestTitleID = params.random
         ? undefined
         : decodeURIComponent(params.titlePath);
-      return unmarshal({ url, requestTitleID, headers, json });
+      return {
+        status,
+        data: unmarshal({ url, requestTitleID, headers, json })
+      };
     });
 }
 
-export const requestPage = (params: Params): Promise<Page> =>
+export const requestPage = (params: Params): Promise<HttpResponse<Page>> =>
   request(params, "mobile-sections", unmarshalPage);
 
-export const requestPageLead = (params: Params): Promise<PageLead> =>
+export const requestPageLead = (
+  params: Params
+): Promise<HttpResponse<PageLead>> =>
   request(params, "mobile-sections-lead", unmarshalPageLead);

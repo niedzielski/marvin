@@ -5,6 +5,7 @@ import {
   Route,
   RouteParams
 } from "../../common/routers/route";
+import HttpResponse from "../data-clients/http-response";
 
 export interface RouteResponse<Props> {
   chunkName: string;
@@ -20,7 +21,7 @@ export interface Router {
 function getInitialProps<Params extends RouteParams | undefined, Props>(
   module: PageModule<Params, Props>,
   params: Params
-): Promise<Props | void> {
+): Promise<HttpResponse<Props> | void> {
   return module.getInitialProps
     ? module.getInitialProps(params)
     : Promise.resolve();
@@ -31,11 +32,11 @@ function respond<Params extends RouteParams | undefined, Props>(
   params: Params
 ): Promise<RouteResponse<Props>> {
   return route.importModule().then((module: PageModule<Params, Props>) =>
-    getInitialProps(module, params).then((props: Props) => ({
+    getInitialProps(module, params).then((response: HttpResponse<Props>) => ({
       chunkName: route.chunkName,
-      status: route.status,
+      status: (response && response.status) || module.status || 200,
       Component: module.Component as AnyComponent<Props, any>,
-      props
+      props: response && response.data
     }))
   );
 }

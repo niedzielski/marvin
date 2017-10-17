@@ -3,6 +3,7 @@ import { PageSummary } from "../models/page/summary";
 import { PageTitlePath } from "../models/page/title";
 import { RESTBase } from "../marshallers/restbase";
 import { unmarshalPageSummary } from "../marshallers/page-unmarshaller";
+import HttpResponse from "./http-response";
 import { PageRedirect } from "./page-redirect";
 import reencodeRESTBaseTitlePath from "./restbase-title-encoder";
 
@@ -35,18 +36,25 @@ const RANDOM_HEADERS = {
   accept: RESTBase.Random.ACCEPT_HEADER
 };
 
-export const request = (params: Params): Promise<PageSummary> =>
+// todo: this can actually return an empty response when redirect is false. Do
+//       we want to support it? Same question for the other redirect usages.
+export const request = (params: Params): Promise<HttpResponse<PageSummary>> =>
   fetch(url(params), { headers: params.random ? RANDOM_HEADERS : PAGE_HEADERS })
     .then(response =>
-      response.json().then(json => [response.url, response.headers, json])
+      response
+        .json()
+        .then(json => [response.status, response.url, response.headers, json])
     )
-    .then(([url, headers, json]) => {
-      return unmarshalPageSummary({
-        url,
-        requestTitleID: params.random
-          ? undefined
-          : decodeURIComponent(params.titlePath),
-        headers,
-        json
-      });
+    .then(([status, url, headers, json]) => {
+      return {
+        status,
+        data: unmarshalPageSummary({
+          url,
+          requestTitleID: params.random
+            ? undefined
+            : decodeURIComponent(params.titlePath),
+          headers,
+          json
+        })
+      };
     });

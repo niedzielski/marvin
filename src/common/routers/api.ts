@@ -66,8 +66,7 @@ export const notFound: Route<NotFoundParams> = newRoute({
   path: "(.*)",
   importModule: () =>
     import(/* webpackChunkName: "pages/not-found" */ "../pages/not-found"),
-  chunkName: "pages/not-found",
-  status: 404
+  chunkName: "pages/not-found"
 });
 
 export const routes: AnyRoute[] = [

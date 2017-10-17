@@ -1,5 +1,6 @@
 import * as pathToRegExp from "path-to-regexp";
 import { AnyComponent } from "../components/preact-utils";
+import HttpResponse from "../data-clients/http-response";
 
 /**
  * A map of path-to-regexp router path names to matches. The keys must match
@@ -34,12 +35,24 @@ export type PageModule<
        * construct the view component such as a remote resource. This method
        * will likely issue a network request.
        */
-      getInitialProps(params: Params): Promise<Props>;
+      getInitialProps(params: Params): Promise<HttpResponse<Props>>;
+
+      status?: undefined;
 
       /** A Preact view component. */
       Component: AnyComponent<Props, any>;
     }
-  | { getInitialProps?: undefined; Component: AnyComponent<undefined, any> };
+  | {
+      getInitialProps?: undefined;
+
+      /**
+       * The request status if Route.importModule() is successful. Defaults to
+       * 200.
+       */
+      status?: number;
+
+      Component: AnyComponent<undefined, any>;
+    };
 
 /** A plain configuration used to generate a Route. */
 export interface RouteConfig<
@@ -57,17 +70,12 @@ export interface RouteConfig<
 
   /** The chunk filename of the module. */
   chunkName: string;
-
-  /** The request status if import and request for properties succeed. */
-  status?: number;
 }
 
 export interface Route<
   Params extends RouteParams | undefined = undefined,
   Props = undefined
 > extends RouteConfig<Params, Props> {
-  status: number;
-
   /**
    * Generate a Params object from a given URL path or void if the path does not
    * match. An empty object is returned for matching NoPropsRoutes.
@@ -121,8 +129,7 @@ export function newRoute<
 >({
   path,
   importModule,
-  chunkName,
-  status = 200
+  chunkName
 }: RouteConfig<Params, Props>): Route<Params, Props> {
   const paramNames: pathToRegExp.Key[] = [];
   const pathRegExp = pathToRegExp(path, paramNames);
@@ -130,7 +137,6 @@ export function newRoute<
     path,
     importModule,
     chunkName,
-    status,
     toParams: (path: string) => toParams({ pathRegExp, paramNames, path }),
     toPath: pathToRegExp.compile(path)
   } as Route<Params, Props>;

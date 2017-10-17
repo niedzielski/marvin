@@ -8,6 +8,7 @@ import { RouteParams } from "../routers/route";
 import { requestPage } from "../data-clients/page-data-client";
 import ContentSection from "../components/content-section/content-section";
 import ContentFooter from "../components/content-footer/content-footer";
+import HttpResponse from "../data-clients/http-response";
 
 interface PageParams extends RouteParams {
   /**
@@ -29,7 +30,9 @@ export interface Props {
   page: PageModel;
 }
 
-export const getInitialProps = (params: Params = {}): Promise<Props> =>
+export const getInitialProps = (
+  params: Params = {}
+): Promise<HttpResponse<Props>> =>
   requestPage(
     params.title === undefined
       ? { random: true }
@@ -40,7 +43,7 @@ export const getInitialProps = (params: Params = {}): Promise<Props> =>
               ? undefined
               : parseInt(params.revision, 10)
         }
-  ).then(page => ({ page }));
+  ).then(({ status, data }) => ({ status, data: { page: data } }));
 
 export const Component = ({ page }: Props): JSX.Element => (
   <App>
