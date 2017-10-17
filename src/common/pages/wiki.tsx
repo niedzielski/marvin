@@ -11,9 +11,9 @@ import ContentFooter from "../components/content-footer/content-footer";
 
 interface PageParams extends RouteParams {
   /**
-   * When used as an input, an (unencoded) possible PageTitleID (not necessarily
-   * normalized); when used as an output, an (encoded and normalized)
-   * PageTitlePath.
+   * When used as an input, an (unencoded, not necessarily denormalized)
+   * possible PageTitleID; when used as an output of Route.toParams(), an
+   * (encoded, not necessarily denormalized) PageTitlePath.
    */
   title: PageTitleID | PageTitlePath | string;
   revision?: string;

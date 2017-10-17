@@ -14,7 +14,7 @@ export interface PageBase {
   titleID: PageTitleID;
   titleText: PageTitleText;
   titleHTML: string;
-  /** A PageTitleID that is not necessarily normalized. */
+  /** An (unencoded) PageTitleID that is not necessarily denormalized. */
   requestTitleID?: PageTitleID | string;
   lastModified: Date;
   descriptionText: string;
