@@ -38,7 +38,7 @@ const RANDOM_HEADERS = {
 export const request = (params: Params): Promise<PageSummary> =>
   fetch(url(params), { headers: params.random ? RANDOM_HEADERS : PAGE_HEADERS })
     .then(response =>
-      Promise.all([response.url, response.headers, response.json()])
+      response.json().then(json => [response.url, response.headers, json])
     )
     .then(([url, headers, json]) => {
       return unmarshalPageSummary({

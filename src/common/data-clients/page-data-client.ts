@@ -52,7 +52,7 @@ function request<Type>(
   const headers = params.random ? RANDOM_HEADERS : PAGE_HEADERS;
   return fetch(url(params, endpoint), { headers })
     .then(response =>
-      Promise.all([response.url, response.headers, response.json()])
+      response.json().then(json => [response.url, response.headers, json])
     )
     .then(([url, headers, json]) => {
       const requestTitleID = params.random
