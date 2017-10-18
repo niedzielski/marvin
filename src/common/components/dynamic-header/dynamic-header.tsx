@@ -7,6 +7,6 @@ export default function DynamicHeader({
   ...props
 }: { level: number } & ChildrenProps & ClassProps): JSX.Element {
   const classes = classOf("DynamicHeader", props.class);
-  const Header = level <= 0 ? "div" : `h${Math.min(level, 6)}`;
+  const Header = level < 1 ? "div" : `h${Math.min(level, 6)}`;
   return <Header class={classes}>{children}</Header>;
 }

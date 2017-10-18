@@ -12,7 +12,7 @@ export default function ContentSection({ section }: Props): JSX.Element {
   return (
     <section class="ContentSection" id={section.fragment}>
       {section.titleHTML && ( // Omit empty headers such as the lead.
-        <DynamicHeader class="ContentSection-header" level={section.level}>
+        <DynamicHeader class="ContentSection-header" level={section.level + 1}>
           <Content dangerouslySetInnerHTML={{ __html: section.titleHTML }} />
         </DynamicHeader>
       )}

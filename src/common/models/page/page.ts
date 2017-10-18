@@ -9,7 +9,9 @@ export interface PageSection {
 
   /**
    * Zero-based section header or indent level often used as h1, h2, h3, ...
-   * The lead is zero and all subsequent sections are one or greater.
+   * The lead is zero and all subsequent sections are one or greater, so for a
+   * page with <h1>title</h1> and <h2>title</h2>, one must be added to the level
+   * when calculating which h1..6 tag to use.
    */
   level: number;
 
