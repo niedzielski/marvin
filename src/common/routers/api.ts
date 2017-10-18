@@ -21,7 +21,7 @@ export const about: NoParamsRoute = newRoute({
 });
 
 const TITLE_CHARACTER_REGEX_STRING =
-  "[ %!\"$&'\\(\\)*,\\-.\\/0-9:;=?@A-Z\\\\^_`a-z~\\x80-\\xFF+]";
+  "[ %!\"$&'\\(\\)*,\\-.\\/0-9:;=@A-Z\\\\^_`a-z~\\x80-\\xFF+]";
 
 export const wiki: Route<WikiParams, WikiProps> = newRoute({
   // https://www.mediawiki.org/wiki/Manual:$wgLegalTitleChars

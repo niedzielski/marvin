@@ -121,20 +121,32 @@ describe("api", () => {
         params: { title: "/", revision: "123456789" }
       },
       {
+        name: "wiki (title is a question mark)",
+        route: wiki,
+        path: "/wiki/%3f",
+        params: { title: "%3f", revision: undefined }
+      },
+      {
+        name: "wiki (title is a question mark, revision)",
+        route: wiki,
+        path: "/wiki/%3f/123456789/",
+        params: { title: "%3f", revision: "123456789" }
+      },
+      {
         name: "wiki (title with every supported character class)",
         route: wiki,
-        path: "/wiki/ %!\"$&'()*,-./0:;=?@A\\^_`a~\x80+",
+        path: "/wiki/ %!\"$&'()*,-./0:;=@A\\^_`a~\x80+",
         params: {
-          title: " %!\"$&'()*,-./0:;=?@A\\^_`a~\x80+",
+          title: " %!\"$&'()*,-./0:;=@A\\^_`a~\x80+",
           revision: undefined
         }
       },
       {
         name: "wiki (title with every supported character class, revision)",
         route: wiki,
-        path: "/wiki/ %!\"$&'()*,-./0:;=?@A\\^_`a~\x80+/123456789",
+        path: "/wiki/ %!\"$&'()*,-./0:;=@A\\^_`a~\x80+/123456789",
         params: {
-          title: " %!\"$&'()*,-./0:;=?@A\\^_`a~\x80+",
+          title: " %!\"$&'()*,-./0:;=@A\\^_`a~\x80+",
           revision: "123456789"
         }
       },
@@ -169,10 +181,16 @@ describe("api", () => {
         params: { title: "title/text" }
       },
       {
+        name: "summary (title is a question mark)",
+        route: summary,
+        path: "/page/summary/%3f",
+        params: { title: "%3f" }
+      },
+      {
         name: "summary (title with every supported character class)",
         route: summary,
-        path: "/page/summary/ %!\"$&'()*,-./0:;=?@A\\^_`a~\x80+",
-        params: { title: " %!\"$&'()*,-./0:;=?@A\\^_`a~\x80+" }
+        path: "/page/summary/ %!\"$&'()*,-./0:;=@A\\^_`a~\x80+",
+        params: { title: " %!\"$&'()*,-./0:;=@A\\^_`a~\x80+" }
       },
       {
         name: "random (wiki)",
