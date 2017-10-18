@@ -6,8 +6,8 @@ import { PageTitleID, PageTitlePath } from "../models/page/title";
 import Page from "../components/page/page";
 import { RouteParams } from "../routers/route";
 import { requestPage } from "../data-clients/page-data-client";
-import ContentSection from "../components/content-section/content-section";
 import ContentFooter from "../components/content-footer/content-footer";
+import ContentPage from "../components/content-page/content-page";
 import HttpResponse from "../data-clients/http-response";
 
 interface PageParams extends RouteParams {
@@ -52,7 +52,7 @@ export const Component = ({ page }: Props): JSX.Element => (
       subtitle={page.descriptionText}
       footer={<ContentFooter lastModified={page.lastModified} />}
     >
-      {page.sections.map(section => <ContentSection section={section} />)}
+      <ContentPage sections={page.sections} />
     </Page>
   </App>
 );
