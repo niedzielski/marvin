@@ -93,11 +93,7 @@
 /* Preformatted text frequently overflows horizontally. Provide a horizontal
    scrollbar when needed since wrapping monospaced content is often illegible.
    http://localhost:3000/wiki/TypeScript/801562762#Classes */
-.Content pre,
-/* http://localhost:3000/wiki/Periodic_table_(large_cells)/799715731#Notes */
-.Content .navbox,
-/* http://localhost:3000/wiki/Periodic_table/803535152#External_links */
-.Content .metadata {
+.Content pre {
   overflow-x: auto;
 }
 

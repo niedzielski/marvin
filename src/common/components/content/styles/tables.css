@@ -72,3 +72,15 @@
      http://localhost:3000/wiki/Pablo_Picasso/804068218 ("Pablo Picasso") */
   border-top-width: 0;
 }
+
+/* http://localhost:3000/wiki/Periodic_table_(large_cells)/799715731#Notes */
+.Content .navbox,
+/* http://localhost:3000/wiki/Periodic_table/803535152#External_links */
+.Content .metadata {
+  overflow-x: auto;
+}
+
+/* http://localhost:3000/wiki/Voodoo_Shoppe/443846926 */
+.Content .navbox .navbox-inner {
+  width: 100%;
+}
