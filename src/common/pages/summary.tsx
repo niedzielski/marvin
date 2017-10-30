@@ -5,10 +5,13 @@ import { PageSummary as PageSummaryModel } from "../models/page/summary";
 import { PageTitleID, PageTitlePath } from "../models/page/title";
 import Page from "../components/page/page";
 import { RouteParams } from "../routers/route";
+import { summary } from "../routers/api";
 import { request } from "../http/page-summary-http-client";
 import ContentHeader from "../components/content-header/content-header";
 import ContentFooter from "../components/content-footer/content-footer";
 import HttpResponse from "../http/http-response";
+import { RedirectError } from "../http/fetch-with-redirect";
+import { unmarshalPageTitleID } from "../marshallers/page-base/page-base-unmarshaller"; // eslint-disable-line max-len
 
 interface PageParams extends RouteParams {
   /**
@@ -32,10 +35,22 @@ export default {
       params.title === undefined
         ? { random: true }
         : { titlePath: params.title }
-    ).then(({ status, data }) => ({
-      status,
-      data: { summary: data }
-    }));
+    )
+      .then(({ status, data }) => ({
+        status,
+        data: { summary: data }
+      }))
+      .catch(error => {
+        if (error instanceof RedirectError) {
+          error = new RedirectError(
+            error.status,
+            summary.toPath({
+              title: decodeURIComponent(unmarshalPageTitleID(error.url))
+            })
+          );
+        }
+        throw error;
+      });
   },
 
   Component({ summary }: Props): JSX.Element {

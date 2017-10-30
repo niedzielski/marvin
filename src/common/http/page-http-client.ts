@@ -1,4 +1,3 @@
-import * as fetch from "isomorphic-unfetch";
 import { IsomorphicHeaders } from "../types/isomorphic-unfetch-extras";
 import { JSONObject } from "../types/json";
 import { Page, PageLead } from "../models/page/page";
@@ -10,6 +9,7 @@ import {
 import { RESTBase } from "../marshallers/restbase";
 import HttpResponse from "./http-response";
 import { PageRedirect } from "./page-redirect";
+import { fetch } from "./fetch-with-redirect";
 import reencodeRESTBaseTitlePath from "./restbase-title-encoder";
 
 // https://en.wikipedia.org/api/rest_v1/#!/Mobile/get_page_mobile_sections_title_revision

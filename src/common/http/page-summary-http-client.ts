@@ -1,10 +1,10 @@
-import * as fetch from "isomorphic-unfetch";
 import { PageSummary } from "../models/page/summary";
 import { PageTitlePath } from "../models/page/title";
 import { RESTBase } from "../marshallers/restbase";
 import { unmarshalPageSummary } from "../marshallers/page-summary/page-summary-unmarshaller"; // eslint-disable-line max-len
 import HttpResponse from "./http-response";
 import { PageRedirect } from "./page-redirect";
+import { fetch } from "./fetch-with-redirect";
 import reencodeRESTBaseTitlePath from "./restbase-title-encoder";
 
 // https://en.wikipedia.org/api/rest_v1/#!/Page_content/get_page_summary_title

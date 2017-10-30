@@ -17,6 +17,7 @@ import { h } from "preact";
 import { render as renderToString } from "preact-render-to-string";
 
 import { RouteResponse, newRouter } from "../common/routers/router";
+import { RedirectError } from "../common/http/fetch-with-redirect";
 import { routes } from "../common/routers/api";
 import {
   PRODUCTION,
@@ -57,9 +58,16 @@ server.get("*", (request, response) => {
       response.status(routeResponse.status).send(render(routeResponse))
     )
     .catch(error => {
-      const message = `${error.message}\n${error.stack}`;
-      console.error(message); // eslint-disable-line no-console
-      response.status(500).send(message);
+      if (error instanceof RedirectError) {
+        return response
+          .status(error.status)
+          .header("location", error.url)
+          .send();
+      } else {
+        const message = `${error.message}\n${error.stack}`;
+        console.error(message); // eslint-disable-line no-console
+        return response.status(500).send(message);
+      }
     });
 });
 

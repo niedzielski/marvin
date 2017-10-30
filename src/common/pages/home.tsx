@@ -29,6 +29,14 @@ const testSummaries = [
   {
     title: "Bill_&_Ted's_Excellent_Adventure",
     text: "With two paragraphs, unencoded path, and styled title"
+  },
+  {
+    title: "Carrot cake",
+    text: "Encoding redirect (301)"
+  },
+  {
+    title: "Cheese_cake",
+    text: "Redirect page (302)"
   }
 ];
 
@@ -42,12 +50,12 @@ const testPages = [
     text: "Disambiguation"
   },
   {
-    title: "Cheese_cake",
-    text: "Redirect"
+    title: "Carrot cake",
+    text: "Encoding redirect (301)"
   },
   {
-    title: "Carrot cake",
-    text: "Encoding redirect"
+    title: "Cheese_cake",
+    text: "Redirect page (302)"
   },
   {
     title: "Ice_cream_cake",
