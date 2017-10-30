@@ -14,10 +14,6 @@ export interface RouteResponse<Props> {
   props: Props;
 }
 
-export interface Router {
-  route(path: string): Promise<RouteResponse<any>>;
-}
-
 function getInitialProps<Params extends RouteParams | undefined, Props>(
   module: PageModule<Params, Props>,
   params: Params
@@ -41,9 +37,9 @@ function respond<Params extends RouteParams | undefined, Props>(
   );
 }
 
-export const newRouter = (routes: AnyRoute[]): Router => {
+export const newRouter = (routes: AnyRoute[]) => {
   return {
-    route(path) {
+    route(path: string): Promise<RouteResponse<any>> {
       for (const route of routes) {
         const params = route.toParams(path);
         if (params) {
