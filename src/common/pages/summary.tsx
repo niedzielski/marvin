@@ -5,10 +5,10 @@ import { PageSummary as PageSummaryModel } from "../models/page/summary";
 import { PageTitleID, PageTitlePath } from "../models/page/title";
 import Page from "../components/page/page";
 import { RouteParams } from "../routers/route";
-import { request } from "../data-clients/page-summary-data-client";
+import { request } from "../http/page-summary-http-client";
 import ContentHeader from "../components/content-header/content-header";
 import ContentFooter from "../components/content-footer/content-footer";
-import HttpResponse from "../data-clients/http-response";
+import HttpResponse from "../http/http-response";
 
 interface PageParams extends RouteParams {
   /**

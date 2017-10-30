@@ -5,7 +5,7 @@ import {
   Route,
   RouteParams
 } from "../../common/routers/route";
-import HttpResponse from "../data-clients/http-response";
+import HttpResponse from "../http/http-response";
 
 export interface RouteResponse<Props> {
   chunkName: string;

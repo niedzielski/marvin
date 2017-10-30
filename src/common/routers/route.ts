@@ -1,6 +1,6 @@
 import * as pathToRegExp from "path-to-regexp";
 import { AnyComponent } from "../components/preact-utils";
-import HttpResponse from "../data-clients/http-response";
+import HttpResponse from "../http/http-response";
 
 /**
  * A map of path-to-regexp router path names to matches. The keys must match
