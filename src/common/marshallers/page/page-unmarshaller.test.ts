@@ -1,7 +1,7 @@
 import * as assert from "assert";
 
-import { PageImage } from "../models/page/image";
-import { PageNamespace } from "../models/page/namespace";
+import { PageImage } from "../../models/page/image";
+import { PageNamespace } from "../../models/page/namespace";
 import {
   Page,
   PageLead,
@@ -9,8 +9,10 @@ import {
   PageSection,
   pageReviver,
   pageLeadReviver
-} from "../models/page/page";
-import { PageUser, PageUserGender } from "../models/page/user";
+} from "../../models/page/page";
+import { PageUser, PageUserGender } from "../../models/page/user";
+import { RESTBase } from "../restbase";
+import { EXPECTED_ETAG, HEADERS, reviveFile } from "../utils.test";
 import {
   unmarshalPage,
   unmarshalPageLead,
@@ -21,8 +23,6 @@ import {
   unmarshalPageUser,
   unmarshalPageUserGender
 } from "./page-unmarshaller";
-import { RESTBase } from "./restbase";
-import { EXPECTED_ETAG, HEADERS, reviveFile } from "./utils.test";
 
 const NOW = new Date(Date.now()).toString();
 
@@ -221,7 +221,7 @@ describe("page-unmarshaller", () => {
         json
       });
       const expected = reviveFile(
-        "./page-lead-expected.test.json",
+        `${__dirname}/page-lead-expected.test.json`,
         pageLeadReviver
       );
       assert.deepStrictEqual(result, expected);
@@ -260,7 +260,7 @@ describe("page-unmarshaller", () => {
     it("unmarshals a server response", () => {
       const json = require("./page-body-restbase.test.json");
       const result = unmarshalPageBody(json);
-      const expected = reviveFile("./page-body-expected.test.json");
+      const expected = reviveFile(`${__dirname}/page-body-expected.test.json`);
       assert.deepStrictEqual(result, expected);
     });
   });
@@ -322,7 +322,10 @@ describe("page-unmarshaller", () => {
         headers: HEADERS,
         json
       });
-      const expected = reviveFile("./page-expected.test.json", pageReviver);
+      const expected = reviveFile(
+        `${__dirname}/page-expected.test.json`,
+        pageReviver
+      );
       assert.deepStrictEqual(result, expected);
     });
   });

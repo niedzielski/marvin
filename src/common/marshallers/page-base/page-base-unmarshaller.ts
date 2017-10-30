@@ -1,9 +1,9 @@
-import { ETag } from "../models/etag";
-import { PageGeolocation } from "../models/page/geolocation";
-import { PageTitleID } from "../models/page/title";
-import { IsomorphicHeaders } from "../types/isomorphic-unfetch-extras";
-import { JSONObject } from "../types/json";
-import { RESTBase } from "./restbase";
+import { ETag } from "../../models/etag";
+import { PageGeolocation } from "../../models/page/geolocation";
+import { PageTitleID } from "../../models/page/title";
+import { IsomorphicHeaders } from "../../types/isomorphic-unfetch-extras";
+import { JSONObject } from "../../types/json";
+import { RESTBase } from "../restbase";
 
 export function unmarshalPageTitleID(url: string): PageTitleID {
   // Titles themselves may contain slashes, however, RESTBase only understands

@@ -6,7 +6,7 @@ import { PageTitleID, PageTitlePath } from "../models/page/title";
 import {
   unmarshalPage,
   unmarshalPageLead
-} from "../marshallers/page-unmarshaller";
+} from "../marshallers/page/page-unmarshaller";
 import { RESTBase } from "../marshallers/restbase";
 import HttpResponse from "./http-response";
 import { PageRedirect } from "./page-redirect";

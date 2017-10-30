@@ -1,11 +1,11 @@
 import * as assert from "assert";
-import { PageGeolocation } from "../models/page/geolocation";
+import { PageGeolocation } from "../../models/page/geolocation";
+import { RESTBase } from "../restbase";
+import { EXPECTED_ETAG, HEADERS } from "../utils.test";
 import {
   unmarshalETag,
   unmarshalPageGeolocation
 } from "./page-base-unmarshaller";
-import { RESTBase } from "./restbase";
-import { EXPECTED_ETAG, HEADERS } from "./utils.test";
 
 describe("page-base-unmarshaller", () => {
   it(".unmarshalPageGeolocation() unmarshals", () => {

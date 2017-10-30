@@ -1,14 +1,14 @@
-import { PageImage, PageThumbnail } from "../models/page/image";
-import { PageSummary } from "../models/page/summary";
-import { PageTitleID } from "../models/page/title";
-import { IsomorphicHeaders } from "../types/isomorphic-unfetch-extras";
-import { JSONObject } from "../types/json";
+import { PageImage, PageThumbnail } from "../../models/page/image";
+import { PageSummary } from "../../models/page/summary";
+import { PageTitleID } from "../../models/page/title";
+import { IsomorphicHeaders } from "../../types/isomorphic-unfetch-extras";
+import { JSONObject } from "../../types/json";
 import {
   unmarshalPageTitleID,
   unmarshalPageGeolocation,
   unmarshalETag
-} from "./page-base-unmarshaller";
-import { RESTBase } from "./restbase";
+} from "../page-base/page-base-unmarshaller";
+import { RESTBase } from "../restbase";
 
 export const unmarshalPageThumbnail = (json: JSONObject): PageThumbnail => {
   const type: RESTBase.PageSummary.Thumbnail = json as any;

@@ -1,13 +1,13 @@
 import * as assert from "assert";
-import { PageSummary, pageSummaryReviver } from "../models/page/summary";
-import { PageImage, PageThumbnail } from "../models/page/image";
+import { PageSummary, pageSummaryReviver } from "../../models/page/summary";
+import { PageImage, PageThumbnail } from "../../models/page/image";
+import { RESTBase } from "../restbase";
+import { EXPECTED_ETAG, HEADERS, reviveFile } from "../utils.test";
 import {
   unmarshalPageImage,
   unmarshalPageThumbnail,
   unmarshalPageSummary
 } from "./page-summary-unmarshaller";
-import { RESTBase } from "./restbase";
-import { EXPECTED_ETAG, HEADERS, reviveFile } from "./utils.test";
 
 const NOW = new Date(Date.now()).toString();
 
@@ -102,7 +102,7 @@ describe("page-summary-unmarshaller", () => {
         json
       });
       const expected = reviveFile(
-        "./page-summary-expected.test.json",
+        `${__dirname}/page-summary-expected.test.json`,
         pageSummaryReviver
       );
       assert.deepStrictEqual(result, expected);
