@@ -1,9 +1,6 @@
 import * as assert from "assert";
-import * as fetch from "node-fetch";
-import { JSONValue } from "../types/json";
-import { PageSummary, pageSummaryReviver } from "../models/page/summary";
-import { PageImage, PageThumbnail } from "../models/page/image";
-import { PageGeolocation } from "../models/page/geolocation";
+
+import { PageImage } from "../models/page/image";
 import { PageNamespace } from "../models/page/namespace";
 import {
   Page,
@@ -15,82 +12,21 @@ import {
 } from "../models/page/page";
 import { PageUser, PageUserGender } from "../models/page/user";
 import {
-  unmarshalETag,
   unmarshalPage,
   unmarshalPageLead,
   unmarshalPageBody,
-  unmarshalPageGeolocation,
-  unmarshalPageImage,
   unmarshalPageImageMap,
-  unmarshalPageThumbnail,
   unmarshalPageSection,
   unmarshalPageSections,
-  unmarshalPageSummary,
   unmarshalPageUser,
   unmarshalPageUserGender
 } from "./page-unmarshaller";
 import { RESTBase } from "./restbase";
-
-const revive = (
-  filename: string,
-  reviver?: (key: any, value: JSONValue) => any
-) => JSON.parse(JSON.stringify(require(filename)), reviver);
+import { EXPECTED_ETAG, HEADERS, reviveFile } from "./utils.test";
 
 const NOW = new Date(Date.now()).toString();
 
-const ETAG_REVISION = 802006980;
-const ETAG_TIME_ID = "4f754377-a235-11e7-a776-efb84f18649a";
-const HEADERS = new fetch.Headers();
-HEADERS.append("etag", `${ETAG_REVISION}/${ETAG_TIME_ID}`);
-const EXPECTED_ETAG = { revision: ETAG_REVISION, timeID: ETAG_TIME_ID };
-
 describe("page-unmarshaller", () => {
-  describe(".unmarshalPageThumbnail()", () => {
-    [false, true].forEach(landscape => {
-      it(`unmarshals ${landscape ? "landscape" : "portrait"}`, () => {
-        const width = landscape ? 2 : 1;
-        const height = landscape ? 1 : 2;
-        const json: RESTBase.PageSummary.Thumbnail = {
-          source: "source",
-          original: "original",
-          width,
-          height
-        };
-        const expected: PageThumbnail = {
-          url: "source",
-          width,
-          height,
-          landscape,
-          originalURL: "original"
-        };
-        const result = unmarshalPageThumbnail(json as {});
-        assert.deepStrictEqual(result, expected);
-      });
-    });
-  });
-
-  describe(".unmarshalPageImage()", () => {
-    [false, true].forEach(landscape => {
-      it(`unmarshals ${landscape ? "landscape" : "portrait"}`, () => {
-        const width = landscape ? 2 : 1;
-        const height = landscape ? 1 : 2;
-        const json: RESTBase.PageSummary.Image = {
-          source: "source",
-          width,
-          height
-        };
-        const expected: PageImage = {
-          url: "source",
-          width,
-          height,
-          landscape
-        };
-        const result = unmarshalPageImage(json as {});
-        assert.deepStrictEqual(result, expected);
-      });
-    });
-  });
-
   describe(".unmarshalPageImageMap()", () => {
     it("unmarshals an empty map", () => {
       const json: RESTBase.PageSections.ThumbnailMap = {
@@ -112,75 +48,6 @@ describe("page-unmarshaller", () => {
         { url: "2", width: 2 }
       ];
       const result = unmarshalPageImageMap(json as {});
-      assert.deepStrictEqual(result, expected);
-    });
-  });
-
-  it(".unmarshalPageGeolocation() unmarshals", () => {
-    const json: RESTBase.PageSummary.Geolocation = {
-      lat: 1,
-      lon: 2
-    };
-    const expected: PageGeolocation = {
-      latitude: 1,
-      longitude: 2
-    };
-    const result = unmarshalPageGeolocation(json as {});
-    assert.deepStrictEqual(result, expected);
-  });
-
-  it(".unmarshalETag() unmarshals", () => {
-    const result = unmarshalETag(HEADERS);
-    assert.deepStrictEqual(result, EXPECTED_ETAG);
-  });
-
-  describe(".unmarshalPageSummary()", () => {
-    // eslint-disable-next-line max-len
-    it("unmarshals omitting undefined properties and returns extract even when there are no paragraphs", () => {
-      const json: RESTBase.PageSummary.PageSummary = {
-        title: "title",
-        displaytitle: "displaytitle",
-        pageid: 1,
-        extract: "extract",
-        extract_html: "extract_html",
-        lang: "en",
-        dir: "ltr",
-        timestamp: NOW,
-        description: "description"
-      };
-      const expected: PageSummary = {
-        pageID: 1,
-        titleID: "titleID",
-        titleText: "title",
-        titleHTML: "displaytitle",
-        descriptionText: "description",
-        lastModified: new Date(Date.parse(NOW)),
-        etag: EXPECTED_ETAG,
-        wikiLanguageCode: "en",
-        localeDirection: "ltr",
-        extractText: "extract",
-        extractHTML: ["extract_html"]
-      };
-      const result = unmarshalPageSummary({
-        url: "titleID",
-        headers: HEADERS,
-        json: json as {}
-      });
-      assert.deepStrictEqual(result, expected);
-    });
-
-    it("unmarshals a server response", () => {
-      const json = require("./page-summary-restbase.test.json");
-      const result = unmarshalPageSummary({
-        requestTitleID: "mount_everest",
-        url: "https://en.wikipedia.org/api/rest_v1/page/summary/Mount_Everest",
-        headers: HEADERS,
-        json
-      });
-      const expected = revive(
-        "./page-summary-expected.test.json",
-        pageSummaryReviver
-      );
       assert.deepStrictEqual(result, expected);
     });
   });
@@ -353,7 +220,7 @@ describe("page-unmarshaller", () => {
         headers: HEADERS,
         json
       });
-      const expected = revive(
+      const expected = reviveFile(
         "./page-lead-expected.test.json",
         pageLeadReviver
       );
@@ -393,7 +260,7 @@ describe("page-unmarshaller", () => {
     it("unmarshals a server response", () => {
       const json = require("./page-body-restbase.test.json");
       const result = unmarshalPageBody(json);
-      const expected = revive("./page-body-expected.test.json");
+      const expected = reviveFile("./page-body-expected.test.json");
       assert.deepStrictEqual(result, expected);
     });
   });
@@ -455,7 +322,7 @@ describe("page-unmarshaller", () => {
         headers: HEADERS,
         json
       });
-      const expected = revive("./page-expected.test.json", pageReviver);
+      const expected = reviveFile("./page-expected.test.json", pageReviver);
       assert.deepStrictEqual(result, expected);
     });
   });
