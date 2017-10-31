@@ -42,6 +42,14 @@
 /* Remove extra margin, expand base elements to the viewport height */
 html, body, #root { margin: 0; height: 100%; }
 
+/* Use the border box model so that element width and height _include_ any
+   border and padding in their specification. This allows Marvin to intutively
+   write things like `body { width: 100%; padding: 1em; }` without exceeding the
+   screen size, for example.
+   https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/ */
+html { box-sizing: border-box; }
+*, *:before, *:after { box-sizing: inherit; }
+
 /* Base layer */
 body {
   background-color: var(--wmui-color-base80);
