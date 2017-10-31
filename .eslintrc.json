@@ -22,8 +22,9 @@
         "ignorePattern": "^/// .+|// (?!eslint-.+max-len)eslint-.+"
       }
     ],
+    "no-console": "warn",
     "sort-imports": "off",
-    "import/order": ["warn"]
+    "import/order": "warn"
   },
   "parser": "typescript-eslint-parser",
   "parserOptions": {
