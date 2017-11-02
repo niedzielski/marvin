@@ -11,10 +11,14 @@ export interface Params extends RouteParams {
   0: string;
 }
 
-export const status: number = 404;
+export default {
+  status: 404,
 
-export const Component = (): JSX.Element => (
-  <App>
-    <p>Not found</p>
-  </App>
-);
+  Component(): JSX.Element {
+    return (
+      <App>
+        <p>Not found</p>
+      </App>
+    );
+  }
+};

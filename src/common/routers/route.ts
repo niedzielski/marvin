@@ -25,7 +25,7 @@ export interface RouteParams {
  * pages/ subdirectory should implicitly implement this interface or typing will
  * fail in routers/api.
  */
-export type PageModule<
+export type PageComponent<
   Params extends RouteParams | undefined = undefined,
   Props = undefined
 > =
@@ -53,6 +53,13 @@ export type PageModule<
 
       Component: AnyComponent<undefined, any>;
     };
+
+export interface PageModule<
+  Params extends RouteParams | undefined = undefined,
+  Props = undefined
+> {
+  default: PageComponent<Params, Props>;
+}
 
 /** A plain configuration used to generate a Route. */
 export interface RouteConfig<

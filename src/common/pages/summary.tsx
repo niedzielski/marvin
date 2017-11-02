@@ -26,24 +26,29 @@ export interface Props {
   summary: PageSummaryModel;
 }
 
-export const getInitialProps = (
-  params: Params = {}
-): Promise<HttpResponse<Props>> =>
-  request(
-    params.title === undefined ? { random: true } : { titlePath: params.title }
-  ).then(({ status, data }) => ({
-    status,
-    data: { summary: data }
-  }));
+export default {
+  getInitialProps(params: Params = {}): Promise<HttpResponse<Props>> {
+    return request(
+      params.title === undefined
+        ? { random: true }
+        : { titlePath: params.title }
+    ).then(({ status, data }) => ({
+      status,
+      data: { summary: data }
+    }));
+  },
 
-export const Component = ({ summary }: Props): JSX.Element => (
-  <App>
-    <Page
-      title={<ContentHeader titleHTML={summary.titleHTML} />}
-      subtitle={summary.descriptionText}
-      footer={<ContentFooter lastModified={summary.lastModified} />}
-    >
-      <PageSummary summary={summary} />
-    </Page>
-  </App>
-);
+  Component({ summary }: Props): JSX.Element {
+    return (
+      <App>
+        <Page
+          title={<ContentHeader titleHTML={summary.titleHTML} />}
+          subtitle={summary.descriptionText}
+          footer={<ContentFooter lastModified={summary.lastModified} />}
+        >
+          <PageSummary summary={summary} />
+        </Page>
+      </App>
+    );
+  }
+};

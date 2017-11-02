@@ -1,6 +1,7 @@
 import { AnyComponent } from "../components/preact-utils";
 import {
   AnyRoute,
+  PageComponent,
   PageModule,
   Route,
   RouteParams
@@ -15,7 +16,7 @@ export interface RouteResponse<Props> {
 }
 
 function getInitialProps<Params extends RouteParams | undefined, Props>(
-  module: PageModule<Params, Props>,
+  module: PageComponent<Params, Props>,
   params: Params
 ): Promise<HttpResponse<Props> | void> {
   return module.getInitialProps
@@ -28,10 +29,13 @@ function respond<Params extends RouteParams | undefined, Props>(
   params: Params
 ): Promise<RouteResponse<Props>> {
   return route.importModule().then((module: PageModule<Params, Props>) =>
-    getInitialProps(module, params).then((response: HttpResponse<Props>) => ({
+    getInitialProps(
+      module.default,
+      params
+    ).then((response: HttpResponse<Props>) => ({
       chunkName: route.chunkName,
-      status: (response && response.status) || module.status || 200,
-      Component: module.Component as AnyComponent<Props, any>,
+      status: (response && response.status) || module.default.status || 200,
+      Component: module.default.Component as AnyComponent<Props, any>,
       props: response && response.data
     }))
   );

@@ -30,29 +30,32 @@ export interface Props {
   page: PageModel;
 }
 
-export const getInitialProps = (
-  params: Params = {}
-): Promise<HttpResponse<Props>> =>
-  requestPage(
-    params.title === undefined
-      ? { random: true }
-      : {
-          titlePath: params.title,
-          revision:
-            params.revision === undefined
-              ? undefined
-              : parseInt(params.revision, 10)
-        }
-  ).then(({ status, data }) => ({ status, data: { page: data } }));
+export default {
+  getInitialProps(params: Params = {}): Promise<HttpResponse<Props>> {
+    return requestPage(
+      params.title === undefined
+        ? { random: true }
+        : {
+            titlePath: params.title,
+            revision:
+              params.revision === undefined
+                ? undefined
+                : parseInt(params.revision, 10)
+          }
+    ).then(({ status, data }) => ({ status, data: { page: data } }));
+  },
 
-export const Component = ({ page }: Props): JSX.Element => (
-  <App>
-    <Page
-      title={<ContentHeader titleHTML={page.titleHTML} />}
-      subtitle={page.descriptionText}
-      footer={<ContentFooter lastModified={page.lastModified} />}
-    >
-      <ContentPage sections={page.sections} />
-    </Page>
-  </App>
-);
+  Component({ page }: Props): JSX.Element {
+    return (
+      <App>
+        <Page
+          title={<ContentHeader titleHTML={page.titleHTML} />}
+          subtitle={page.descriptionText}
+          footer={<ContentFooter lastModified={page.lastModified} />}
+        >
+          <ContentPage sections={page.sections} />
+        </Page>
+      </App>
+    );
+  }
+};
