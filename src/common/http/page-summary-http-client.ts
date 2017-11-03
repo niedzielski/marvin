@@ -28,13 +28,8 @@ const url = (params: Params) => {
   )}${redirectParam}`;
 };
 
-const PAGE_HEADERS = {
-  accept: RESTBase.PageSummary.ACCEPT_HEADER
-};
-
-const RANDOM_HEADERS = {
-  accept: RESTBase.Random.ACCEPT_HEADER
-};
+const PAGE_HEADERS = [["accept", RESTBase.PageSummary.ACCEPT_HEADER]];
+const RANDOM_HEADERS = [["accept", RESTBase.Random.ACCEPT_HEADER]];
 
 // todo: this can actually return an empty response when redirect is false. Do
 //       we want to support it? Same question for the other redirect usages.

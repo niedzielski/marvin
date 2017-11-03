@@ -32,11 +32,11 @@ function respond<Params extends RouteParams | undefined, Props>(
     getInitialProps(
       module.default,
       params
-    ).then((response: HttpResponse<Props>) => ({
+    ).then((response: HttpResponse<Props> | void) => ({
       chunkName: route.chunkName,
       status: (response && response.status) || module.default.status || 200,
       Component: module.default.Component as AnyComponent<Props, any>,
-      props: response && response.data
+      props: (response && response.data) as Props
     }))
   );
 }

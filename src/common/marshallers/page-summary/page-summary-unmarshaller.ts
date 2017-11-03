@@ -62,9 +62,11 @@ const parseExtractHTML = (extractHTML: string) => {
       : document.implementation.createHTMLDocument("").body;
   element.innerHTML = extractHTML;
 
-  const paragraphs = Array.from(element.querySelectorAll("p"));
+  const paragraphs: HTMLParagraphElement[] = Array.from(
+    element.querySelectorAll("p")
+  );
   return paragraphs.length
-    ? paragraphs.map((paragraph: HTMLParagraphElement) => paragraph.outerHTML)
+    ? paragraphs.map(paragraph => paragraph.outerHTML)
     : [extractHTML];
 };
 

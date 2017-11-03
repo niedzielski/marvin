@@ -35,8 +35,8 @@ function url(params: Params, endpoint: string) {
   )}${revisionPath}${redirectParam}`;
 }
 
-const PAGE_HEADERS = { accept: RESTBase.PageSections.ACCEPT_HEADER };
-const RANDOM_HEADERS = { accept: RESTBase.Random.ACCEPT_HEADER };
+const PAGE_HEADERS = [["accept", RESTBase.PageSections.ACCEPT_HEADER]];
+const RANDOM_HEADERS = [["accept", RESTBase.Random.ACCEPT_HEADER]];
 
 interface UnmarshalParams {
   url: string;
