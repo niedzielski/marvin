@@ -8,16 +8,14 @@ import {
   VERBOSE,
   WEBPACK_DEV_SERVER_PORT,
   WEBPACK_DEV_SERVER_URL
-} from "./src/server/config";
+} from "../server/config";
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 
-const pkg = require("./package.json");
+const pkg = require("../../package.json");
 
 const PATHS = {
   // Files used by the client and the server.
-  public: {
-    output: path.resolve("./dist/public/")
-  }
+  public: { output: path.resolve("dist/public") }
 };
 
 // `chunkhash` is used instead of `hash` to get per-file / chunk hashes instead
@@ -48,7 +46,7 @@ const config: webpack.Configuration = {
     // `src/client/index` has no correspondence to which page a browser visits.
     // e.g., `/`, `/wiki/Foobar`, and `/about` all use the client so that
     // subsequent pages can be loaded dynamically inline.
-    index: "./src/client"
+    index: __dirname
 
     // (runtime): reserved for the Webpack runtime chunk.
     //   DO NOT DEFINE AN entry NAMED "runtime"

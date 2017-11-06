@@ -30,7 +30,7 @@ import HTMLPage from "./components/html-page";
 // The asset manifest built or the webpack-dev-server URL (which has no
 // manifest).
 const manifest = PRODUCTION
-  ? require("../../dist/public/assets-manifest.json")
+  ? require("../public/assets-manifest.json")
   : WEBPACK_DEV_SERVER_URL;
 
 const server = express();

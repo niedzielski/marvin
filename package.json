@@ -17,9 +17,9 @@
     "precommit": "npm test -s",
     "--- INTERNAL ---": "# Private scripts.",
     "start:server": "nodemon -i dist -i src/client -e js,json,ts,tsx ${VERBOSE:--q} -x 'ts-node -P src/server src/server'",
-    "start:client": "webpack-dev-server -dw",
+    "start:client": "webpack-dev-server --config src/client/webpack.config.ts -dw",
     "build:server": "tsc -p src/server && copyup 'src/**/*.{css,svg}' dist/",
-    "build:client": "webpack"
+    "build:client": "webpack --config src/client/webpack.config.ts"
   },
   "repository": {
     "type": "git",
