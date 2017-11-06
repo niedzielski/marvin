@@ -21,6 +21,7 @@ interface PageParams extends RouteParams {
    */
   title: PageTitleID | PageTitlePath | string;
 }
+
 // undefined means random input (Route.toPath()) and {} means random output
 // (Route.toParams()).
 export type Params = PageParams | { title?: undefined } | undefined;

@@ -4,18 +4,16 @@ import HttpResponse from "../http/http-response";
 
 /**
  * A map of path-to-regexp router path names to matches. The keys must match
- * those specified in RouteConfig.path. Passed to PageModule.requestProps() and
- * Route.toPath().
+ * those specified in RouteConfig.path. This map is passed to Route.toPath()
+ * with unencoded keys, constructed by Route.toParams() with encoded keys, and
+ * passed to PageModule.getInitialProps() with encoded keys. Where applicable,
+ * inputs may be changed by service redirects such as those for title
+ * denormalization.
  *
  * Note: only strings are ever returned as outputs of Route.toParams() and all
  *       inputs are converted to strings in Route.toPath().
  */
 export interface RouteParams {
-  /**
-   * When used as an input, an unencoded parameter; when used as an output, an
-   * encoded path segment. Where applicable, inputs may be changed by service
-   * redirects such as those for title normalization.
-   */
   [name: string]: string | undefined;
 }
 

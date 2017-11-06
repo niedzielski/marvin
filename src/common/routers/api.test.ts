@@ -22,12 +22,12 @@ interface TestParams<Params extends RouteParams | undefined> {
   params: Params;
 }
 
-const testPathParams = <Params extends RouteParams | undefined>({
+function testPathParams<Params extends RouteParams | undefined>({
   name,
   route,
   path,
   params
-}: TestParams<Params>) => {
+}: TestParams<Params>) {
   it(`${name} path and parameter types are in sync`, () => {
     const expected: RouteParams = {};
     Object.keys((params as RouteParams) || {}).forEach(name => {
@@ -51,7 +51,7 @@ const testPathParams = <Params extends RouteParams | undefined>({
     const result = route.toParams(path);
     assert.deepStrictEqual(result, expected);
   });
-};
+}
 
 describe("api", () => {
   describe("each route's path and URL path parameters match:", () => {
