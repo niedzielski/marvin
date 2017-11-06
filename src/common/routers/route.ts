@@ -1,5 +1,5 @@
 import * as pathToRegExp from "path-to-regexp";
-import { AnyComponent } from "../components/preact-utils";
+import { AnyComponent } from "preact";
 import HttpResponse from "../http/http-response";
 
 /**

@@ -116,6 +116,11 @@ const config: webpack.Configuration = {
   },
 
   resolve: {
+    alias: {
+      // todo: remove. https://github.com/developit/preact/issues/924
+      preact$: "preact/dist/preact.js"
+    },
+
     // Add `.ts` and `.tsx` as a resolvable extension.
     extensions: [".ts", ".tsx", ".js"]
   },

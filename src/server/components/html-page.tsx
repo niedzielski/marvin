@@ -25,11 +25,9 @@ export default function HTMLPage({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{title ? `${title} - ` : ""}Marvin</title>
         {/* Preload the stylesheet before the scripts */}
-        <link rel="preload" href={style(manifest)} {...{ as: "style" }} />
+        <link rel="preload" href={style(manifest)} as="style" />
         <link rel="stylesheet" href={style(manifest)} />
-        {assets.map(path => (
-          <link rel="preload" href={path} {...{ as: "script" }} />
-        ))}
+        {assets.map(path => <link rel="preload" href={path} as="script" />)}
       </head>
       <body>
         <div id="root">{children}</div>

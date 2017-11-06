@@ -1,4 +1,4 @@
-import { AnyComponent } from "../components/preact-utils";
+import { AnyComponent } from "preact";
 import {
   AnyRoute,
   PageComponent,

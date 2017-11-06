@@ -10,7 +10,10 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "allowJs": true,
-    "checkJs": true,
+
+    // todo: reenable. This is causing ts-loader errors in
+    //       node_modules/unfetch/dist/unfetch.es.js.
+    // "checkJs": true,
 
     "strict": true,
 
