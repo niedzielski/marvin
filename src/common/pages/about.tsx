@@ -14,10 +14,7 @@ export interface State {
 
 export default {
   Component: class extends PreactComponent<undefined, State> {
-    constructor() {
-      super();
-      this.state = { subtitle: "" };
-    }
+    state = { subtitle: "" };
 
     componentDidMount() {
       // todo: figure out a common way across entry points for defining
@@ -37,7 +34,7 @@ export default {
       this.setState({ subtitle });
     }
 
-    render(_props: void, { subtitle }: State): JSX.Element {
+    render(_props: undefined, { subtitle }: State): JSX.Element {
       const links = [
         {
           href: "https://phabricator.wikimedia.org/tag/marvin/",
