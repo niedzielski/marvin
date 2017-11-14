@@ -2,6 +2,7 @@ import * as path from "path";
 import * as AssetsPlugin from "assets-webpack-plugin";
 import * as ExtractTextPlugin from "extract-text-webpack-plugin";
 import * as webpack from "webpack";
+import * as CleanPlugin from "clean-webpack-plugin";
 import {
   PRODUCTION,
   VERBOSE,
@@ -194,6 +195,8 @@ const config: webpack.Configuration = {
 // See also
 // https://medium.com/webpack/predictable-long-term-caching-with-webpack-d3eee1d3fa31.
 config.plugins = [
+  new CleanPlugin(["dist"], { verbose: VERBOSE }),
+
   new webpack.IgnorePlugin(/domino/),
 
   // Embed values of process.env.NODE_ENV and other variables in the code.
