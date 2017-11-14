@@ -9,6 +9,7 @@ import {
   WEBPACK_DEV_SERVER_PORT,
   WEBPACK_DEV_SERVER_URL
 } from "./src/server/config";
+const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 
 const pkg = require("./package.json");
 
@@ -145,7 +146,7 @@ const config: webpack.Configuration = {
               hmr: false
             }
           },
-          use: ["css-loader"]
+          use: { loader: "css-loader", options: { minimize: PRODUCTION } }
         })
       },
       {
@@ -321,6 +322,17 @@ if (PRODUCTION) {
       prettyPrint: VERBOSE,
       filename: "assets-manifest.json",
       path: PATHS.public.output
+    }),
+
+    new UglifyJSPlugin({
+      // Improve rebuild performance with file caching.
+      cache: true,
+      // Improve build performance with parallel processing.
+      parallel: true,
+      // Generate source maps at the expense of compilation time.
+      sourceMap: true
+      // extractComments appears to be enabled by default although the
+      // documentation says otherwise.
     })
   );
 }
