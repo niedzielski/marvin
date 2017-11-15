@@ -19,7 +19,7 @@
     "start:server": "nodemon -i dist -i src/client -e js,json,ts,tsx ${VERBOSE:--q} -x 'ts-node -P src/server src/server'",
     "start:client": "webpack-dev-server -dw",
     "build:server": "tsc -p src/server && copyup 'src/**/*.{css,svg}' dist/",
-    "build:client": "webpack -p"
+    "build:client": "webpack"
   },
   "repository": {
     "type": "git",
@@ -88,6 +88,7 @@
     "ts-node": "3.3.0",
     "typescript": "2.5.3",
     "typescript-eslint-parser": "8.0.1",
+    "uglifyjs-webpack-plugin": "1.0.1",
     "webpack": "3.6.0",
     "webpack-dev-server": "2.9.1",
     "wikimedia-ui-base": "0.9.2"
