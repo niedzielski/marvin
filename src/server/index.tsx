@@ -1,21 +1,7 @@
-import * as fs from "fs";
-// Ignore importing style and image files when running on Node.js
-import register from "ignore-styles";
-register(undefined, (module: any, filename: string) => {
-  // Fake that requiring SVG files returns a default export with the string of
-  // the svg, which is what svg-inline-loader does with webpack for the client
-  // code.
-  // TODO: Consider using wepback for node code to avoid this and the CSS hacks
-  if (filename.endsWith(".svg")) {
-    module.exports = { default: fs.readFileSync(filename).toString() };
-  }
-});
-
 import * as express from "express";
 import * as compression from "compression";
 import { h } from "preact";
 import { render as renderToString } from "preact-render-to-string";
-
 import { RouteResponse, newRouter } from "../common/routers/router";
 import { RedirectError } from "../common/http/fetch-with-redirect";
 import { routes } from "../common/routers/api";
@@ -26,11 +12,14 @@ import {
   WEBPACK_DEV_SERVER_URL
 } from "./config";
 import HTMLPage from "./components/html-page";
+declare function __non_webpack_require__(name: string): any; // eslint-disable-line camelcase
 
-// The asset manifest built or the webpack-dev-server URL (which has no
-// manifest).
+// The production asset manifest from the public build products or
+// the webpack-dev-server URL (which has no manifest). The former doesn't exist
+// at compilation time, so use a dynamic require to read it from the filesystem
+// at run time in production builds.
 const manifest = PRODUCTION
-  ? require("../public/assets-manifest.json")
+  ? __non_webpack_require__("../public/assets-manifest.json")
   : WEBPACK_DEV_SERVER_URL;
 
 const server = express();

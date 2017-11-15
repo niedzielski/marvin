@@ -1,22 +1,23 @@
-import * as path from "path";
 import * as AssetsPlugin from "assets-webpack-plugin";
 import * as ExtractTextPlugin from "extract-text-webpack-plugin";
 import * as webpack from "webpack";
 import * as CleanPlugin from "clean-webpack-plugin";
+import {
+  DEV_TOOL,
+  EXTENSIONS,
+  PATHS,
+  STATS,
+  definePlugin,
+  typescriptLoader
+} from "../common/webpack.config";
 import {
   PRODUCTION,
   VERBOSE,
   WEBPACK_DEV_SERVER_PORT,
   WEBPACK_DEV_SERVER_URL
 } from "../server/config";
+
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
-
-const pkg = require("../../package.json");
-
-const PATHS = {
-  // Files used by the client and the server.
-  public: { output: path.resolve("dist/public") }
-};
 
 // `chunkhash` is used instead of `hash` to get per-file / chunk hashes instead
 // of a global build hash. When a global build hash is used, it updates whenever
@@ -24,16 +25,6 @@ const PATHS = {
 // https://webpack.js.org/guides/caching/#output-filenames. For the
 // development server, the hash is omitted because a manifest is not used.
 const CHUNK_FILENAME = PRODUCTION ? "[name].[chunkhash].js" : "[name].js";
-
-// There is no builtin Stats "warnings" preset.
-// https://github.com/webpack/webpack/blob/7fe0371/lib/Stats.js#L886
-// https://github.com/webpack/webpack/blob/7fe0371/lib/Stats.js#L101-L131
-const STATS = {
-  all: VERBOSE, // Default all outputs to verbosity.
-  errors: true,
-  errorDetails: true,
-  warnings: true
-};
 
 const config: webpack.Configuration = {
   entry: {
@@ -121,19 +112,12 @@ const config: webpack.Configuration = {
       preact$: "preact/dist/preact.js"
     },
 
-    // Add `.ts` and `.tsx` as a resolvable extension.
-    extensions: [".ts", ".tsx", ".js"]
+    extensions: EXTENSIONS
   },
 
   module: {
     rules: [
-      {
-        test: /\.tsx?$/,
-        loader: "ts-loader",
-        options: {
-          logLevel: VERBOSE ? "info" : "warn"
-        }
-      },
+      typescriptLoader,
       {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
@@ -151,14 +135,14 @@ const config: webpack.Configuration = {
         test: /\.svg$/,
         loader: "svg-inline-loader",
         options: {
-          /* Don't remove SVG attributes, which defaulted to true */
+          // Don't remove SVG attributes, which defaulted to true.
           removeSVGTagAttrs: false
         }
       }
     ]
   },
 
-  devtool: PRODUCTION ? "source-map" : "cheap-module-eval-source-map",
+  devtool: DEV_TOOL,
 
   // For development builds, serve the packaged result over
   // http://localhost:8080/ and live reload the browser when the bundle is
@@ -194,20 +178,11 @@ const config: webpack.Configuration = {
 // See also
 // https://medium.com/webpack/predictable-long-term-caching-with-webpack-d3eee1d3fa31.
 config.plugins = [
-  new CleanPlugin(["dist"], { verbose: VERBOSE }),
+  new CleanPlugin([PATHS.public.output], { verbose: VERBOSE }),
 
   new webpack.IgnorePlugin(/domino/),
 
-  // Embed values of process.env.NODE_ENV and other variables in the code.
-  // This allows to embed information in the source itself at build time, and it
-  // is used for example to have uglify remove code at minification time,
-  // getting rid of development only code (for exmaple, like preact/debug)
-  new webpack.DefinePlugin({
-    "process.env": {
-      NODE_ENV: JSON.stringify(PRODUCTION ? "production" : "development")
-    },
-    VERSION: JSON.stringify(pkg.version)
-  }),
+  definePlugin,
 
   // Reference modules by name instead of by chunk ID so hashes don't change
   // when new files are added. For example,
@@ -252,10 +227,7 @@ config.plugins = [
   // parent chunks, when used a minimum number of times. 3 times used is
   // considered right now like a good tradeoff.
   // https://webpack.js.org/plugins/commons-chunk-plugin/#move-common-modules-into-the-parent-chunk
-  new webpack.optimize.CommonsChunkPlugin({
-    children: true,
-    minChunks: 3
-  }),
+  new webpack.optimize.CommonsChunkPlugin({ children: true, minChunks: 3 }),
 
   // Create a separate chunk for the client's Webpack runtime. When a name with
   // no corresponding entry and no chunks configuration is specified, Webpack's

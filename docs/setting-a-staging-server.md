@@ -165,7 +165,7 @@ cp -R dist/ /home/marvin/dist
 cp -R node_modules/ /home/marvin/dist/node_modules
 
 echo "Running new server version"
-NODE_ENV=production node /home/marvin/dist/server/index.js &
+node /home/marvin/dist/server &
 ```
 
 And make it executable
@@ -183,7 +183,7 @@ Installing and building server bundle
 added 115 packages in 12.848s
 
 > marvin@0.0.0 build /home/marvin/sources
-> NODE_ENV=production npm-run-all --silent clean --parallel server:build 'client:build -- -p'
+> NODE_ENV=production run-p -s build:\*
 
 Removing previously started server processes
 Copying new tarball
