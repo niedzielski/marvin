@@ -1,5 +1,5 @@
 import * as pathToRegExp from "path-to-regexp";
-import { AnyComponent } from "../components/preact-utils";
+import { AnyComponent } from "preact";
 import HttpResponse from "../http/http-response";
 
 /**
@@ -38,7 +38,7 @@ export type PageComponent<
       status?: undefined;
 
       /** A Preact view component. */
-      Component: AnyComponent<Props, any>;
+      Component: Partial<AnyComponent<Props, any>>;
     }
   | {
       getInitialProps?: undefined;
@@ -49,7 +49,7 @@ export type PageComponent<
        */
       status?: number;
 
-      Component: AnyComponent<undefined, any>;
+      Component: Partial<AnyComponent<undefined, any>>;
     };
 
 export interface PageModule<
