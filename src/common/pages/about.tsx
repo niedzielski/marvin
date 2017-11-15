@@ -14,9 +14,9 @@ export interface State {
 
 export default {
   Component: class extends PreactComponent<undefined, State> {
-    state: State = { subtitle: "" };
+    state = { subtitle: "" };
 
-    componentDidMount?() {
+    componentDidMount() {
       // todo: figure out a common way across entry points for defining
       // configuration variables that common code could consume. The server has
       // server specific vars in config.ts and this here for example are used
@@ -34,7 +34,7 @@ export default {
       this.setState({ subtitle });
     }
 
-    render(_props: undefined, { subtitle }: State): JSX.Element | null {
+    render(_props: undefined, { subtitle }: State) {
       const links = [
         {
           href: "https://phabricator.wikimedia.org/tag/marvin/",
