@@ -38,7 +38,14 @@ const config: webpack.Configuration = {
   },
 
   plugins: [
-    new CleanPlugin([PATHS.server.output], { verbose: VERBOSE }),
+    new CleanPlugin([PATHS.server.output], {
+      verbose: VERBOSE,
+
+      // Enable cleaning to occur at the project root and not just at the
+      // server-specific Webpack source root.
+      allowExternal: true
+    }),
+
     definePlugin
   ]
 };

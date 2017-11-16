@@ -1,8 +1,8 @@
 import * as AssetsPlugin from "assets-webpack-plugin";
-import * as ExtractTextPlugin from "extract-text-webpack-plugin";
-import * as webpack from "webpack";
 import * as CleanPlugin from "clean-webpack-plugin";
 import * as CopyWebpackPlugin from "copy-webpack-plugin";
+import * as ExtractTextPlugin from "extract-text-webpack-plugin";
+import * as webpack from "webpack";
 import {
   DEV_TOOL,
   EXTENSIONS,
@@ -189,7 +189,13 @@ const config: webpack.Configuration = {
 // See also
 // https://medium.com/webpack/predictable-long-term-caching-with-webpack-d3eee1d3fa31.
 config.plugins = [
-  new CleanPlugin([PATHS.public.output], { verbose: VERBOSE }),
+  new CleanPlugin([PATHS.public.output], {
+    verbose: VERBOSE,
+
+    // Enable cleaning to occur at the project root and not just at the
+    // server-specific Webpack source root.
+    allowExternal: true
+  }),
 
   new webpack.IgnorePlugin(/domino/),
 
