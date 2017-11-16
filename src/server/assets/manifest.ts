@@ -3,18 +3,16 @@ import { Assets } from "assets-webpack-plugin";
 /** Manifest of filename entry points to bundled asset paths. */
 export type Manifest = Assets | string;
 
-export interface AssetParams {
-  manifest: Manifest;
-  entry: string;
-  extension: string;
-}
-
 /**
  * @return The path to the asset identified by entry and extension (e.g.,
  *         index.js); either a URL (development) or a filesystem path
  *         (production).
  */
-export const asset = ({ manifest, entry, extension }: AssetParams): string => {
+export function asset(
+  manifest: Manifest,
+  entry: string,
+  extension: string
+): string {
   if (typeof manifest === "string")
     // When the manifest is a string, it is the URL of something like
     // webpack-dev-server, so just point to there for the asset
@@ -26,7 +24,7 @@ export const asset = ({ manifest, entry, extension }: AssetParams): string => {
     // If the entry is not on the asset manifest, then just point to it directly
     // to the static assets path (copied there as-is from src/public)
     return `/public/${entry}.${extension}`;
-};
+}
 
 // Note: scripts must be included in the correct order: runtime, vendor, index.
 // Example errors:
@@ -44,20 +42,22 @@ export const asset = ({ manifest, entry, extension }: AssetParams): string => {
 //       at webpackJsonpCallback (runtime.js:26)
 //       at index.js:1
 
-export const runtime = (manifest: Manifest): string =>
-  asset({ manifest, entry: "runtime", extension: "js" });
+export function runtime(manifest: Manifest): string {
+  return asset(manifest, "runtime", "js");
+}
 
-export const vendor = (manifest: Manifest): string =>
-  asset({ manifest, entry: "vendor", extension: "js" });
+export function vendor(manifest: Manifest): string {
+  return asset(manifest, "vendor", "js");
+}
 
-export const index = (manifest: Manifest): string =>
-  asset({ manifest, entry: "index", extension: "js" });
+export function index(manifest: Manifest): string {
+  return asset(manifest, "index", "js");
+}
 
-export const scripts = (manifest: Manifest): string[] => [
-  runtime(manifest),
-  vendor(manifest),
-  index(manifest)
-];
+export function scripts(manifest: Manifest): string[] {
+  return [runtime(manifest), vendor(manifest), index(manifest)];
+}
 
-export const style = (manifest: Manifest): string =>
-  asset({ manifest, entry: "index", extension: "css" });
+export function style(manifest: Manifest): string {
+  return asset(manifest, "index", "css");
+}
