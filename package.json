@@ -6,7 +6,7 @@
   "scripts": {
     "--- PRIMARY ---": "# Frequent user scripts.",
     "start": "run-p -s 'build:server -- -d' start:\\*",
-    "watch": "run-p -s 'build:server -- -dw' start:\\* lint mocha",
+    "watch": "run-p -s 'build:server -- -dw' start:\\* watch:test",
     "build": "NODE_ENV=production run-p -s build:\\*",
     "format": "npm run -s lint -- --fix",
     "lint": "eslint --cache --max-warnings 0 --report-unused-disable-directives --ext ts,tsx,js,json .",
@@ -18,6 +18,7 @@
     "--- INTERNAL ---": "# Private scripts.",
     "start:server": "nodemon -C ${VERBOSE:--q}",
     "start:client": "webpack-dev-server --config src/client/webpack.config.ts -dw",
+    "watch:test": "nodemon ${VERBOSE:--q} -e js,json,ts,tsx,css --watch src/ --exec 'run-p -s lint mocha'",
     "build:server": "webpack --config src/server/webpack.config.ts",
     "build:client": "webpack --config src/client/webpack.config.ts"
   },
