@@ -2,6 +2,7 @@ import * as AssetsPlugin from "assets-webpack-plugin";
 import * as ExtractTextPlugin from "extract-text-webpack-plugin";
 import * as webpack from "webpack";
 import * as CleanPlugin from "clean-webpack-plugin";
+import * as CopyWebpackPlugin from "copy-webpack-plugin";
 import {
   DEV_TOOL,
   EXTENSIONS,
@@ -253,7 +254,12 @@ config.plugins = [
   new webpack.optimize.CommonsChunkPlugin({
     // This name should NOT match any `config.entry`.
     name: "runtime"
-  })
+  }),
+
+  // Copy all files in src/public to the dist/public directory, so that we are
+  // able to provide with static assets without having to import them in the
+  // client code. Like for example, favicon and logos, among others.
+  new CopyWebpackPlugin([{ from: "**/*", context: "src/public" }])
 ];
 
 if (PRODUCTION) {

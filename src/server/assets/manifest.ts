@@ -14,10 +14,19 @@ export interface AssetParams {
  *         index.js); either a URL (development) or a filesystem path
  *         (production).
  */
-export const asset = ({ manifest, entry, extension }: AssetParams): string =>
-  typeof manifest === "string"
-    ? `${manifest}/public/${entry}.${extension}`
-    : `${manifest[entry][extension]}`;
+export const asset = ({ manifest, entry, extension }: AssetParams): string => {
+  if (typeof manifest === "string")
+    // When the manifest is a string, it is the URL of something like
+    // webpack-dev-server, so just point to there for the asset
+    return `${manifest}/public/${entry}.${extension}`;
+  else if (manifest[entry] && manifest[entry][extension])
+    // When it is an object, if the entry exists, just return its path
+    return manifest[entry][extension];
+  else
+    // If the entry is not on the asset manifest, then just point to it directly
+    // to the static assets path (copied there as-is from src/public)
+    return `/public/${entry}.${extension}`;
+};
 
 // Note: scripts must be included in the correct order: runtime, vendor, index.
 // Example errors:

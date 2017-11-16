@@ -17,6 +17,13 @@ export default function HTMLPage({
 }: Props): JSX.Element {
   const assets: string[] = scripts(manifest);
   assets.push(asset({ manifest, entry: chunkName, extension: "js" }));
+
+  const favicon = asset({
+    manifest,
+    entry: "favicon/wikipedia",
+    extension: "ico"
+  });
+
   return (
     <html lang="en">
       <head>
@@ -28,6 +35,7 @@ export default function HTMLPage({
         <link rel="preload" href={style(manifest)} as="style" />
         <link rel="stylesheet" href={style(manifest)} />
         {assets.map(path => <link rel="preload" href={path} as="script" />)}
+        <link rel="shortcut icon" href={favicon} />
       </head>
       <body>
         <div id="root">{children}</div>
