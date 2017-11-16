@@ -103,7 +103,7 @@
   "bundlesize": [
     {
       "path": "dist/public/index.*.js",
-      "maxSize": "5.3KB"
+      "maxSize": "5.1KB"
     },
     {
       "path": "dist/public/runtime.*.js",
@@ -115,7 +115,7 @@
     },
     {
       "path": "dist/public/pages/about.*.js",
-      "maxSize": "1.1KB"
+      "maxSize": "1KB"
     },
     {
       "path": "dist/public/pages/home.*.js",
@@ -127,11 +127,11 @@
     },
     {
       "path": "dist/public/pages/summary.*.js",
-      "maxSize": "3.1KB"
+      "maxSize": "2.9KB"
     },
     {
       "path": "dist/public/pages/wiki.*.js",
-      "maxSize": "3.5KB"
+      "maxSize": "3.3KB"
     }
   ]
 }
