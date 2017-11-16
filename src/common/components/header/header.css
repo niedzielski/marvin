@@ -29,7 +29,9 @@
 }
 
 .Header-wordmark {
-  /* Per design specs, wordmark needs extra separation between the menu icon and
-  itself */
-  margin-left: var(--half-space);
+  /*
+   * Vertically center the contents of the workdmark link making them respect the
+   * parent's flex settings
+   */
+  display: flex;
 }

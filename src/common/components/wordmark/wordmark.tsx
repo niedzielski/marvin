@@ -1,12 +1,7 @@
 import { h } from "preact";
 import "./wordmark.css";
-import wordmarkEn from "./wordmark-en.svg";
+import { asset } from "../../assets/manifest";
 
 export default function Wordmark(): JSX.Element {
-  return (
-    <div
-      className="Wordmark"
-      dangerouslySetInnerHTML={{ __html: wordmarkEn }}
-    />
-  );
+  return <img className="Wordmark" src={asset("wordmark-en", "svg")} />;
 }
