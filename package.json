@@ -16,7 +16,7 @@
     "--- HOOKS ---": "# Triggered scripts.",
     "precommit": "npm test -s",
     "--- INTERNAL ---": "# Private scripts.",
-    "start:server": "nodemon -C ${VERBOSE:--q}",
+    "start:server": "nodemon -C ${VERBOSE:--q} --watch dist/",
     "start:client": "webpack-dev-server --config src/client/webpack.config.ts -dw",
     "watch:test": "nodemon ${VERBOSE:--q} -e js,json,ts,tsx,css --watch src/ --exec 'run-p -s lint mocha'",
     "build:server": "webpack --config src/server/webpack.config.ts",
