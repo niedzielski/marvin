@@ -154,7 +154,7 @@ echo "Running post-merge hook"
 echo "Installing and building server bundle"
 # Use our newer install of npm:
 /usr/local/bin/npm install --no-save
-/usr/local/bin/npm run build
+PORT=8080 /usr/local/bin/npm run build
 
 echo "Removing previously started server processes"
 killall node || true

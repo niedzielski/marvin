@@ -33,7 +33,14 @@ export const EXTENSIONS = [".ts", ".tsx", ".js"];
 // getting rid of development only code (for exmaple, like preact/debug)
 export const definePlugin = new webpack.DefinePlugin({
   "process.env": {
-    NODE_ENV: JSON.stringify(PRODUCTION ? "production" : "development")
+    NODE_ENV: JSON.stringify(PRODUCTION ? "production" : "development"),
+    VERBOSE: JSON.stringify(VERBOSE ? 1 : 0),
+    PORT: JSON.stringify(process.env.PORT ? process.env.PORT : 3000),
+    WEBPACK_DEV_SERVER_PORT: JSON.stringify(
+      process.env.WEBPACK_DEV_SERVER_PORT
+        ? process.env.WEBPACK_DEV_SERVER_PORT
+        : 8080
+    )
   },
   VERSION: JSON.stringify(pkg.version)
 });
