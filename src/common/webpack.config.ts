@@ -1,6 +1,11 @@
 import * as path from "path";
 import * as webpack from "webpack";
-import { PRODUCTION, VERBOSE } from "../server/config";
+import {
+  PRODUCTION,
+  SERVER_PORT,
+  VERBOSE,
+  WEBPACK_DEV_SERVER_PORT
+} from "./assets/config";
 const pkg = require("../../package.json");
 
 export const PATHS = {
@@ -34,13 +39,9 @@ export const EXTENSIONS = [".ts", ".tsx", ".js"];
 export const definePlugin = new webpack.DefinePlugin({
   "process.env": {
     NODE_ENV: JSON.stringify(PRODUCTION ? "production" : "development"),
-    VERBOSE: JSON.stringify(VERBOSE ? 1 : 0),
-    PORT: JSON.stringify(process.env.PORT ? process.env.PORT : 3000),
-    WEBPACK_DEV_SERVER_PORT: JSON.stringify(
-      process.env.WEBPACK_DEV_SERVER_PORT
-        ? process.env.WEBPACK_DEV_SERVER_PORT
-        : 8080
-    )
+    VERBOSE: JSON.stringify(VERBOSE),
+    PORT: JSON.stringify(SERVER_PORT),
+    WEBPACK_DEV_SERVER_PORT: JSON.stringify(WEBPACK_DEV_SERVER_PORT)
   },
   VERSION: JSON.stringify(pkg.version)
 });
