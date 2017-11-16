@@ -12,7 +12,7 @@
     "lint": "eslint --cache --max-warnings 0 --report-unused-disable-directives --ext ts,tsx,js,json .",
     "test": "run-p -s lint build mocha",
     "--- SECONDARY ---": "# Useful but rarely used scripts.",
-    "mocha": "TS_NODE_PROJECT=src/server mocha '{src,test}/**/*.test.{ts,js}'",
+    "mocha": "TS_NODE_PROJECT=src/server mocha '{src,test}/**/*.test.{ts,tsx,js}'",
     "--- HOOKS ---": "# Triggered scripts.",
     "precommit": "npm test -s",
     "--- INTERNAL ---": "# Private scripts.",
