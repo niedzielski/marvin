@@ -106,6 +106,16 @@ const config: webpack.Configuration = {
     chunkFilename: CHUNK_FILENAME
   },
 
+  performance: {
+    hints: PRODUCTION ? "error" : false,
+
+    maxAssetSize: 48 * 1024,
+
+    // Limits the sum of all assets (index, runtime, and vendor) required
+    // for an initial load for a specific entry (e.g., index).
+    maxEntrypointSize: 64 * 1024
+  },
+
   resolve: {
     alias: {
       // todo: remove. https://github.com/developit/preact/issues/924
