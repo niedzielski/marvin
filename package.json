@@ -12,7 +12,7 @@
     "lint": "eslint --cache --max-warnings 0 --report-unused-disable-directives --ext ts,tsx,js,json .",
     "test": "npm-run-all --silent -p lint build mocha -s bundlesize",
     "--- SECONDARY ---": "# Useful but rarely used scripts.",
-    "mocha": "TS_NODE_PROJECT=src/server mocha '{src,test}/**/*.test.{ts,tsx,js}'",
+    "mocha": "mocha '{src,test}/**/*.test.{ts,tsx,js}'",
     "bundlesize": "bundlesize",
     "--- HOOKS ---": "# Triggered scripts.",
     "precommit": "npm test -s",
