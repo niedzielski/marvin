@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { Manifest, asset, scripts, style } from "../assets/manifest";
+import { Manifest, asset, scripts, style } from "../../common/assets/manifest";
 import { ChildrenProps } from "../../common/components/preact-utils";
 
 export interface Props extends ChildrenProps {
