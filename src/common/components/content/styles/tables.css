@@ -84,3 +84,15 @@
 .Content .navbox .navbox-inner {
   width: 100%;
 }
+
+/* http://localhost:3000/wiki/MediaWiki:Common.css/806220319
+   http://localhost:3000/wiki/Girl_(Pharrell_Williams_album)/809904389#Singles */
+.Content .mbox-small-left {
+  margin: var(--half-space) var(--space) 0 var(--space);
+  width: 400px;
+}
+
+/* http://localhost:3000/wiki/The_Beatles/810732238#Beatles_for_Sale.2C_Help.21_and_Rubber_Soul */
+.Content .mbox-small {
+  margin: var(--half-space) 0;
+}
