@@ -6,8 +6,7 @@ import {
   summary,
   randomWiki,
   randomSummary,
-  styleGuide,
-  notFound
+  styleGuide
 } from "./api";
 import { Route, RouteParams } from "./route";
 
@@ -209,8 +208,7 @@ describe("api", () => {
         route: styleGuide,
         path: "/dev/style-guide",
         params: undefined
-      },
-      { name: "notFound", route: notFound, path: "/404", params: { 0: "/404" } }
+      }
     ].forEach(testPathParams);
   });
   describe("wiki", () => {

@@ -7,7 +7,9 @@ declare function __non_webpack_require__(name: string): any; // eslint-disable-l
 export interface Props extends ChildrenProps {
   // Title of the page
   title: string;
-  chunkName: string;
+  // Chunk to preload on the HTML. May not be needed if the chunks are already
+  // included, like the error pages
+  chunkName?: string;
 }
 
 // The production asset manifest from the public build products or
@@ -27,9 +29,10 @@ export default function HTMLPage({
   const assets = [
     asset("runtime", "js", manifest),
     asset("vendor", "js", manifest),
-    asset("index", "js", manifest),
-    asset(chunkName, "js", manifest)
+    asset("index", "js", manifest)
   ];
+  if (chunkName) assets.push(asset(chunkName, "js", manifest));
+
   const style = asset("index", "css", manifest);
   const favicon = asset("favicon/wikipedia", "ico", manifest);
 

@@ -1,14 +1,12 @@
+// todo: rename this module.
+
 import * as unfetch from "isomorphic-unfetch";
 
 /** true if executing on server, false otherwise. */
 const server = typeof window !== "object";
 
-/** Server-only redirect status code and destination URL. */
-export class RedirectError extends Error {
-  /** Status code in the domain of [300, 399]. */
+export class FetchError extends Error {
   status: number;
-
-  /** Destination URL. */
   url: string;
 
   constructor(status: number, url: string) {
@@ -17,6 +15,15 @@ export class RedirectError extends Error {
     this.url = url;
   }
 }
+
+/** Server-only 3xx redirect status code and destination URL. */
+export class RedirectError extends FetchError {}
+
+/** 4xx status code errors. */
+export class ClientError extends FetchError {}
+
+/** 5xx status code errors. */
+export class ServerError extends FetchError {}
 
 /**
  * Isomorphic fetch with transparent throw-on-redirect behavior for requests
@@ -36,6 +43,13 @@ export function fetch(
     if (server && response.status >= 300 && response.status <= 399) {
       const url = response.headers.get("location");
       throw new RedirectError(response.status, url as string);
+    }
+    const url = typeof input === "string" ? input : input.url;
+    if (response.status >= 400 && response.status <= 499) {
+      throw new ClientError(response.status, url);
+    }
+    if (response.status >= 500) {
+      throw new ServerError(response.status, url);
     }
     return response;
   });

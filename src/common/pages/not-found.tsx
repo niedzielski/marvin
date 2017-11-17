@@ -1,23 +1,20 @@
 import { h } from "preact";
 import App from "../components/app/app";
-import { RouteParams } from "../routers/route";
+import Page from "../components/page/page";
 
-export interface Params extends RouteParams {
-  /**
-   * A special match-all wildcard property will return the full URL path. e.g.,
-   * /foo/bar/baz. This group comes from the not-found RouteConfig.path,
-   * `"(.*)"`.
-   */
-  0: string;
+export interface Props {
+  path: string;
 }
 
 export default {
   status: 404,
 
-  Component(): JSX.Element {
+  Component({ path }: Props): JSX.Element {
     return (
       <App>
-        <p>Not found</p>
+        <Page title="Page not found" subtitle="Error 404">
+          <p>Not found: {path}</p>
+        </Page>
       </App>
     );
   }

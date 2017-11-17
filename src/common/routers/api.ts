@@ -1,4 +1,3 @@
-import { Params as NotFoundParams } from "../pages/not-found";
 import { Props as WikiProps, Params as WikiParams } from "../pages/wiki";
 import {
   Props as SummaryProps,
@@ -60,15 +59,6 @@ export const styleGuide: NoParamsRoute = newRoute({
   chunkName: "pages/style-guide"
 });
 
-export const notFound: Route<NotFoundParams> = newRoute({
-  // `(.*)` is the new `*`. See
-  // https://github.com/pillarjs/path-to-regexp/issues/37.
-  path: "(.*)",
-  importModule: () =>
-    import(/* webpackChunkName: "pages/not-found" */ "../pages/not-found"),
-  chunkName: "pages/not-found"
-});
-
 export const routes: AnyRoute[] = [
   home,
   about,
@@ -76,6 +66,5 @@ export const routes: AnyRoute[] = [
   summary,
   randomWiki,
   randomSummary,
-  styleGuide,
-  notFound
+  styleGuide
 ];

@@ -8,8 +8,12 @@ import {
 } from "../../common/routers/route";
 import HttpResponse from "../http/http-response";
 
+import notFoundPage from "../pages/not-found";
+import errorPage from "../pages/error";
+import { RedirectError } from "../http/fetch-with-redirect";
+
 export interface RouteResponse<Props> {
-  chunkName: string;
+  chunkName?: string;
   status: number;
   Component: AnyComponent<Props, any>;
   props: Props;
@@ -41,16 +45,33 @@ function respond<Params extends RouteParams | undefined, Props>(
   );
 }
 
+function respondError(error: Error) {
+  // Throw up RedirectErrors so that they can be handled by the server/client
+  // appropriately
+  if (error instanceof RedirectError) throw error;
+
+  console.error(`${error.message}\n${error.stack}`); // eslint-disable-line no-console
+  return {
+    status: errorPage.status,
+    Component: errorPage.Component,
+    props: { error }
+  };
+}
+
 export const newRouter = (routes: AnyRoute[]) => {
   return {
     route(path: string): Promise<RouteResponse<any>> {
       for (const route of routes) {
         const params = route.toParams(path);
         if (params) {
-          return respond(route, params);
+          return respond(route, params).catch(respondError);
         }
       }
-      return Promise.reject(new Error("No route matched."));
+      return Promise.resolve({
+        status: notFoundPage.status,
+        Component: notFoundPage.Component,
+        props: { path }
+      });
     }
   };
 };

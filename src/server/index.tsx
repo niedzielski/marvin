@@ -38,11 +38,12 @@ server.get("*", (request, response) => {
           .status(error.status)
           .header("location", error.url)
           .send();
-      } else {
-        const message = `${error.message}\n${error.stack}`;
-        console.error(message); // eslint-disable-line no-console
-        return response.status(500).send(message);
       }
+
+      // todo: show 5xx page and log for Marvin.
+      const message = `${error.message}\n${error.stack}`;
+      console.error(message); // eslint-disable-line no-console
+      return response.status(500).send(message);
     });
 });
 
