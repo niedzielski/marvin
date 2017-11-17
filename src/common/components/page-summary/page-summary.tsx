@@ -2,6 +2,7 @@ import { h } from "preact";
 import "./page-summary.css";
 import { PageSummary as PageSummaryModel } from "../../models/page/summary";
 import Content from "../content/content";
+import { Thumbnail } from "../thumbnail/thumbnail";
 
 export interface Props {
   summary: PageSummaryModel;
@@ -15,36 +16,17 @@ export const PageSummary = ({ summary }: Props): JSX.Element => {
         class="PageSummary-extract-lead"
         dangerouslySetInnerHTML={{ __html: lead }}
       />
-      <Thumbnail summary={summary} />
+      {summary.thumbnail && (
+        <Thumbnail
+          class="PageSummary-thumbnail"
+          image={summary.thumbnail}
+          url={summary.image && summary.image.url}
+        />
+      )}
       <div
         class="PageSummary-extract-body"
         dangerouslySetInnerHTML={{ __html: body.join("") }}
       />
     </div>
-  );
-};
-
-const Thumbnail = ({ summary }: Props) => {
-  if (!summary.thumbnail || !summary.image) {
-    return null;
-  }
-
-  const landscape = summary.image.landscape;
-  const imageOrientationClass = `PageSummary-thumbnail-image-${landscape
-    ? "landscape"
-    : "portrait"}`;
-  return (
-    // todo: replace anchor with Link.
-    <span class="PageSummary-thumbnail">
-      <a href={summary.image.url}>
-        <img
-          key={summary.thumbnail.url}
-          class={`PageSummary-thumbnail-image ${imageOrientationClass}`}
-          src={summary.thumbnail.url}
-          width={summary.thumbnail.width}
-          height={summary.thumbnail.height}
-        />
-      </a>
-    </span>
   );
 };

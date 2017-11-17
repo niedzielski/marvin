@@ -1,0 +1,54 @@
+
+.Thumbnail {
+  background: var(--wmui-color-base0);
+
+  /* Center the image within the container. */
+  text-align: center;
+
+  /* Set the container to occupy the full-width. */
+  display: inline-block;
+  width: 100%;
+
+  /* Since the image is below the extract, set a top margin. */
+  margin-top: var(--space);
+}
+
+/* TODO: use CSS variable. */
+@media (min-width: 1024px) {
+  .Thumbnail {
+    /* Wrap the container to the width of the image and left-align it. Floating
+       takes precedence over display. */
+    width: unset;
+    float: left;
+
+    /* Since the image is both side-by-side and below the extract, set a right
+       margin too. Since the side-by-side text may wrap around, set a bottom
+       margin. */
+    margin-right: var(--space);
+    margin-bottom: var(--space);
+  }
+}
+
+.Thumbnail-image {
+  /* Don't pad the linked image with text descender space. */
+  vertical-align: top;
+}
+
+.Thumbnail-image-landscape {
+  /* Stretch the image to occupy the available width and proprotionally scale
+     the height. */
+  width: 100%;
+  height: auto;
+}
+
+/* TODO: use CSS variable. */
+@media (min-width: 1024px) {
+  .Thumbnail-image-landscape {
+    /* The screen is too large to maximize the image. Use the image's native
+       width and height. */
+    width: unset;
+    height: unset;
+  }
+}
+
+.Thumbnail-image-portrait {}

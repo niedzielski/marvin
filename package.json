@@ -127,7 +127,7 @@
     },
     {
       "path": "dist/public/pages/summary.*.js",
-      "maxSize": "2.9KB"
+      "maxSize": "3KB"
     },
     {
       "path": "dist/public/pages/wiki.*.js",
