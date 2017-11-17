@@ -1,4 +1,4 @@
-import { PageImage, PageThumbnail } from "../../models/page/image";
+import { PageImage } from "../../models/page/image";
 import { PageSummary } from "../../models/page/summary";
 import { PageTitleID } from "../../models/page/title";
 import { IsomorphicHeaders } from "../../types/isomorphic-unfetch-extras";
@@ -9,17 +9,6 @@ import {
   unmarshalETag
 } from "../page-base/page-base-unmarshaller";
 import { RESTBase } from "../restbase";
-
-export const unmarshalPageThumbnail = (json: JSONObject): PageThumbnail => {
-  const type: RESTBase.PageSummary.Thumbnail = json as any;
-  return {
-    url: type.source,
-    originalURL: type.original,
-    width: type.width,
-    height: type.height,
-    landscape: type.width > type.height
-  };
-};
 
 export const unmarshalPageImage = (json: JSONObject): PageImage => {
   const type: RESTBase.PageSummary.Image = json as any;
@@ -103,7 +92,7 @@ export const unmarshalPageSummary = ({
     result.geolocation = unmarshalPageGeolocation(type.coordinates as {});
   }
   if (type.thumbnail) {
-    result.thumbnail = unmarshalPageThumbnail(type.thumbnail as {});
+    result.thumbnail = unmarshalPageImage(type.thumbnail as {});
   }
   if (type.originalimage) {
     result.image = unmarshalPageImage(type.originalimage as {});

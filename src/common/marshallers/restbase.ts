@@ -24,14 +24,6 @@ export namespace RESTBase {
     export const ACCEPT_HEADER: string =
       'application/json; charset=utf-8; profile="https://www.mediawiki.org/wiki/Specs/Summary/1.2.0"';
 
-    // https://phabricator.wikimedia.org/diffusion/GRES/browse/master/v1/summary.yaml;efa0412225221d49e901fdce0ba2ae88cd6ccc11$138
-    export interface Thumbnail {
-      source: string;
-      original: string;
-      width: number;
-      height: number;
-    }
-
     // https://phabricator.wikimedia.org/diffusion/GRES/browse/master/v1/summary.yaml;efa0412225221d49e901fdce0ba2ae88cd6ccc11$139
     export interface Image {
       source: string;
@@ -53,7 +45,7 @@ export namespace RESTBase {
       // https://phabricator.wikimedia.org/diffusion/GMOA/browse/master/lib/transformations/summarize.js;a4f603b2f535d8d153b62044a2210acf22bf6e11$58-59
       extract: string;
       extract_html: string; // eslint-disable-line camelcase
-      thumbnail?: Thumbnail;
+      thumbnail?: Image;
       originalimage?: Image;
       lang: string;
       dir: string;
