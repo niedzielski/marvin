@@ -201,10 +201,14 @@ config.plugins = [
 
   definePlugin,
 
-  // Reference modules by name instead of by chunk ID so hashes don't change
-  // when new files are added. For example,
-  // `"./node_modules/preact/dist/preact.esm.js"` instead of `18`.
-  new webpack.NamedModulesPlugin(),
+  // Reference modules by path hashes (i.e., a hash based on the filename) in
+  // production and path names in development instead of by chunk ID so chunk
+  // hashes don't change when new files are added. For example, `"+OPC"`
+  // (production) / `"./node_modules/preact/dist/preact.esm.js"` (development)
+  // instead of `18`.
+  PRODUCTION
+    ? new webpack.HashedModuleIdsPlugin()
+    : new webpack.NamedModulesPlugin(),
 
   new ExtractTextPlugin({
     // `contenthash` is not actually a chunk hash:
