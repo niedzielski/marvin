@@ -1,6 +1,12 @@
 import { PageImage } from "../../models/page/image";
 import { PageTitleID } from "../../models/page/title";
-import { Page, PageLead, PageBody, PageSection } from "../../models/page/page";
+import {
+  Page,
+  PageLead,
+  PageBody,
+  PageSection,
+  FilePageImage
+} from "../../models/page/page";
 import { PageUser, PageUserGender } from "../../models/page/user";
 import { IsomorphicHeaders } from "../../types/isomorphic-unfetch-extras";
 import { JSONArray, JSONObject } from "../../types/json";
@@ -46,6 +52,19 @@ export const unmarshalPageUser = (json: JSONObject): PageUser => {
     gender: unmarshalPageUserGender(type.gender)
   };
 };
+
+export function unmarshalFilePageImage(json: JSONObject): FilePageImage {
+  const type: RESTBase.PageSections.FileImage = json as any;
+  return {
+    thumbnail: {
+      url: type.thumburl,
+      width: type.thumbwidth,
+      height: type.thumbheight,
+      landscape: type.thumbwidth > type.thumbheight
+    },
+    url: type.url
+  };
+}
 
 export const unmarshalPageSection = (json: JSONObject): PageSection => {
   const type: RESTBase.PageSections.AnySection = json as any;
@@ -109,6 +128,9 @@ export const unmarshalPageLead = ({
   }
   if (type.pronunciation) {
     result.pronunciationURL = type.pronunciation.url;
+  }
+  if (type.imageinfo) {
+    result.fileImage = unmarshalFilePageImage(type.imageinfo as {});
   }
   return result;
 };

@@ -17,7 +17,7 @@ export interface PageBase {
   /** An (unencoded) PageTitleID that is not necessarily denormalized. */
   requestTitleID?: PageTitleID | string;
   lastModified: Date;
-  descriptionText: string;
+  descriptionText?: string;
   geolocation?: PageGeolocation;
   etag: ETag;
 }

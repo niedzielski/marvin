@@ -11,6 +11,7 @@ import ContentFooter from "../components/content-footer/content-footer";
 import ContentPage from "../components/content-page/content-page";
 import HttpResponse from "../http/http-response";
 import { RedirectError } from "../http/fetch-with-redirect";
+import { Thumbnail } from "../components/thumbnail/thumbnail";
 import { unmarshalPageTitleID } from "../marshallers/page-base/page-base-unmarshaller"; // eslint-disable-line max-len
 
 interface PageParams extends RouteParams {
@@ -70,6 +71,12 @@ export default {
           subtitle={page.descriptionText}
           footer={<ContentFooter lastModified={page.lastModified} />}
         >
+          {page.fileImage && (
+            <Thumbnail
+              image={page.fileImage.thumbnail}
+              url={page.fileImage.url}
+            />
+          )}
           <ContentPage sections={page.sections} />
         </Page>
       </App>

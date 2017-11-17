@@ -50,7 +50,7 @@ export namespace RESTBase {
       lang: string;
       dir: string;
       timestamp: string;
-      description: string;
+      description?: string; // Empty on file pages.
       coordinates?: Geolocation;
     }
   }
@@ -68,6 +68,15 @@ export namespace RESTBase {
       file: string;
       // Currently: "320", "640", "800", "1024".
       urls: { [width: string]: string };
+    }
+
+    export interface FileImage {
+      thumburl: string;
+      thumbwidth: number;
+      thumbheight: number;
+      url: string;
+      descriptionurl: string;
+      descriptionshorturl: string;
     }
 
     export interface Issue {
@@ -137,6 +146,7 @@ export namespace RESTBase {
       pronunciation?: TitlePronunciation;
       mainpage?: boolean;
       disambiguation?: boolean;
+      imageinfo?: FileImage;
     }
 
     // https://phabricator.wikimedia.org/diffusion/GMOA/browse/master/spec.yaml;399c85e3e782ffa7fef2d4a73c4ee85e98c9114d$680

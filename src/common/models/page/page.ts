@@ -3,6 +3,11 @@ import { PageImage } from "./image";
 import { PageNamespace } from "./namespace";
 import { PagePermissionMap, PageUser } from "./user";
 
+export interface FilePageImage {
+  thumbnail: PageImage;
+  url: string;
+}
+
 export interface PageSection {
   /** Section offset; the lead is zero. */
   index: number;
@@ -39,6 +44,7 @@ export interface PageLead extends PageBase {
   editable: boolean;
   languageCount: number;
   thumbnail: PageImage[];
+  fileImage?: FilePageImage;
   pronunciationURL?: string;
   /**
    * The first index is a fully populated lead section. Subsequent sections do

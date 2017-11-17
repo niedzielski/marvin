@@ -3,6 +3,7 @@ import * as assert from "assert";
 import { PageImage } from "../../models/page/image";
 import { PageNamespace } from "../../models/page/namespace";
 import {
+  FilePageImage,
   Page,
   PageLead,
   PageBody,
@@ -21,7 +22,8 @@ import {
   unmarshalPageSection,
   unmarshalPageSections,
   unmarshalPageUser,
-  unmarshalPageUserGender
+  unmarshalPageUserGender,
+  unmarshalFilePageImage
 } from "./page-unmarshaller";
 
 const NOW = new Date(Date.now()).toString();
@@ -78,6 +80,34 @@ describe("page-unmarshaller", () => {
       gender: PageUserGender.FEMALE
     };
     assert.deepStrictEqual(unmarshalPageUser(json as {}), expected);
+  });
+
+  describe(".unmarshalFilePageImage()", () => {
+    [false, true].forEach(landscape => {
+      it(`unmarshals ${landscape ? "landscape" : "portrait"}`, () => {
+        const width = landscape ? 2 : 1;
+        const height = landscape ? 1 : 2;
+        const json: RESTBase.PageSections.FileImage = {
+          thumburl: "thumburl",
+          thumbwidth: width,
+          thumbheight: height,
+          url: "url",
+          descriptionurl: "descriptionurl",
+          descriptionshorturl: "descriptionshorturl"
+        };
+        const expected: FilePageImage = {
+          thumbnail: {
+            url: "thumburl",
+            width,
+            height,
+            landscape
+          },
+          url: "url"
+        };
+        const result = unmarshalFilePageImage(json as {});
+        assert.deepStrictEqual(result, expected);
+      });
+    });
   });
 
   describe(".unmarshalPageSection()", () => {
@@ -222,6 +252,21 @@ describe("page-unmarshaller", () => {
       });
       const expected = reviveFile(
         `${__dirname}/page-lead-expected.test.json`,
+        pageLeadReviver
+      );
+      assert.deepStrictEqual(result, expected);
+    });
+
+    it("unmarshals a server response for a File page", () => {
+      const json = require("./file-page-lead-restbase.test.json");
+      const result = unmarshalPageLead({
+        url:
+          "https://zh.wikipedia.org/api/rest_v1/page/mobile-sections-lead/File:Muybridge_race_horse_animated.gif",
+        headers: HEADERS,
+        json
+      });
+      const expected = reviveFile(
+        `${__dirname}/file-page-lead-expected.test.json`,
         pageLeadReviver
       );
       assert.deepStrictEqual(result, expected);
