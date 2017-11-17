@@ -16,13 +16,9 @@ export default function HTMLPage({
   children
 }: Props): JSX.Element {
   const assets: string[] = scripts(manifest);
-  assets.push(asset({ manifest, entry: chunkName, extension: "js" }));
+  assets.push(asset(manifest, chunkName, "js"));
 
-  const favicon = asset({
-    manifest,
-    entry: "favicon/wikipedia",
-    extension: "ico"
-  });
+  const favicon = asset(manifest, "favicon/wikipedia", "ico");
 
   return (
     <html lang="en">
