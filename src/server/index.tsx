@@ -5,22 +5,8 @@ import { render as renderToString } from "preact-render-to-string";
 import { RouteResponse, newRouter } from "../common/routers/router";
 import { RedirectError } from "../common/http/fetch-with-redirect";
 import { routes } from "../common/routers/api";
-import {
-  PRODUCTION,
-  SERVER_PORT,
-  SERVER_URL,
-  WEBPACK_DEV_SERVER_URL
-} from "../common/assets/config";
+import { SERVER_PORT, SERVER_URL } from "../common/assets/config";
 import HTMLPage from "./components/html-page";
-declare function __non_webpack_require__(name: string): any; // eslint-disable-line camelcase
-
-// The production asset manifest from the public build products or
-// the webpack-dev-server URL (which has no manifest). The former doesn't exist
-// at compilation time, so use a dynamic require to read it from the filesystem
-// at run time in production builds.
-const manifest = PRODUCTION
-  ? __non_webpack_require__("../public/assets-manifest.json")
-  : WEBPACK_DEV_SERVER_URL;
 
 const server = express();
 
@@ -32,7 +18,7 @@ const render = ({ chunkName, Component, props }: RouteResponse<any>) => {
   return (
     "<!doctype html>" + // eslint-disable-line prefer-template
     renderToString(
-      <HTMLPage title="" manifest={manifest} chunkName={chunkName}>
+      <HTMLPage title="" chunkName={chunkName}>
         <Component {...props} />
       </HTMLPage>
     )

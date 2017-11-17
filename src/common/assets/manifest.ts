@@ -1,18 +1,20 @@
-import { Assets } from "assets-webpack-plugin";
+import { PRODUCTION, WEBPACK_DEV_SERVER_URL } from "./config";
+declare function __non_webpack_require__(name: string): any; // eslint-disable-line camelcase
 
-/** Manifest of filename entry points to bundled asset paths. */
-export type Manifest = Assets | string;
+// The production asset manifest from the public build products or
+// the webpack-dev-server URL (which has no manifest). The former doesn't exist
+// at compilation time, so use a dynamic require to read it from the filesystem
+// at run time in production builds.
+const manifest = PRODUCTION
+  ? __non_webpack_require__("../public/assets-manifest.json")
+  : WEBPACK_DEV_SERVER_URL;
 
 /**
  * @return The path to the asset identified by entry and extension (e.g.,
  *         index.js); either a URL (development) or a filesystem path
  *         (production).
  */
-export function asset(
-  manifest: Manifest,
-  entry: string,
-  extension: string
-): string {
+export function asset(entry: string, extension: string): string {
   if (typeof manifest === "string")
     // When the manifest is a string, it is the URL of something like
     // webpack-dev-server, so just point to there for the asset
@@ -42,22 +44,9 @@ export function asset(
 //       at webpackJsonpCallback (runtime.js:26)
 //       at index.js:1
 
-export function runtime(manifest: Manifest): string {
-  return asset(manifest, "runtime", "js");
-}
+export const runtime: string = asset("runtime", "js");
+export const vendor: string = asset("vendor", "js");
+export const index: string = asset("index", "js");
+export const scripts: string[] = [runtime, vendor, index];
 
-export function vendor(manifest: Manifest): string {
-  return asset(manifest, "vendor", "js");
-}
-
-export function index(manifest: Manifest): string {
-  return asset(manifest, "index", "js");
-}
-
-export function scripts(manifest: Manifest): string[] {
-  return [runtime(manifest), vendor(manifest), index(manifest)];
-}
-
-export function style(manifest: Manifest): string {
-  return asset(manifest, "index", "css");
-}
+export const style: string = asset("index", "css");

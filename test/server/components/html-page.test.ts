@@ -6,7 +6,6 @@ describe("HTMLPage()", () => {
   it("contains a root div with the children when rendered", () => {
     const vNode = HTMLPage({
       title: "Test",
-      manifest: "",
       chunkName: "",
       children: ["body"]
     });
@@ -19,7 +18,7 @@ describe("HTMLPage()", () => {
   });
 
   it("contains a <title/> when rendered", () => {
-    const vNode = HTMLPage({ title: "Test", manifest: "", chunkName: "" });
+    const vNode = HTMLPage({ title: "Test", chunkName: "" });
     const html = render(vNode);
     const expected = "<title>Test - Marvin</title>";
     assert.ok(
