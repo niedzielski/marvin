@@ -1,5 +1,10 @@
 /* Containers */
 
+/* http://localhost:3000/wiki/Girl_(Pharrell_Williams_album)/809904389#Singles */
+.Content figure {
+  margin: 0;
+}
+
 /* http://localhost:3000/wiki/China/804850001#Landscape_and_climate */
 .Content .thumbinner {
   width: auto !important;
@@ -24,6 +29,12 @@
 
   /* Vertically center inline images. */
   vertical-align: middle;
+}
+
+/* http://localhost:3000/wiki/Girl_(Pharrell_Williams_album)/809904389#Singles
+   http://localhost:3000/wiki/The_Beatles/810732238#Beatles_for_Sale.2C_Help.21_and_Rubber_Soul */
+.Content .mbox-small-left video, .Content .mbox-small video {
+  height: 32px !important;
 }
 
 /* Captions */
