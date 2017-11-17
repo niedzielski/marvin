@@ -9,7 +9,7 @@ import {
   definePlugin,
   typescriptLoader
 } from "../common/webpack.config";
-import { VERBOSE } from "../server/config";
+import { VERBOSE } from "../common/assets/config";
 
 const config: webpack.Configuration = {
   // Target a Node.js environment. The interpreter is expected to provide

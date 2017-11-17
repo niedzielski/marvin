@@ -16,7 +16,7 @@ import {
   VERBOSE,
   WEBPACK_DEV_SERVER_PORT,
   WEBPACK_DEV_SERVER_URL
-} from "../server/config";
+} from "../common/assets/config";
 
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 

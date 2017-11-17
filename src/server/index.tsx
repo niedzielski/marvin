@@ -10,7 +10,7 @@ import {
   SERVER_PORT,
   SERVER_URL,
   WEBPACK_DEV_SERVER_URL
-} from "./config";
+} from "../common/assets/config";
 import HTMLPage from "./components/html-page";
 declare function __non_webpack_require__(name: string): any; // eslint-disable-line camelcase
 
