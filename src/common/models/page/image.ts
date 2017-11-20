@@ -4,7 +4,3 @@ export interface PageImage {
   height?: number;
   landscape?: boolean;
 }
-
-export interface PageThumbnail extends PageImage {
-  originalURL: string;
-}

@@ -1,12 +1,12 @@
 import { PageBase, pageBaseReviver } from "./page-base";
-import { PageImage, PageThumbnail } from "./image";
+import { PageImage } from "./image";
 
 export interface PageSummary extends PageBase {
   wikiLanguageCode: string;
   localeDirection: string;
   extractText: string;
   extractHTML: string[];
-  thumbnail?: PageThumbnail;
+  thumbnail?: PageImage;
   image?: PageImage;
 }
 

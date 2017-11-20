@@ -7,8 +7,7 @@
   "thumbnail": {
     "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Mount-Everest.jpg/320px-Mount-Everest.jpg",
     "width": 320,
-    "height": 213,
-    "original": "http://upload.wikimedia.org/wikipedia/commons/c/c7/Mount-Everest.jpg"
+    "height": 213
   },
   "originalimage": {
     "source": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Mount-Everest.jpg",
@@ -17,7 +16,7 @@
   },
   "lang": "en",
   "dir": "ltr",
-  "timestamp": "2017-09-11T16:00:59Z",
+  "timestamp": "2017-11-17T03:58:31Z",
   "description": "Earth's highest mountain, with a peak at 8,848 metres (29,029 feet) above sea level, part of the Himalaya mountain range between Nepal and China",
   "coordinates": {
     "lat": 27.98805556,

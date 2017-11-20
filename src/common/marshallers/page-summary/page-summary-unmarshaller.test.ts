@@ -1,41 +1,16 @@
 import * as assert from "assert";
 import { PageSummary, pageSummaryReviver } from "../../models/page/summary";
-import { PageImage, PageThumbnail } from "../../models/page/image";
+import { PageImage } from "../../models/page/image";
 import { RESTBase } from "../restbase";
 import { EXPECTED_ETAG, HEADERS, reviveFile } from "../utils.test";
 import {
   unmarshalPageImage,
-  unmarshalPageThumbnail,
   unmarshalPageSummary
 } from "./page-summary-unmarshaller";
 
 const NOW = new Date(Date.now()).toString();
 
 describe("page-summary-unmarshaller", () => {
-  describe(".unmarshalPageThumbnail()", () => {
-    [false, true].forEach(landscape => {
-      it(`unmarshals ${landscape ? "landscape" : "portrait"}`, () => {
-        const width = landscape ? 2 : 1;
-        const height = landscape ? 1 : 2;
-        const json: RESTBase.PageSummary.Thumbnail = {
-          source: "source",
-          original: "original",
-          width,
-          height
-        };
-        const expected: PageThumbnail = {
-          url: "source",
-          width,
-          height,
-          landscape,
-          originalURL: "original"
-        };
-        const result = unmarshalPageThumbnail(json as {});
-        assert.deepStrictEqual(result, expected);
-      });
-    });
-  });
-
   describe(".unmarshalPageImage()", () => {
     [false, true].forEach(landscape => {
       it(`unmarshals ${landscape ? "landscape" : "portrait"}`, () => {
