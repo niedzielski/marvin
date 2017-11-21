@@ -54,7 +54,7 @@ export default {
           error = new RedirectError(
             error.status,
             wiki.toPath({
-              title: decodeURIComponent(unmarshalPageTitleID(error.url)),
+              title: unmarshalPageTitleID(error.url),
               revision: params.revision
             })
           );

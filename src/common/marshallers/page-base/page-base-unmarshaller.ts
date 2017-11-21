@@ -13,7 +13,7 @@ export function unmarshalPageTitleID(url: string): PageTitleID {
   if (titlePath === undefined) {
     throw new Error("titlePath should be known at response time.");
   }
-  return decodeURI(titlePath);
+  return decodeURIComponent(titlePath);
 }
 
 export const unmarshalPageGeolocation = (json: JSONObject): PageGeolocation => {

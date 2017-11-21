@@ -45,9 +45,7 @@ export default {
         if (error instanceof RedirectError) {
           error = new RedirectError(
             error.status,
-            summary.toPath({
-              title: decodeURIComponent(unmarshalPageTitleID(error.url))
-            })
+            summary.toPath({ title: unmarshalPageTitleID(error.url) })
           );
         }
         throw error;
