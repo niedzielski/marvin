@@ -1,6 +1,6 @@
 import { h } from "preact";
 import { ClassProps, classOf } from "../preact-utils";
-import Link from "../link";
+import Link from "../link/link";
 import { PageImage } from "../../models/page/image";
 import "./thumbnail.css";
 

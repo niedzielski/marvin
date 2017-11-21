@@ -11,7 +11,7 @@ import {
 } from "../../common/routers/api";
 import Page from "../components/page/page";
 import { PageTitleID } from "../models/page/title";
-import Link from "../components/link";
+import Link from "../components/link/link";
 
 const testSummaries = [
   {
