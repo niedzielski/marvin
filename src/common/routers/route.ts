@@ -6,16 +6,12 @@ import HttpResponse from "../http/http-response";
  * A map of path-to-regexp router path names to matches. The keys must match
  * those specified in RouteConfig.path. This map is passed to Route.toPath()
  * with unencoded keys, constructed by Route.toParams() with encoded keys, and
- * passed to PageModule.getInitialProps() with encoded keys. Where applicable,
- * inputs may be changed by service redirects such as those for title
- * denormalization.
+ * passed to PageModule.getInitialProps() with encoded keys.
  *
  * Note: only strings are ever returned as outputs of Route.toParams() and all
  *       inputs are converted to strings in Route.toPath().
  */
-export interface RouteParams {
-  [name: string]: string | undefined;
-}
+export type RouteParams = { [name: string]: string | undefined };
 
 /**
  * A file that exposes a Preact UI component and optionally a function to
@@ -23,10 +19,7 @@ export interface RouteParams {
  * pages/ subdirectory should implicitly implement this interface or typing will
  * fail in routers/api.
  */
-export type PageComponent<
-  Params extends RouteParams | undefined = undefined,
-  Props = undefined
-> =
+export type PageComponent<Params, Props> =
   | {
       /**
        * A function that returns a Promise for the dependencies needed to
@@ -52,35 +45,23 @@ export type PageComponent<
       Component: Partial<AnyComponent<undefined, any>>;
     };
 
-export interface PageModule<
-  Params extends RouteParams | undefined = undefined,
-  Props = undefined
-> {
+export interface PageModule<Params, Props> {
   default: PageComponent<Params, Props>;
 }
 
 /** A plain configuration used to generate a Route. */
-export interface RouteConfig<
-  Params extends RouteParams | undefined = undefined,
-  Props = undefined
-> {
+export interface RouteConfig {
   /**
-   * A path-to-regexp URL path. This is tightly coupled to RouteParams which
-   * must define a subset of properties.
+   * A path-to-regexp URL path. This is tightly coupled to Params which must
+   * define a subset of properties.
    */
   path: string;
 
-  /** Requests a PageModule. */
-  importModule(): Promise<PageModule<Params, Props>>;
-
-  /** The chunk filename of the module. */
-  chunkName: string;
+  /** The base page to load inside pages/ */
+  page: string;
 }
 
-export interface Route<
-  Params extends RouteParams | undefined = undefined,
-  Props = undefined
-> extends RouteConfig<Params, Props> {
+export interface Route<Params> extends RouteConfig {
   /**
    * Generate a Params object from a given URL path or void if the path does not
    * match. An empty object is returned for matching NoPropsRoutes.
@@ -91,12 +72,11 @@ export interface Route<
   toPath(params: Params): string;
 }
 
-export interface NoParamsRoute<Props = undefined>
-  extends Route<undefined, Props> {
+export interface NoParamsRoute extends Route<undefined> {
   toPath(params?: undefined): string;
 }
 
-export type AnyRoute = Route<any, any>;
+export type AnyRoute = Route<any>;
 
 /**
  * Decompose a URL path into a Params map for use by
@@ -128,21 +108,13 @@ const toParams = ({
   return undefined;
 };
 
-export function newRoute<
-  Params extends RouteParams | undefined = undefined,
-  Props = undefined
->({
-  path,
-  importModule,
-  chunkName
-}: RouteConfig<Params, Props>): Route<Params, Props> {
+export function newRoute<Params>({ path, page }: RouteConfig): Route<Params> {
   const paramNames: pathToRegExp.Key[] = [];
   const pathRegExp = pathToRegExp(path, paramNames);
   return {
     path,
-    importModule,
-    chunkName,
+    page,
     toParams: (path: string) => toParams({ pathRegExp, paramNames, path }),
     toPath: pathToRegExp.compile(path)
-  } as Route<Params, Props>;
+  } as Route<Params>;
 }
