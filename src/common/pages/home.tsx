@@ -8,7 +8,7 @@ import {
   randomWiki,
   randomSummary,
   styleGuide
-} from "../../common/routers/api";
+} from "../../common/router/routes";
 import Page from "../components/page/page";
 import { PageTitleID } from "../models/page/title";
 import Link from "../components/link/link";

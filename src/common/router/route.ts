@@ -17,7 +17,7 @@ export type RouteParams = { [name: string]: string | undefined };
  * A file that exposes a Preact UI component and optionally a function to
  * request properties needed to construct the component. Modules within the
  * pages/ subdirectory should implicitly implement this interface or typing will
- * fail in routers/api.
+ * fail in router/routes.
  */
 export type PageComponent<Params, Props> =
   | {
@@ -83,7 +83,7 @@ export type AnyRoute = Route<any>;
  * PageModule.getInitialProps(). This method uses a path regular expression to
  * split URL path values into the named properties of a corresponding Params
  * object. There is no compile-time validation performed on the result, so
- * Route.path's encoding and Params must be in sync (tested in api.test.ts).
+ * Route.path's encoding and Params must be in sync (tested in routes.test.ts).
  * Note: paramNames is equivalent to manually writing an ordered array of names
  * matching Route.path's encoding. e.g., `/^\/wiki\/([^/]+)$/i` and `["title"]`.
  */

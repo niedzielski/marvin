@@ -2,9 +2,9 @@ import * as express from "express";
 import * as compression from "compression";
 import { h } from "preact";
 import { render as renderToString } from "preact-render-to-string";
-import { RouteResponse, newRouter } from "../common/routers/router";
+import { RouteResponse, newRouter } from "../common/router/router";
 import { RedirectError } from "../common/http/fetch";
-import { routes } from "../common/routers/api";
+import { routes } from "../common/router/routes";
 import { SERVER_PORT, SERVER_URL } from "../common/assets/config";
 import HTMLPage from "./components/html-page";
 

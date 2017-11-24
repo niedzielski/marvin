@@ -200,8 +200,8 @@ Marvin uses the following abbreviations:
 - All filenames should use shish-kebab-case.
 - The filenames, not the enclosing folder, should describe the module. For
   example:
-  - Prefer: app/app.tsx, link/link.css, routers/router.test.ts.
-  - Avoid: app/index.tsx, link/index.css, routers/index.test.ts.
+  - Prefer: app/app.tsx, link/link.css, router/router.test.ts.
+  - Avoid: app/index.tsx, link/index.css, router/index.test.ts.
   The reason is that some editors use filenames for UI cues and naming
   everything "index.x" makes it difficult to distinguish among files quickly.
   Client and server files are excluded as frontend client and backend server

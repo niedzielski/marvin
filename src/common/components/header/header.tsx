@@ -1,7 +1,7 @@
 import { h } from "preact";
 import Wordmark from "../wordmark/wordmark";
 import Link from "../link/link";
-import { home } from "../../routers/api";
+import { home } from "../../router/routes";
 
 import "./header.css";
 

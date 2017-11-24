@@ -4,7 +4,7 @@ import {
   PageComponent,
   PageModule,
   Route
-} from "../../common/routers/route";
+} from "../../common/router/route";
 import HttpResponse from "../http/http-response";
 
 import notFoundPage from "../pages/not-found";

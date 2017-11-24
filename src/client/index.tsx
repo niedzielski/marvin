@@ -2,9 +2,9 @@ import { h, render } from "preact";
 import newHistory from "history/createBrowserHistory";
 import "wikimedia-ui-base/wikimedia-ui-base.css";
 import "./index.css";
-import { RouteResponse, newRouter } from "../common/routers/router";
+import { RouteResponse, newRouter } from "../common/router/router";
 import { WithContext } from "../common/components/with-context";
-import { routes } from "../common/routers/api";
+import { routes } from "../common/router/routes";
 
 // Include preact/debug only in development for React DevTools integration.
 // This check needs to be as defined with DefinePlugin in the webpack config so

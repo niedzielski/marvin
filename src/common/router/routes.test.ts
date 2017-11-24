@@ -7,7 +7,7 @@ import {
   randomWiki,
   randomSummary,
   styleGuide
-} from "./api";
+} from "./routes";
 import { Route, RouteParams } from "./route";
 
 interface TestParams<Params extends RouteParams | undefined> {
@@ -52,7 +52,7 @@ function testPathParams<Params extends RouteParams | undefined>({
   });
 }
 
-describe("api", () => {
+describe("routes", () => {
   describe("each route's path and URL path parameters match:", () => {
     [
       // Note: these types are verified to be RouteParams but not verified
