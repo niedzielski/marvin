@@ -25,5 +25,5 @@ export default function reencodePathSegment(segment: string): string {
   // - https://en.wikipedia.org/wiki/?
   // - https://en.wikipedia.org/api/rest_v1/page/mobile-sections//
   // - https://en.wikipedia.org/api/rest_v1/page/mobile-sections/?
-  return segment.replace("/", "%2f");
+  return segment.replace(/\//g, "%2f");
 }
