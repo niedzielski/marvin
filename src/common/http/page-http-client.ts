@@ -8,16 +8,16 @@ import {
 } from "../marshallers/page/page-unmarshaller";
 import { RESTBase } from "../marshallers/restbase";
 import HttpResponse from "./http-response";
-import { PageRedirect } from "./page-redirect";
+import { RESTBaseRedirect } from "./restbase-redirect";
 import { fetch } from "./fetch-with-redirect";
-import reencodeRESTBaseTitlePath from "./restbase-title-encoder";
+import reencodePathSegment from "./restbase-path-encoder";
 
 // https://en.wikipedia.org/api/rest_v1/#!/Mobile/get_page_mobile_sections_title_revision
 // https://en.wikipedia.org/api/rest_v1/#!/Page_content/get_page_random_format
 interface PageParams {
   titlePath: PageTitlePath;
   revision?: number;
-  redirect?: PageRedirect;
+  redirect?: RESTBaseRedirect;
   random?: undefined;
 }
 export type Params = PageParams | { random: true };
@@ -30,7 +30,7 @@ function url(params: Params, endpoint: string) {
   const { titlePath, revision, redirect } = params;
   const revisionPath = revision === undefined ? "" : `/${revision}`;
   const redirectParam = redirect === undefined ? "" : `&redirect=${redirect}`;
-  return `${RESTBase.BASE_URL}/page/${endpoint}/${reencodeRESTBaseTitlePath(
+  return `${RESTBase.BASE_URL}/page/${endpoint}/${reencodePathSegment(
     titlePath
   )}${revisionPath}${redirectParam}`;
 }

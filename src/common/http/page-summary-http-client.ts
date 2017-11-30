@@ -3,15 +3,15 @@ import { PageTitlePath } from "../models/page/title";
 import { RESTBase } from "../marshallers/restbase";
 import { unmarshalPageSummary } from "../marshallers/page-summary/page-summary-unmarshaller"; // eslint-disable-line max-len
 import HttpResponse from "./http-response";
-import { PageRedirect } from "./page-redirect";
+import { RESTBaseRedirect } from "./restbase-redirect";
 import { fetch } from "./fetch-with-redirect";
-import reencodeRESTBaseTitlePath from "./restbase-title-encoder";
+import reencodePathSegment from "./restbase-path-encoder";
 
 // https://en.wikipedia.org/api/rest_v1/#!/Page_content/get_page_summary_title
 // https://en.wikipedia.org/api/rest_v1/#!/Page_content/get_page_random_format
 interface PageParams {
   titlePath: PageTitlePath;
-  redirect?: PageRedirect;
+  redirect?: RESTBaseRedirect;
   random?: undefined;
 }
 export type Params = PageParams | { random: true };
@@ -23,7 +23,7 @@ const url = (params: Params) => {
 
   const { titlePath, redirect } = params;
   const redirectParam = redirect === undefined ? "" : `&redirect=${redirect}`;
-  return `${RESTBase.BASE_URL}/page/summary/${reencodeRESTBaseTitlePath(
+  return `${RESTBase.BASE_URL}/page/summary/${reencodePathSegment(
     titlePath
   )}${redirectParam}`;
 };
