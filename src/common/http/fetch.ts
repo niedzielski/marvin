@@ -30,14 +30,15 @@ export class ServerError extends FetchError {}
  * identically to fetch. Capturing redirects allows the server to respond with
  * the appropriate status code and resolved URL.
  */
-export function fetch(
+export function request(
   input: RequestInfo,
-  init?: RequestInit
+  init?: RequestInit,
+  fetch = unfetch
 ): Promise<Response> {
   // Setting the redirect mode to "error" doesn't appear to yield the status
   // code so "manual" is used instead.
   const redirect = server ? "manual" : undefined;
-  return unfetch(input, { redirect, ...init }).then(response => {
+  return fetch(input, { redirect, ...init }).then(response => {
     if (server && response.status >= 300 && response.status <= 399) {
       const url = response.headers.get("location");
       throw new RedirectError(response.status, url as string);

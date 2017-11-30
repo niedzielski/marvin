@@ -4,7 +4,7 @@ import { RESTBase } from "../marshallers/restbase";
 import { unmarshalPageSummary } from "../marshallers/page-summary/page-summary-unmarshaller"; // eslint-disable-line max-len
 import HttpResponse from "./http-response";
 import { RESTBaseRedirect } from "./restbase-redirect";
-import { fetch } from "./fetch";
+import * as fetch from "./fetch";
 import reencodePathSegment from "./restbase-path-encoder";
 
 // https://en.wikipedia.org/api/rest_v1/#!/Page_content/get_page_summary_title
@@ -34,7 +34,10 @@ const RANDOM_HEADERS = [["accept", RESTBase.Random.ACCEPT_HEADER]];
 // todo: this can actually return an empty response when redirect is false. Do
 //       we want to support it? Same question for the other redirect usages.
 export const request = (params: Params): Promise<HttpResponse<PageSummary>> =>
-  fetch(url(params), { headers: params.random ? RANDOM_HEADERS : PAGE_HEADERS })
+  fetch
+    .request(url(params), {
+      headers: params.random ? RANDOM_HEADERS : PAGE_HEADERS
+    })
     .then(response =>
       response
         .json()

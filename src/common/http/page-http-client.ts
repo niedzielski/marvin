@@ -9,7 +9,7 @@ import {
 import { RESTBase } from "../marshallers/restbase";
 import HttpResponse from "./http-response";
 import { RESTBaseRedirect } from "./restbase-redirect";
-import { fetch } from "./fetch";
+import * as fetch from "./fetch";
 import reencodePathSegment from "./restbase-path-encoder";
 
 // https://en.wikipedia.org/api/rest_v1/#!/Mobile/get_page_mobile_sections_title_revision
@@ -50,8 +50,10 @@ function request<Type>(
   endpoint: string,
   unmarshal: (params: UnmarshalParams) => Type
 ): Promise<HttpResponse<Type>> {
-  const headers = params.random ? RANDOM_HEADERS : PAGE_HEADERS;
-  return fetch(url(params, endpoint), { headers })
+  return fetch
+    .request(url(params, endpoint), {
+      headers: params.random ? RANDOM_HEADERS : PAGE_HEADERS
+    })
     .then(response =>
       response
         .json()
