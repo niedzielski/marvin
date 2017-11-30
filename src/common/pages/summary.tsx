@@ -10,7 +10,7 @@ import { request } from "../http/page-summary-http-client";
 import ContentHeader from "../components/content-header/content-header";
 import ContentFooter from "../components/content-footer/content-footer";
 import HttpResponse from "../http/http-response";
-import { RedirectError } from "../http/fetch-with-redirect";
+import { RedirectError } from "../http/fetch";
 import { unmarshalPageTitleID } from "../marshallers/page-base/page-base-unmarshaller"; // eslint-disable-line max-len
 
 interface PageParams extends RouteParams {

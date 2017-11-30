@@ -10,7 +10,7 @@ import HttpResponse from "../http/http-response";
 
 import notFoundPage from "../pages/not-found";
 import errorPage from "../pages/error";
-import { RedirectError } from "../http/fetch-with-redirect";
+import { RedirectError } from "../http/fetch";
 
 export interface RouteResponse<Props> {
   chunkName?: string;

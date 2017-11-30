@@ -4,7 +4,7 @@ import * as assert from "assert";
 // import, given ts-node compiles files when required (inside the test if using
 // a dynamic import)
 import * as HomeModule from "../pages/home";
-import { RedirectError } from "../http/fetch-with-redirect";
+import { RedirectError } from "../http/fetch";
 
 import { newRoute } from "./route";
 import { newRouter } from "./router";

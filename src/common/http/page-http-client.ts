@@ -9,7 +9,7 @@ import {
 import { RESTBase } from "../marshallers/restbase";
 import HttpResponse from "./http-response";
 import { RESTBaseRedirect } from "./restbase-redirect";
-import { fetch } from "./fetch-with-redirect";
+import { fetch } from "./fetch";
 import reencodePathSegment from "./restbase-path-encoder";
 
 // https://en.wikipedia.org/api/rest_v1/#!/Mobile/get_page_mobile_sections_title_revision

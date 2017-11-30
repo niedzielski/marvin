@@ -1,5 +1,3 @@
-// todo: rename this module.
-
 import * as unfetch from "isomorphic-unfetch";
 
 /** true if executing on server, false otherwise. */

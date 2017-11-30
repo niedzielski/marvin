@@ -3,7 +3,7 @@ import * as compression from "compression";
 import { h } from "preact";
 import { render as renderToString } from "preact-render-to-string";
 import { RouteResponse, newRouter } from "../common/routers/router";
-import { RedirectError } from "../common/http/fetch-with-redirect";
+import { RedirectError } from "../common/http/fetch";
 import { routes } from "../common/routers/api";
 import { SERVER_PORT, SERVER_URL } from "../common/assets/config";
 import HTMLPage from "./components/html-page";
