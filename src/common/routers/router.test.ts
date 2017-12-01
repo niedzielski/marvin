@@ -3,17 +3,17 @@ import * as assert from "assert";
 // Import the module statically to avoid potential timeouts in CI for a dynamic
 // import, given ts-node compiles files when required (inside the test if using
 // a dynamic import)
+// @ts-ignore
 import * as HomeModule from "../pages/home";
 import { RedirectError } from "../http/fetch-with-redirect";
 
-import { newRoute } from "./route";
+import { newRoute, PageModule } from "./route";
 import { newRouter } from "./router";
 
 const routes = [
   newRoute({
     path: "/",
-    importModule: () => Promise.resolve(HomeModule),
-    chunkName: "components/pages/home"
+    page: "home"
   })
 ];
 
@@ -38,24 +38,31 @@ describe("router()", () => {
 
     // eslint-disable-next-line max-len
     it("throws redirect errors up for handling on the server/client environment", done => {
-      newRouter([
+      // Page module that throws a redirect
+      const page: PageModule<undefined, undefined> = {
+        default: {
+          getInitialProps() {
+            // Trick TS and eslint for tests
+            if ((_ => true)()) throw new RedirectError(301, "/redirected-url");
+            return Promise.reject("Doesn't matter");
+          },
+          Component: () => null
+        }
+      };
+
+      const getPage = (name: string) =>
+        name === "redirect"
+          ? Promise.resolve(page)
+          : Promise.reject(new Error("No page found"));
+
+      const routes = [
         newRoute({
           path: "/redirect",
-          importModule: () =>
-            Promise.resolve({
-              default: {
-                getInitialProps() {
-                  // Trick TS and eslint for tests
-                  if ((_ => true)())
-                    throw new RedirectError(301, "/redirected-url");
-                  return Promise.reject("Doesn't matter");
-                },
-                Component: () => null
-              }
-            }),
-          chunkName: "doesnotmatter"
+          page: "redirect"
         })
-      ])
+      ];
+
+      newRouter(routes, getPage)
         .route("/redirect")
         .catch(err => {
           assert.ok(

@@ -1,62 +1,47 @@
-import { Props as WikiProps, Params as WikiParams } from "../pages/wiki";
-import {
-  Props as SummaryProps,
-  Params as SummaryParams
-} from "../pages/summary";
+import { Params as WikiParams } from "../pages/wiki";
+import { Params as SummaryParams } from "../pages/summary";
 import { AnyRoute, NoParamsRoute, Route, newRoute } from "./route";
 
 export const home: NoParamsRoute = newRoute({
   path: "/",
-  importModule: () =>
-    import(/* webpackChunkName: "pages/home" */ "../pages/home"),
-  chunkName: "pages/home"
+  page: "home"
 });
 
 export const about: NoParamsRoute = newRoute({
   path: "/about",
-  importModule: () =>
-    import(/* webpackChunkName: "pages/about" */ "../pages/about"),
-  chunkName: "pages/about"
+  page: "about"
 });
 
 const TITLE_CHARACTER_REGEX_STRING =
   "[ %!\"$&'\\(\\)*,\\-.\\/0-9:;=@A-Z\\\\^_`a-z~\\x80-\\xFF+]";
 
-export const wiki: Route<WikiParams, WikiProps> = newRoute({
+export const wiki: Route<WikiParams> = newRoute({
   // https://www.mediawiki.org/wiki/Manual:$wgLegalTitleChars
   // https://en.wikipedia.org/w/api.php?action=query&meta=siteinfo
   path: `/wiki/:title(${TITLE_CHARACTER_REGEX_STRING}+?)/:revision(\\d+)?`, // eslint-disable-line max-len
-  importModule: () =>
-    import(/* webpackChunkName: "pages/wiki" */ "../pages/wiki"),
-  chunkName: "pages/wiki"
+  page: "wiki"
 });
 
-export const summary: Route<SummaryParams, SummaryProps> = newRoute({
+export const summary: Route<SummaryParams> = newRoute({
   // Note: title is specified as non-greedy here only to omit a trailing slash
   //       from the title as the wiki endpoint does.
   path: `/page/summary/:title(${TITLE_CHARACTER_REGEX_STRING}+?)`,
-  importModule: () =>
-    import(/* webpackChunkName: "pages/summary" */ "../pages/summary"),
-  chunkName: "pages/summary"
+  page: "summary"
 });
 
-export const randomWiki: NoParamsRoute<WikiProps> = newRoute({
+export const randomWiki: NoParamsRoute = newRoute({
   path: "/random/wiki",
-  importModule: () => wiki.importModule(),
-  chunkName: wiki.chunkName
-}) as NoParamsRoute<WikiProps>;
+  page: "wiki"
+});
 
-export const randomSummary: NoParamsRoute<SummaryProps> = newRoute({
+export const randomSummary: NoParamsRoute = newRoute({
   path: "/random/summary",
-  importModule: () => summary.importModule(),
-  chunkName: summary.chunkName
-}) as NoParamsRoute<SummaryProps>;
+  page: "summary"
+});
 
 export const styleGuide: NoParamsRoute = newRoute({
   path: "/dev/style-guide",
-  importModule: () =>
-    import(/* webpackChunkName: "pages/style-guide" */ "../pages/style-guide"),
-  chunkName: "pages/style-guide"
+  page: "style-guide"
 });
 
 export const routes: AnyRoute[] = [

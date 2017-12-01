@@ -12,7 +12,7 @@ import { Route, RouteParams } from "./route";
 
 interface TestParams<Params extends RouteParams | undefined> {
   name: string;
-  route: Route<Params, any>;
+  route: Route<Params>;
   // The raw path. Only path-to-regexp knows how to construct a path from params
   // but escapes the inputs in the process. Since Route.toParams() is usually
   // passed an unescaped string, it's worth manually assembling an unescaped
@@ -30,7 +30,7 @@ function testPathParams<Params extends RouteParams | undefined>({
   it(`${name} path and parameter types are in sync`, () => {
     const expected: RouteParams = {};
     Object.keys((params as RouteParams) || {}).forEach(name => {
-      const value = (params as RouteParams)[name];
+      const value = params && params[name];
       expected[name] =
         value === undefined ? undefined : encodeURIComponent(value);
     });
@@ -43,7 +43,7 @@ function testPathParams<Params extends RouteParams | undefined>({
   it(`${name} unescaped path matches`, () => {
     const expected: RouteParams = {};
     Object.keys((params as RouteParams) || {}).forEach(name => {
-      const value = (params as RouteParams)[name];
+      const value = params && params[name];
       expected[name] = value;
     });
 
@@ -211,9 +211,11 @@ describe("api", () => {
       }
     ].forEach(testPathParams);
   });
+
   describe("wiki", () => {
     it("a title with an illegal character fails", () =>
       assert.deepStrictEqual(wiki.toParams("/wiki/{title}"), undefined));
+
     it("a nonnumerical revision fails", () =>
       assert.deepStrictEqual(
         wiki.toParams("/wiki/title/{revision}"),
