@@ -10,4 +10,4 @@
  * [redirect pages]: http://localhost:3000/wiki/Help:Redirects
  * [spec bug]: https://github.com/whatwg/fetch/issues/204
  */
-export type PageRedirect = boolean;
+export type RESTBaseRedirect = boolean;
