@@ -5,7 +5,7 @@ import * as assert from "assert";
 // a dynamic import)
 // @ts-ignore
 import * as HomeModule from "../pages/home";
-import { RedirectError } from "../http/fetch-with-redirect";
+import { RedirectError } from "../http/fetch";
 
 import { newRoute, PageModule } from "./route";
 import { newRouter } from "./router";

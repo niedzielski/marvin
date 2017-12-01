@@ -10,7 +10,7 @@ import { requestPage } from "../http/page-http-client";
 import ContentFooter from "../components/content-footer/content-footer";
 import ContentPage from "../components/content-page/content-page";
 import HttpResponse from "../http/http-response";
-import { RedirectError } from "../http/fetch-with-redirect";
+import { RedirectError } from "../http/fetch";
 import { Thumbnail } from "../components/thumbnail/thumbnail";
 import { unmarshalPageTitleID } from "../marshallers/page-base/page-base-unmarshaller"; // eslint-disable-line max-len
 
