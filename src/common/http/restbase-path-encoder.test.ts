@@ -10,5 +10,9 @@ describe("restbase-path-encoder", () => {
     it("doesn't reencode already encoded slashes", () => {
       assert.deepStrictEqual(reencodePathSegment("%2f"), "%2f");
     });
+
+    it("all slashes are encoded", () => {
+      assert.deepStrictEqual(reencodePathSegment("//"), "%2f%2f");
+    });
   });
 });
