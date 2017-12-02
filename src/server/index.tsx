@@ -10,6 +10,10 @@ import HTMLPage from "./components/html-page";
 
 const server = express();
 
+// Disable useless header.
+// http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
+server.disable("x-powered-by");
+
 server.use(compression());
 
 server.use("/public", express.static("dist/public"));
