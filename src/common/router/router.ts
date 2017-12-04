@@ -1,10 +1,5 @@
 import { AnyComponent } from "preact";
-import {
-  AnyRoute,
-  PageComponent,
-  PageModule,
-  Route
-} from "../../common/router/route";
+import { PageComponent, PageModule, Route } from "../../common/router/route";
 import HttpResponse from "../http/http-response";
 import notFoundPage, { Props as NotFoundProps } from "../pages/not-found";
 import errorPage, { Props as ErrorProps } from "../pages/error";
@@ -79,7 +74,7 @@ function respondError(error: Error) {
 }
 
 export const newRouter = (
-  routes: AnyRoute[],
+  routes: Route<any>[],
   requestPageModule: RequestPageModule = requestPageModuleChunk
 ) => {
   return {

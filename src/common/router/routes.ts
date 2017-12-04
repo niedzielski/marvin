@@ -1,6 +1,6 @@
 import { Params as WikiParams } from "../pages/wiki";
 import { Params as SummaryParams } from "../pages/summary";
-import { AnyRoute, NoParamsRoute, Route, newRoute } from "./route";
+import { NoParamsRoute, Route, newRoute } from "./route";
 
 export const home: NoParamsRoute = newRoute({
   path: "/",
@@ -44,7 +44,7 @@ export const styleGuide: NoParamsRoute = newRoute({
   page: "style-guide"
 });
 
-export const routes: AnyRoute[] = [
+export const routes: Route<any>[] = [
   home,
   about,
   wiki,

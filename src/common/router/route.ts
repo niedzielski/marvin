@@ -76,8 +76,6 @@ export interface NoParamsRoute extends Route<undefined> {
   toPath(params?: undefined): string;
 }
 
-export type AnyRoute = Route<any>;
-
 /**
  * Decompose a URL path into a Params map for use by
  * PageModule.getInitialProps(). This method uses a path regular expression to
