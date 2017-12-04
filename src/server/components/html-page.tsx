@@ -2,6 +2,7 @@ import { h } from "preact";
 import { PRODUCTION } from "../../common/assets/config";
 import { asset } from "../../common/assets/manifest";
 import { ChildrenProps } from "../../common/components/preact-utils";
+import { SSRData } from "../../common/models/ssr-data";
 declare function __non_webpack_require__(name: string): any; // eslint-disable-line camelcase
 
 export interface Props extends ChildrenProps {
@@ -10,6 +11,7 @@ export interface Props extends ChildrenProps {
   // Chunk to preload on the HTML. May not be needed if the chunks are already
   // included, like the error pages
   chunkName?: string;
+  ssrData: SSRData;
 }
 
 // The production asset manifest from the public build products or
@@ -23,6 +25,7 @@ const manifest = PRODUCTION
 export default function HTMLPage({
   title = "",
   chunkName,
+  ssrData,
   children
 }: Props): JSX.Element {
   // Asset order matters.
@@ -36,6 +39,10 @@ export default function HTMLPage({
   const style = asset("index", "css", manifest);
   const favicon = asset("favicon/wikipedia", "ico", manifest);
 
+  // Serialize the SSR data safely. See:
+  // https://github.com/reactjs/redux/blob/cda8699/docs/recipes/ServerRendering.md#inject-initial-component-html-and-state
+  const ssrDataString = JSON.stringify(ssrData).replace(/</g, "\\u003c");
+
   return (
     <html lang="en">
       <head>
@@ -46,6 +53,13 @@ export default function HTMLPage({
         {/* Preload the stylesheet before the scripts */}
         <link rel="preload" href={style} as="style" />
         <link rel="stylesheet" href={style} />
+        {/* Set the global server-side rendered data before scripts execute. */}
+        <script
+          type="text/javascript"
+          dangerouslySetInnerHTML={{
+            __html: `window.__SSR_DATA__ = ${ssrDataString}`
+          }}
+        />
         {assets.map(path => <link rel="preload" href={path} as="script" />)}
         <link rel="shortcut icon" href={favicon} />
       </head>

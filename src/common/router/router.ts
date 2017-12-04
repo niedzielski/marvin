@@ -54,6 +54,8 @@ function respond<Params, Props>(
   );
 }
 
+// todo: can we load this page dynamically instead? Many users will never even
+// see a 404.
 function respondNotFound(path: string): Promise<RouteResponse<any>> {
   const props: NotFoundProps = { path };
   return Promise.resolve({

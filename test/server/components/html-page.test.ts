@@ -7,6 +7,7 @@ describe("HTMLPage()", () => {
     const vNode = HTMLPage({
       title: "Test",
       chunkName: "",
+      ssrData: { forceSSR: false },
       children: ["body"]
     });
     const html = render(vNode);
@@ -18,7 +19,11 @@ describe("HTMLPage()", () => {
   });
 
   it("contains a <title/> when rendered", () => {
-    const vNode = HTMLPage({ title: "Test", chunkName: "" });
+    const vNode = HTMLPage({
+      title: "Test",
+      chunkName: "",
+      ssrData: { forceSSR: false }
+    });
     const html = render(vNode);
     const expected = "<title>Test - Marvin</title>";
     assert.ok(

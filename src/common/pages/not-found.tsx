@@ -6,6 +6,10 @@ export interface Props {
   path: string;
 }
 
+// Note: visually, this page may have some similarities to the generic
+// unexpected error page. However, this module should be kept distinct because
+// it permits interaction and may be rendered client-side, unlike the error
+// generic error page.
 export default {
   status: 404,
 

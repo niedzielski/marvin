@@ -3,6 +3,7 @@ import newHistory from "history/createBrowserHistory";
 import "wikimedia-ui-base/wikimedia-ui-base.css";
 import "./index.css";
 import { RouteResponse, newRouter } from "../common/router/router";
+import { SSRData } from "../common/models/ssr-data";
 import { WithContext } from "../common/components/with-context";
 import { routes } from "../common/router/routes";
 
@@ -13,6 +14,7 @@ if (process.env.NODE_ENV !== "production") {
   require("preact/debug");
 }
 
+const ssrData: SSRData = (window as any).__SSR_DATA__;
 const history = newHistory();
 const router = newRouter(routes);
 const pageRoot = (_ => {
@@ -43,4 +45,6 @@ history.listen(location => route(location.pathname));
 // Replace the server rendered root, which does not include CSS, with a styled
 // page that manages navigation with History. This enables the single page app
 // experience.
-route(location.pathname);
+if (!ssrData.forceSSR) {
+  route(location.pathname);
+}

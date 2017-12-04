@@ -6,6 +6,7 @@ import { RouteResponse, newRouter } from "../common/router/router";
 import { RedirectError } from "../common/http/fetch";
 import { routes } from "../common/router/routes";
 import { SERVER_PORT, SERVER_URL } from "../common/assets/config";
+import ErrorPage from "../common/pages/error";
 import HTMLPage from "./components/html-page";
 
 const server = express();
@@ -19,10 +20,13 @@ server.use(compression());
 server.use("/public", express.static("dist/public"));
 
 function render({ chunkName, Component, props }: RouteResponse<any>) {
+  // When an unexpected error occurs, forbid client re-rendering so that the
+  // original error can be shown.
+  const forceSSR = Component === ErrorPage.Component;
   return (
     "<!doctype html>" + // eslint-disable-line prefer-template
     renderToString(
-      <HTMLPage title="" chunkName={chunkName}>
+      <HTMLPage title="" chunkName={chunkName} ssrData={{ forceSSR }}>
         <Component {...props} />
       </HTMLPage>
     )
