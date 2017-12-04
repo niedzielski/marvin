@@ -1,4 +1,3 @@
-
 .Thumbnail {
   background: var(--wmui-color-base0);
 
@@ -27,18 +26,28 @@
     margin-right: var(--space);
     margin-bottom: var(--space);
   }
+  .Thumbnail--block {
+    /* When the thumbnail is Thumbnail--block, don't float left on desktop
+       widths */
+    float: unset;
+    display: block;
+  }
 }
 
 .Thumbnail-image {
   /* Don't pad the linked image with text descender space. */
   vertical-align: top;
+
+  /* Limit the image to the window width and always proportionally scale
+     height. e.g.: http://localhost:3000/wiki/File:Buffer_zone.jpg. */
+  max-width: 100%;
+  height: auto;
 }
 
 .Thumbnail-image-landscape {
   /* Stretch the image to occupy the available width and proprotionally scale
      the height. */
   width: 100%;
-  height: auto;
 }
 
 /* TODO: use CSS variable. */
@@ -47,8 +56,8 @@
     /* The screen is too large to maximize the image. Use the image's native
        width and height. */
     width: unset;
-    height: unset;
   }
 }
 
-.Thumbnail-image-portrait {}
+.Thumbnail-image-portrait {
+}

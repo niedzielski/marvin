@@ -7,9 +7,10 @@ import "./thumbnail.css";
 export interface Props {
   image: PageImage;
   url?: string;
+  block?: boolean;
 }
 
-export function Thumbnail({ image, url, ...props }: Props & ClassProps) {
+export function Thumbnail({ image, url, block, ...props }: Props & ClassProps) {
   const imageOrientationClass = `Thumbnail-image-${image.landscape
     ? "landscape"
     : "portrait"}`;
@@ -23,7 +24,13 @@ export function Thumbnail({ image, url, ...props }: Props & ClassProps) {
     />
   );
   return (
-    <span class={classOf("Thumbnail", props.class)}>
+    <span
+      class={classOf(
+        "Thumbnail",
+        props.class,
+        block ? "Thumbnail--block" : undefined
+      )}
+    >
       {url ? <Link href={url}>{img}</Link> : img}
     </span>
   );

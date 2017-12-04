@@ -81,6 +81,7 @@ export default {
             <Thumbnail
               image={page.fileImage.thumbnail}
               url={page.fileImage.url}
+              block={true}
             />
           )}
           <ContentPage sections={page.sections} />
