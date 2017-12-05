@@ -2,7 +2,7 @@ import { h } from "preact";
 import App from "../components/app/app";
 import Page from "../components/page/page";
 
-interface Props {
+export interface Props {
   error: Error;
 }
 

@@ -6,9 +6,8 @@ import {
   Route
 } from "../../common/router/route";
 import HttpResponse from "../http/http-response";
-
-import notFoundPage from "../pages/not-found";
-import errorPage from "../pages/error";
+import notFoundPage, { Props as NotFoundProps } from "../pages/not-found";
+import errorPage, { Props as ErrorProps } from "../pages/error";
 import { RedirectError } from "../http/fetch";
 
 export interface RouteResponse<Props> {
@@ -60,17 +59,23 @@ function respond<Params, Props>(
   );
 }
 
+function respondNotFound(path: string) {
+  const props: NotFoundProps = { path };
+  return Promise.resolve({
+    status: notFoundPage.status,
+    Component: notFoundPage.Component,
+    props
+  });
+}
+
 function respondError(error: Error) {
   // Throw up RedirectErrors so that they can be handled by the server/client
   // appropriately
   if (error instanceof RedirectError) throw error;
 
   console.error(`${error.message}\n${error.stack}`); // eslint-disable-line no-console
-  return {
-    status: errorPage.status,
-    Component: errorPage.Component,
-    props: { error }
-  };
+  const props: ErrorProps = { error };
+  return { status: errorPage.status, Component: errorPage.Component, props };
 }
 
 export const newRouter = (
@@ -85,11 +90,7 @@ export const newRouter = (
           return respond(requestPageModule, route, params).catch(respondError);
         }
       }
-      return Promise.resolve({
-        status: notFoundPage.status,
-        Component: notFoundPage.Component,
-        props: { path }
-      });
+      return respondNotFound(path);
     }
   };
 };
