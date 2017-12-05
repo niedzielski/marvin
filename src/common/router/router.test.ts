@@ -7,44 +7,37 @@ import * as assert from "assert";
 import * as HomeModule from "../pages/home";
 import { RedirectError } from "../http/fetch";
 
-import { newRoute, PageModule } from "./route";
+import { newRoute } from "./route";
 import { newRouter } from "./router";
 
-const routes = [
-  newRoute({
-    path: "/",
-    page: "home"
-  })
-];
+const routes = [newRoute({ path: "/", page: "home" })];
 
 describe("router()", () => {
   describe(".route()", () => {
-    it("a known route is resolved", done => {
-      newRouter(routes)
+    it("a known route is resolved", () => {
+      return newRouter(routes)
         .route("/")
-        .then(() => done());
+        .then(rsp => {
+          assert.deepEqual(rsp.status, 200);
+        });
     });
 
-    // eslint-disable-next-line max-len
-    it("an unknown route resolves with the path and appropriate status", done => {
-      newRouter(routes)
+    it("an unknown route resolves with the path and appropriate status", () => {
+      return newRouter(routes)
         .route("/404")
         .then(res => {
-          assert.equal(res.status, 404);
-          assert.equal(res.props.path, "/404");
-          done();
+          assert.deepEqual(res.status, 404);
+          assert.deepEqual(res.props.path, "/404");
         });
     });
 
     // eslint-disable-next-line max-len
-    it("throws redirect errors up for handling on the server/client environment", done => {
+    it("throws redirect errors up for handling on the server/client environment", () => {
       // Page module that throws a redirect
-      const module: PageModule<undefined, undefined> = {
+      const module = {
         default: {
-          getInitialProps() {
-            // Trick TS and eslint for tests
-            if ((_ => true)()) throw new RedirectError(301, "/redirected-url");
-            return Promise.reject("Doesn't matter");
+          getInitialProps(): Promise<never> {
+            throw new RedirectError(301, "/redirected-url");
           },
           Component: () => null
         }
@@ -55,23 +48,17 @@ describe("router()", () => {
           ? Promise.resolve(module)
           : Promise.reject(new Error("No page found"));
 
-      const routes = [
-        newRoute({
-          path: "/redirect",
-          page: "redirect"
-        })
-      ];
+      const routes = [newRoute({ path: "/redirect", page: "redirect" })];
 
-      newRouter(routes, requestPageModule)
+      return newRouter(routes, requestPageModule)
         .route("/redirect")
         .catch(err => {
           assert.ok(
             err instanceof RedirectError,
             "Error is a redirect error on redirect"
           );
-          assert.equal(err.status, 301);
-          assert.equal(err.url, "/redirected-url");
-          done();
+          assert.deepEqual(err.status, 301);
+          assert.deepEqual(err.url, "/redirected-url");
         });
     });
   });
