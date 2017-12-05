@@ -7,8 +7,8 @@ export class FetchError extends Error {
   status: number;
   url: string;
 
-  constructor(status: number, url: string) {
-    super();
+  constructor(status: number, url: string, message?: string) {
+    super(message);
     this.status = status;
     this.url = url;
   }
@@ -39,16 +39,19 @@ export function request(
   // code so "manual" is used instead.
   const redirect = server ? "manual" : undefined;
   return fetch(input, { redirect, ...init }).then(response => {
+    const requestURL = typeof input === "string" ? input : input.url;
     if (server && response.status >= 300 && response.status <= 399) {
       const url = response.headers.get("location");
-      throw new RedirectError(response.status, url as string);
+      if (url) throw new RedirectError(response.status, url);
+
+      const message = "Location header missing in service response.";
+      throw new ServerError(500, requestURL, message);
     }
-    const url = typeof input === "string" ? input : input.url;
     if (response.status >= 400 && response.status <= 499) {
-      throw new ClientError(response.status, url);
+      throw new ClientError(response.status, requestURL);
     }
     if (response.status >= 500) {
-      throw new ServerError(response.status, url);
+      throw new ServerError(response.status, requestURL);
     }
     return response;
   });
