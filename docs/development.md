@@ -176,6 +176,8 @@ Additionally, prefer a default export when only one export is needed.
 - Static constants should be written in `SHOUTING_SNAKE_CASE`. All other
   variables should be written in `camelCase`.
 - Preact components should be written in PascalCase.
+- Functions should be verbs like `request` or `get`, not `requester` or
+  `getter`.
 
 ### CSS
 

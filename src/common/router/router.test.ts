@@ -39,7 +39,7 @@ describe("router()", () => {
     // eslint-disable-next-line max-len
     it("throws redirect errors up for handling on the server/client environment", done => {
       // Page module that throws a redirect
-      const page: PageModule<undefined, undefined> = {
+      const module: PageModule<undefined, undefined> = {
         default: {
           getInitialProps() {
             // Trick TS and eslint for tests
@@ -50,9 +50,9 @@ describe("router()", () => {
         }
       };
 
-      const getPage = (name: string) =>
-        name === "redirect"
-          ? Promise.resolve(page)
+      const requestPageModule = (page: string) =>
+        page === "redirect"
+          ? Promise.resolve(module)
           : Promise.reject(new Error("No page found"));
 
       const routes = [
@@ -62,7 +62,7 @@ describe("router()", () => {
         })
       ];
 
-      newRouter(routes, getPage)
+      newRouter(routes, requestPageModule)
         .route("/redirect")
         .catch(err => {
           assert.ok(

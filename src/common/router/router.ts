@@ -18,6 +18,10 @@ export interface RouteResponse<Props> {
   props: Props;
 }
 
+interface RequestPageModule {
+  (name: string): Promise<PageModule<any, any>>;
+}
+
 function getInitialProps<Params, Props>(
   module: PageComponent<Params, Props>,
   params: Params
@@ -29,18 +33,20 @@ function getInitialProps<Params, Props>(
 
 /**
  * Imports a page module from common/pages/* and names the chunk pages/* so that
- * the router can tell the server the name of the chunks to preload
+ * the router can tell the server the name of the chunks to preload.
+ * @param {string} page The page chunk basename with no extension. Corresponds
+ *                      to Route.page.
  */
-function getChunk(name: string) {
-  return import(/* webpackChunkName: "pages/[request]" */ `../pages/${name}`);
+function requestPageModuleChunk(page: string): Promise<PageModule<any, any>> {
+  return import(/* webpackChunkName: "pages/[request]" */ `../pages/${page}`);
 }
 
 function respond<Params, Props>(
-  getPage: PageResolver,
+  requestPageModule: RequestPageModule,
   route: Route<Params>,
   params: Params
 ): Promise<RouteResponse<Props>> {
-  return getPage(route.page).then(module =>
+  return requestPageModule(route.page).then(module =>
     getInitialProps(
       module.default,
       params
@@ -67,20 +73,16 @@ function respondError(error: Error) {
   };
 }
 
-interface PageResolver {
-  (name: string): Promise<PageModule<any, any>>;
-}
-
 export const newRouter = (
   routes: AnyRoute[],
-  getPage: PageResolver = getChunk
+  requestPageModule: RequestPageModule = requestPageModuleChunk
 ) => {
   return {
     route(path: string): Promise<RouteResponse<any>> {
       for (const route of routes) {
         const params = route.toParams(path);
         if (params) {
-          return respond(getPage, route, params).catch(respondError);
+          return respond(requestPageModule, route, params).catch(respondError);
         }
       }
       return Promise.resolve({
