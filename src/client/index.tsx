@@ -15,13 +15,15 @@ if (process.env.NODE_ENV !== "production") {
 
 const history = newHistory();
 const router = newRouter(routes);
-const pageRoot = document.getElementById("root");
-if (!pageRoot) {
+const pageRoot = (_ => {
+  const root = document.getElementById("root");
+  if (root) return root;
+
   // A "root" container for the app should be present in the Page component.
   throw new Error('Missing element with "root" ID.');
-}
+})();
 
-const renderPageRoot = ({ Component, props }: RouteResponse<any>) => {
+function renderPageRoot({ Component, props }: RouteResponse<any>) {
   render(
     <WithContext history={history}>
       <Component {...props} />
@@ -29,9 +31,11 @@ const renderPageRoot = ({ Component, props }: RouteResponse<any>) => {
     pageRoot,
     pageRoot.lastElementChild || undefined
   );
-};
+}
 
-const route = (path: string) => router.route(path).then(renderPageRoot);
+function route(path: string) {
+  router.route(path).then(renderPageRoot);
+}
 
 // Observe the History
 history.listen(location => route(location.pathname));
