@@ -14,49 +14,23 @@ import { PageTitleID } from "../models/page/title";
 import Link from "../components/link/link";
 
 const testSummaries = [
-  {
-    title: "Banana",
-    text: "With landscape image"
-  },
-  {
-    title: "Cucumber",
-    text: "With portrait image"
-  },
-  {
-    title: "Plaintext",
-    text: "Without image"
-  },
+  { title: "Banana", text: "With landscape image" },
+  { title: "Cucumber", text: "With portrait image" },
+  { title: "Plaintext", text: "Without image" },
   {
     title: "Bill_&_Ted's_Excellent_Adventure",
     text: "With two paragraphs, unencoded path, and styled title"
   },
-  {
-    title: "Carrot cake",
-    text: "Encoding redirect (301)"
-  },
-  {
-    title: "Cheese_cake",
-    text: "Redirect page (302)"
-  }
+  { title: "Carrot cake", text: "Encoding redirect (301)" },
+  { title: "Cheese_cake", text: "Redirect page (302)" },
+  { title: "Nonexistent_title", text: "Missing (404)" }
 ];
 
 const testPages = [
-  {
-    title: "Ice_cream",
-    text: "A normal article"
-  },
-  {
-    title: "Cake_(disambiguation)",
-    text: "Disambiguation"
-  },
-  {
-    title: "Carrot cake",
-    text: "Encoding redirect (301)"
-  },
-  {
-    title: "Cheese_cake",
-    text: "Redirect page (302)"
-  },
+  { title: "Ice_cream", text: "A normal article" },
+  { title: "Cake_(disambiguation)", text: "Disambiguation" },
+  { title: "Carrot cake", text: "Encoding redirect (301)" },
+  { title: "Cheese_cake", text: "Redirect page (302)" },
   {
     title: "Ice_cream_cake",
     revision: "24242119",
@@ -65,7 +39,8 @@ const testPages = [
   {
     title: "File:Vanilla_Ice_Cream_Cone_at_Camp_Manitoulin.jpg",
     text: "Redirect (external) and File page"
-  }
+  },
+  { title: "Nonexistent_title", text: "Missing (404)" }
 ];
 
 export default {

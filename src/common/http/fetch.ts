@@ -12,17 +12,37 @@ export class FetchError extends Error {
     super(message);
     this.status = status;
     this.url = url;
+
+    // Fix instanceof usages in ES5 (here and in subclasses). See:
+    // - https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
+    // - https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-2.html#support-for-newtarget
+    Object.setPrototypeOf(this, FetchError.prototype);
   }
 }
 
 /** Server-only 3xx redirect status code and destination URL. */
-export class RedirectError extends FetchError {}
+export class RedirectError extends FetchError {
+  constructor(status: number, url: string, message?: string) {
+    super(status, url, message);
+    Object.setPrototypeOf(this, RedirectError.prototype);
+  }
+}
 
 /** 4xx status code errors. */
-export class ClientError extends FetchError {}
+export class ClientError extends FetchError {
+  constructor(status: number, url: string, message?: string) {
+    super(status, url, message);
+    Object.setPrototypeOf(this, ClientError.prototype);
+  }
+}
 
 /** 5xx status code errors. */
-export class ServerError extends FetchError {}
+export class ServerError extends FetchError {
+  constructor(status: number, url: string, message?: string) {
+    super(status, url, message);
+    Object.setPrototypeOf(this, ServerError.prototype);
+  }
+}
 
 /**
  * Isomorphic fetch with transparent throw-on-redirect behavior for requests

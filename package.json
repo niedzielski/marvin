@@ -120,7 +120,7 @@
     },
     {
       "path": "dist/public/pages/home.*.js",
-      "maxSize": "0.8KB"
+      "maxSize": "0.9KB"
     },
     {
       "path": "dist/public/pages/summary.*.js",
