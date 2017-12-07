@@ -3,7 +3,7 @@ import { PageComponent, PageModule, Route } from "../../common/router/route";
 import HttpResponse from "../http/http-response";
 import notFoundPage, { Props as NotFoundProps } from "../pages/not-found";
 import errorPage, { Props as ErrorProps } from "../pages/error";
-import { RedirectError } from "../http/fetch";
+import { ClientError, RedirectError, FetchError } from "../http/fetch";
 
 export interface RouteResponse<Props> {
   chunkName?: string;
@@ -54,7 +54,7 @@ function respond<Params, Props>(
   );
 }
 
-function respondNotFound(path: string) {
+function respondNotFound(path: string): Promise<RouteResponse<any>> {
   const props: NotFoundProps = { path };
   return Promise.resolve({
     status: notFoundPage.status,
@@ -63,29 +63,37 @@ function respondNotFound(path: string) {
   });
 }
 
-function respondError(error: Error) {
+function respondError(path: string, error: Error): Promise<RouteResponse<any>> {
   // Throw up RedirectErrors so that they can be handled by the server/client
   // appropriately
   if (error instanceof RedirectError) throw error;
 
+  if (error instanceof ClientError && error.status === 404) {
+    return respondNotFound(path);
+  }
+
   console.error(`${error.message}\n${error.stack}`); // eslint-disable-line no-console
+
+  const status = error instanceof FetchError ? error.status : errorPage.status;
   const props: ErrorProps = { error };
-  return { status: errorPage.status, Component: errorPage.Component, props };
+  return Promise.resolve({ status, Component: errorPage.Component, props });
 }
 
-export const newRouter = (
+export function newRouter(
   routes: Route<any>[],
   requestPageModule: RequestPageModule = requestPageModuleChunk
-) => {
+) {
   return {
     route(path: string): Promise<RouteResponse<any>> {
       for (const route of routes) {
         const params = route.toParams(path);
         if (params) {
-          return respond(requestPageModule, route, params).catch(respondError);
+          return respond(requestPageModule, route, params).catch(error =>
+            respondError(path, error)
+          );
         }
       }
       return respondNotFound(path);
     }
   };
-};
+}
