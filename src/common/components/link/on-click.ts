@@ -25,6 +25,13 @@ export function onClick(
     // something else. Use target if it is a link, as the handler triggers on
     // the bubbling phase
     link = event.target;
+  } else if (
+    event.target instanceof Node &&
+    event.target.parentElement instanceof HTMLAnchorElement
+  ) {
+    // When set on a parent, the target may be an image. Check the parent to
+    // see if it's an anchor.
+    link = event.target.parentElement;
   }
 
   if (

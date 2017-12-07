@@ -106,7 +106,7 @@
   "bundlesize": [
     {
       "path": "dist/public/index.*.js",
-      "maxSize": "4KB"
+      "maxSize": "4.1KB"
     },
     {
       "path": "dist/public/index.*.css",
