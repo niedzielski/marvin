@@ -61,6 +61,10 @@ const testPages = [
     title: "Ice_cream_cake",
     revision: "24242119",
     text: "An arbitrary revision"
+  },
+  {
+    title: "File:Vanilla_Ice_Cream_Cone_at_Camp_Manitoulin.jpg",
+    text: "Redirect (external) and File page"
   }
 ];
 

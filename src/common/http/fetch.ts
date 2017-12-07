@@ -1,4 +1,5 @@
 import * as unfetch from "isomorphic-unfetch";
+import { unmarshalPageTitleID } from "../marshallers/page-base/page-base-unmarshaller"; // eslint-disable-line max-len
 
 /** true if executing on server, false otherwise. */
 const server = typeof window !== "object";
@@ -54,5 +55,31 @@ export function request(
       throw new ServerError(response.status, requestURL);
     }
     return response;
+  });
+}
+
+export function requestPage(
+  input: RequestInfo,
+  init?: RequestInit,
+  fetch = unfetch
+): Promise<Response> {
+  return request(input, init, fetch).catch(error => {
+    if (error instanceof RedirectError) {
+      const requestedTitleID = unmarshalPageTitleID(
+        typeof input === "string" ? input : input.url
+      );
+      const redirectedTitleID = unmarshalPageTitleID(error.url);
+      if (requestedTitleID === redirectedTitleID) {
+        // The URL is external but Marvin only supports Wikipedia. Follow it and
+        // don't report redirect status.
+        const destination =
+          typeof input === "string" ? error.url : { ...input, url: error.url };
+        return requestPage(destination, init);
+      }
+      // Else the URL may be internal or external. We need to redirect the
+      // client to the new title in either case.
+    }
+
+    throw error;
   });
 }

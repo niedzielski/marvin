@@ -4,7 +4,7 @@ import { RESTBase } from "../marshallers/restbase";
 import { unmarshalPageSummary } from "../marshallers/page-summary/page-summary-unmarshaller"; // eslint-disable-line max-len
 import HttpResponse from "./http-response";
 import { RESTBaseRedirect } from "./restbase-redirect";
-import * as fetch from "./fetch";
+import { requestPage } from "./fetch";
 import reencodePathSegment from "./restbase-path-encoder";
 
 // https://en.wikipedia.org/api/rest_v1/#!/Page_content/get_page_summary_title
@@ -14,12 +14,10 @@ interface PageParams {
   redirect?: RESTBaseRedirect;
   random?: undefined;
 }
-export type Params = PageParams | { random: true };
+export type Params = PageParams | { random: true; init?: RequestInit };
 
 const url = (params: Params) => {
-  if (params.random) {
-    return `${RESTBase.BASE_URL}/page/random/summary`;
-  }
+  if (params.random) return `${RESTBase.BASE_URL}/page/random/summary`;
 
   const { titlePath, redirect } = params;
   const redirectParam = redirect === undefined ? "" : `&redirect=${redirect}`;
@@ -33,26 +31,23 @@ const RANDOM_HEADERS = [["accept", RESTBase.Random.ACCEPT_HEADER]];
 
 // todo: this can actually return an empty response when redirect is false. Do
 //       we want to support it? Same question for the other redirect usages.
-export const request = (params: Params): Promise<HttpResponse<PageSummary>> =>
-  fetch
-    .request(url(params), {
-      headers: params.random ? RANDOM_HEADERS : PAGE_HEADERS
-    })
+export function request(params: Params): Promise<HttpResponse<PageSummary>> {
+  const headers = params.random ? RANDOM_HEADERS : PAGE_HEADERS;
+  return requestPage(url(params), { headers })
     .then(response =>
       response
         .json()
         .then(json => [response.status, response.url, response.headers, json])
     )
-    .then(([status, url, headers, json]) => {
-      return {
-        status,
-        data: unmarshalPageSummary({
-          url,
-          requestTitleID: params.random
-            ? undefined
-            : decodeURIComponent(params.titlePath),
-          headers,
-          json
-        })
-      };
-    });
+    .then(([status, url, headers, json]) => ({
+      status,
+      data: unmarshalPageSummary({
+        url,
+        requestTitleID: params.random
+          ? undefined
+          : decodeURIComponent(params.titlePath),
+        headers,
+        json
+      })
+    }));
+}

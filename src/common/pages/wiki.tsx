@@ -35,32 +35,38 @@ export interface Props {
   page: PageModel;
 }
 
+function request(
+  params: Params = {},
+  init?: RequestInit
+): Promise<HttpResponse<PageModel>> {
+  return requestPage(
+    params.title === undefined
+      ? { random: true, init }
+      : {
+          titlePath: params.title,
+          revision:
+            params.revision === undefined
+              ? undefined
+              : parseInt(params.revision, 10),
+          init
+        }
+  ).catch(error => {
+    if (error instanceof RedirectError) {
+      const title = unmarshalPageTitleID(error.url);
+      const url = wiki.toPath({ title, revision: params.revision });
+      throw new RedirectError(error.status, url);
+    }
+
+    throw error;
+  });
+}
+
 export default {
   getInitialProps(params: Params = {}): Promise<HttpResponse<Props>> {
-    return requestPage(
-      params.title === undefined
-        ? { random: true }
-        : {
-            titlePath: params.title,
-            revision:
-              params.revision === undefined
-                ? undefined
-                : parseInt(params.revision, 10)
-          }
-    )
-      .then(({ status, data }) => ({ status, data: { page: data } }))
-      .catch(error => {
-        if (error instanceof RedirectError) {
-          error = new RedirectError(
-            error.status,
-            wiki.toPath({
-              title: unmarshalPageTitleID(error.url),
-              revision: params.revision
-            })
-          );
-        }
-        throw error;
-      });
+    return request(params).then(({ status, data }) => ({
+      status,
+      data: { page: data }
+    }));
   },
 
   Component({ page }: Props): JSX.Element {

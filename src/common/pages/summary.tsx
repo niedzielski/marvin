@@ -6,7 +6,7 @@ import { PageTitleID, PageTitlePath } from "../models/page/title";
 import Page from "../components/page/page";
 import { RouteParams } from "../router/route";
 import { summary } from "../router/routes";
-import { request } from "../http/page-summary-http-client";
+import { request as requestSummary } from "../http/page-summary-http-client";
 import ContentHeader from "../components/content-header/content-header";
 import ContentFooter from "../components/content-footer/content-footer";
 import HttpResponse from "../http/http-response";
@@ -30,26 +30,30 @@ export interface Props {
   summary: PageSummaryModel;
 }
 
+function request(
+  params: Params = {},
+  init?: RequestInit
+): Promise<HttpResponse<PageSummaryModel>> {
+  return requestSummary(
+    params.title === undefined
+      ? { random: true, init }
+      : { titlePath: params.title, init }
+  ).catch(error => {
+    if (error instanceof RedirectError) {
+      const url = summary.toPath({ title: unmarshalPageTitleID(error.url) });
+      throw new RedirectError(error.status, url);
+    }
+
+    throw error;
+  });
+}
+
 export default {
   getInitialProps(params: Params = {}): Promise<HttpResponse<Props>> {
-    return request(
-      params.title === undefined
-        ? { random: true }
-        : { titlePath: params.title }
-    )
-      .then(({ status, data }) => ({
-        status,
-        data: { summary: data }
-      }))
-      .catch(error => {
-        if (error instanceof RedirectError) {
-          error = new RedirectError(
-            error.status,
-            summary.toPath({ title: unmarshalPageTitleID(error.url) })
-          );
-        }
-        throw error;
-      });
+    return request(params).then(({ status, data }) => ({
+      status,
+      data: { summary: data }
+    }));
   },
 
   Component({ summary }: Props): JSX.Element {

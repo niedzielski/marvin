@@ -20,12 +20,10 @@ interface PageParams {
   redirect?: RESTBaseRedirect;
   random?: undefined;
 }
-export type Params = PageParams | { random: true };
+export type Params = PageParams | { random: true; init?: RequestInit };
 
 function url(params: Params, endpoint: string) {
-  if (params.random) {
-    return `${RESTBase.BASE_URL}/page/random/${endpoint}`;
-  }
+  if (params.random) return `${RESTBase.BASE_URL}/page/random/${endpoint}`;
 
   const { titlePath, revision, redirect } = params;
   const revisionPath = revision === undefined ? "" : `/${revision}`;
@@ -51,7 +49,7 @@ function request<Type>(
   unmarshal: (params: UnmarshalParams) => Type
 ): Promise<HttpResponse<Type>> {
   return fetch
-    .request(url(params, endpoint), {
+    .requestPage(url(params, endpoint), {
       headers: params.random ? RANDOM_HEADERS : PAGE_HEADERS
     })
     .then(response =>
