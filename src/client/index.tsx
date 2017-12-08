@@ -40,7 +40,14 @@ function route(path: string) {
 }
 
 // Observe the History
-history.listen(location => route(location.pathname));
+history.listen((location, action) => {
+  route(location.pathname);
+
+  if (action === "PUSH" || action === "REPLACE") {
+    // A new destination, reset the window scroll state.
+    window.scrollTo(0, 0);
+  }
+});
 
 // Replace the server rendered root, which does not include CSS, with a styled
 // page that manages navigation with History. This enables the single page app
