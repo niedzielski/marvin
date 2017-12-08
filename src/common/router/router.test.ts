@@ -40,7 +40,7 @@ describe("router()", () => {
         .route("/404")
         .then(res => {
           assert.deepEqual(res.status, 404);
-          assert.deepEqual(res.props.path, "/404");
+          assert.deepEqual(res.props.pathQuery, "/404");
         });
     });
 
@@ -85,7 +85,7 @@ describe("router()", () => {
         .route("/wiki/Nonexistent_title")
         .then(rsp => {
           assert.deepEqual(rsp.status, 404);
-          assert.deepEqual(rsp.props.path, "/wiki/Nonexistent_title");
+          assert.deepEqual(rsp.props.pathQuery, "/wiki/Nonexistent_title");
         });
     });
 

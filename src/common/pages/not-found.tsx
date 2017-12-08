@@ -3,7 +3,7 @@ import App from "../components/app/app";
 import Page from "../components/page/page";
 
 export interface Props {
-  path: string;
+  pathQuery: string;
 }
 
 // Note: visually, this page may have some similarities to the generic
@@ -13,11 +13,11 @@ export interface Props {
 export default {
   status: 404,
 
-  Component({ path }: Props): JSX.Element {
+  Component({ pathQuery }: Props): JSX.Element {
     return (
       <App>
         <Page title="Page not found" subtitle="Error 404">
-          <p>Not found: {path}</p>
+          <p>Not found: {pathQuery}</p>
         </Page>
       </App>
     );

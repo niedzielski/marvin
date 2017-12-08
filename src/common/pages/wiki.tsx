@@ -14,22 +14,21 @@ import { RedirectError } from "../http/fetch";
 import { Thumbnail } from "../components/thumbnail/thumbnail";
 import { unmarshalPageTitleID } from "../marshallers/page-base/page-base-unmarshaller"; // eslint-disable-line max-len
 
-interface PageParams extends RouteParams {
-  /**
-   * When used as an input, an (unencoded, not necessarily denormalized)
-   * possible PageTitleID; when used as an output of Route.toParams(), an
-   * (encoded, not necessarily denormalized) PageTitlePath.
-   */
-  title: PageTitleID | PageTitlePath | string;
-  revision?: string;
+interface PageParams extends Partial<RouteParams> {
+  path: {
+    /**
+     * When used as an input, an (unencoded, not necessarily denormalized)
+     * possible PageTitleID; when used as an output of Route.toParams(), an
+     * (encoded, not necessarily denormalized) PageTitlePath.
+     */
+    title: PageTitleID | PageTitlePath | string;
+    revision?: string;
+  };
 }
 
 // undefined means random input (Route.toPath()) and {} means random output
 // (Route.toParams()).
-export type Params =
-  | PageParams
-  | { title?: undefined; revision?: undefined }
-  | undefined;
+export type Params = PageParams | { path?: undefined } | undefined;
 
 export interface Props {
   page: PageModel;
@@ -40,20 +39,25 @@ function request(
   init?: RequestInit
 ): Promise<HttpResponse<PageModel>> {
   return requestPage(
-    params.title === undefined
+    params.path === undefined
       ? { random: true, init }
       : {
-          titlePath: params.title,
+          titlePath: params.path.title,
           revision:
-            params.revision === undefined
+            params.path.revision === undefined
               ? undefined
-              : parseInt(params.revision, 10),
+              : parseInt(params.path.revision, 10),
           init
         }
   ).catch(error => {
     if (error instanceof RedirectError) {
       const title = unmarshalPageTitleID(error.url);
-      const url = wiki.toPath({ title, revision: params.revision });
+      const url = wiki.toPath({
+        path: {
+          title,
+          revision: params.path ? params.path.revision : undefined
+        }
+      });
       throw new RedirectError(error.status, url);
     }
 

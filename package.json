@@ -104,7 +104,7 @@
   "bundlesize": [
     {
       "path": "dist/public/index.*.js",
-      "maxSize": "3.9KB"
+      "maxSize": "4KB"
     },
     {
       "path": "dist/public/runtime.*.js",

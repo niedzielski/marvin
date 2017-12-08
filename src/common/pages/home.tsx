@@ -12,6 +12,7 @@ import {
 import Page from "../components/page/page";
 import { PageTitleID } from "../models/page/title";
 import Link from "../components/link/link";
+import { QueryParams } from "../router/route";
 
 const testSummaries = [
   { title: "Banana", text: "With landscape image" },
@@ -24,7 +25,7 @@ const testSummaries = [
   { title: "Carrot cake", text: "Encoding redirect (301)" },
   { title: "Cheese_cake", text: "Redirect page (302)" },
   { title: "Nonexistent_title", text: "Missing (404)" },
-  { title: "Pizza", query: "foo=bar", text: "Query string" }
+  { title: "Pizza", query: { foo: "bar" }, text: "Query string" }
 ];
 
 const testPages = [
@@ -42,7 +43,7 @@ const testPages = [
     text: "Redirect (external) and File page"
   },
   { title: "Nonexistent_title", text: "Missing (404)" },
-  { title: "Pizza", query: "foo=bar", text: "Query string" }
+  { title: "Pizza", query: { foo: "bar" }, text: "Query string" }
 ];
 
 export default {
@@ -82,12 +83,14 @@ export default {
                 text
               }: {
                 title: PageTitleID | string;
-                query?: string;
+                query?: QueryParams;
                 revision?: string;
                 text: string;
               }) => (
                 <li>
-                  <Link href={wiki.toPath({ title, revision }, query)}>
+                  <Link
+                    href={wiki.toPath({ path: { title, revision }, query })}
+                  >
                     {text}
                   </Link>
                 </li>
@@ -109,11 +112,13 @@ export default {
                 text
               }: {
                 title: PageTitleID | string;
-                query?: string;
+                query?: QueryParams;
                 text: string;
               }) => (
                 <li>
-                  <Link href={summary.toPath({ title }, query)}>{text}</Link>
+                  <Link href={summary.toPath({ path: { title }, query })}>
+                    {text}
+                  </Link>
                 </li>
               )
             )}

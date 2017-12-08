@@ -8,9 +8,9 @@ import {
   randomSummary,
   styleGuide
 } from "./routes";
-import { Route, RouteParams } from "./route";
+import { PathParams, Route, RouteParams, QueryParams } from "./route";
 
-interface TestParams<Params extends RouteParams | undefined> {
+interface TestParams<Params extends Partial<RouteParams> | undefined> {
   name: string;
   route: Route<Params>;
   // The raw path. Only path-to-regexp knows how to construct a path from params
@@ -21,19 +21,29 @@ interface TestParams<Params extends RouteParams | undefined> {
   params: Params;
 }
 
-function testPathParams<Params extends RouteParams | undefined>({
-  name,
-  route,
-  path,
-  params
-}: TestParams<Params>) {
-  it(`${name} path and parameter types are in sync`, () => {
-    const expected: RouteParams = {};
-    Object.keys((params as RouteParams) || {}).forEach(name => {
-      const value = params && params[name];
-      expected[name] =
-        value === undefined ? undefined : encodeURIComponent(value);
-    });
+function testPathParams({ name, route, path, params }: TestParams<any>) {
+  it(`${name} path and route parameter types are in sync`, () => {
+    const expected = {
+      path: params && params.path ? {} as PathParams : undefined,
+      query: params && params.query ? {} as QueryParams : undefined
+    };
+    if (params) {
+      Object.keys(params.path || {}).forEach(name => {
+        const value = params.path[name];
+        if (expected.path) {
+          expected.path[name] =
+            value === undefined ? undefined : encodeURIComponent(value);
+        }
+      });
+
+      Object.keys(params.query || {}).forEach(name => {
+        const value = params.query[name];
+        if (expected.query) {
+          expected.query[name] =
+            value === undefined ? undefined : encodeURIComponent(value);
+        }
+      });
+    }
 
     const path = route.toPath(params);
     const result = route.toParams(path);
@@ -41,11 +51,21 @@ function testPathParams<Params extends RouteParams | undefined>({
   });
 
   it(`${name} unescaped path matches`, () => {
-    const expected: RouteParams = {};
-    Object.keys((params as RouteParams) || {}).forEach(name => {
-      const value = params && params[name];
-      expected[name] = value;
-    });
+    const expected = {
+      path: params && params.path ? {} as PathParams : undefined,
+      query: params && params.query ? {} as QueryParams : undefined
+    };
+    if (params) {
+      Object.keys(params.path || {}).forEach(name => {
+        const value = params.path[name];
+        if (expected.path) expected.path[name] = value;
+      });
+
+      Object.keys(params.query || {}).forEach(name => {
+        const value = params.query[name];
+        if (expected.query) expected.query[name] = value;
+      });
+    }
 
     const result = route.toParams(path);
     assert.deepStrictEqual(result, expected);
@@ -63,81 +83,83 @@ describe("routes", () => {
         name: "wiki (title)",
         route: wiki,
         path: "/wiki/title",
-        params: { title: "title", revision: undefined }
+        params: { path: { title: "title", revision: undefined } }
       },
       {
         name: "wiki (title, revision)",
         route: wiki,
         path: "/wiki/title/1",
-        params: { title: "title", revision: "1" }
+        params: { path: { title: "title", revision: "1" } }
       },
       {
         name: "wiki (title with slash)",
         route: wiki,
         path: "/wiki/title/text",
-        params: { title: "title/text", revision: undefined }
+        params: { path: { title: "title/text", revision: undefined } }
       },
       {
         name: "wiki (title with slash, revision)",
         route: wiki,
         path: "/wiki/title/text/123456789",
-        params: { title: "title/text", revision: "123456789" }
+        params: { path: { title: "title/text", revision: "123456789" } }
       },
       {
         name: "wiki (title with trailing slash)",
         route: wiki,
         path: "/wiki/title/",
-        params: { title: "title", revision: undefined }
+        params: { path: { title: "title", revision: undefined } }
       },
       {
         name: "wiki (title with trailing slash, revision)",
         route: wiki,
         path: "/wiki/title/123456789/",
-        params: { title: "title", revision: "123456789" }
+        params: { path: { title: "title", revision: "123456789" } }
       },
       {
         name: "wiki (title with slash and trailing slash)",
         route: wiki,
         path: "/wiki/title/text/",
-        params: { title: "title/text", revision: undefined }
+        params: { path: { title: "title/text", revision: undefined } }
       },
       {
         name: "wiki (title with slash and trailing slash, revision)",
         route: wiki,
         path: "/wiki/title/text/123456789/",
-        params: { title: "title/text", revision: "123456789" }
+        params: { path: { title: "title/text", revision: "123456789" } }
       },
       {
         name: "wiki (title is a slash)",
         route: wiki,
         path: "/wiki//",
-        params: { title: "/", revision: undefined }
+        params: { path: { title: "/", revision: undefined } }
       },
       {
         name: "wiki (title is a slash, revision)",
         route: wiki,
         path: "/wiki///123456789/",
-        params: { title: "/", revision: "123456789" }
+        params: { path: { title: "/", revision: "123456789" } }
       },
       {
         name: "wiki (title is a question mark)",
         route: wiki,
         path: "/wiki/%3f",
-        params: { title: "%3f", revision: undefined }
+        params: { path: { title: "%3f", revision: undefined } }
       },
       {
         name: "wiki (title is a question mark, revision)",
         route: wiki,
         path: "/wiki/%3f/123456789/",
-        params: { title: "%3f", revision: "123456789" }
+        params: { path: { title: "%3f", revision: "123456789" } }
       },
       {
         name: "wiki (title with every supported character class)",
         route: wiki,
         path: "/wiki/ %!\"$&'()*,-./0:;=@A\\^_`a~\x80+",
         params: {
-          title: " %!\"$&'()*,-./0:;=@A\\^_`a~\x80+",
-          revision: undefined
+          path: {
+            title: " %!\"$&'()*,-./0:;=@A\\^_`a~\x80+",
+            revision: undefined
+          }
         }
       },
       {
@@ -145,51 +167,53 @@ describe("routes", () => {
         route: wiki,
         path: "/wiki/ %!\"$&'()*,-./0:;=@A\\^_`a~\x80+/123456789",
         params: {
-          title: " %!\"$&'()*,-./0:;=@A\\^_`a~\x80+",
-          revision: "123456789"
+          path: {
+            title: " %!\"$&'()*,-./0:;=@A\\^_`a~\x80+",
+            revision: "123456789"
+          }
         }
       },
       {
         name: "summary (title)",
         route: summary,
         path: "/page/summary/title",
-        params: { title: "title" }
+        params: { path: { title: "title" } }
       },
       {
         name: "summary (title with slash)",
         route: summary,
         path: "/page/summary/title/text",
-        params: { title: "title/text" }
+        params: { path: { title: "title/text" } }
       },
       {
         name: "summary (title with trailing slash)",
         route: summary,
         path: "/page/summary/title/",
-        params: { title: "title" }
+        params: { path: { title: "title" } }
       },
       {
         name: "summary (title is a slash)",
         route: summary,
         path: "/page/summary//",
-        params: { title: "/" }
+        params: { path: { title: "/" } }
       },
       {
         name: "summary (title with slash and trailing slash)",
         route: summary,
         path: "/page/summary/title/text/",
-        params: { title: "title/text" }
+        params: { path: { title: "title/text" } }
       },
       {
         name: "summary (title is a question mark)",
         route: summary,
         path: "/page/summary/%3f",
-        params: { title: "%3f" }
+        params: { path: { title: "%3f" } }
       },
       {
         name: "summary (title with every supported character class)",
         route: summary,
         path: "/page/summary/ %!\"$&'()*,-./0:;=@A\\^_`a~\x80+",
-        params: { title: " %!\"$&'()*,-./0:;=@A\\^_`a~\x80+" }
+        params: { path: { title: " %!\"$&'()*,-./0:;=@A\\^_`a~\x80+" } }
       },
       {
         name: "random (wiki)",

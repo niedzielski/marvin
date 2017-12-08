@@ -58,8 +58,8 @@ function respond<Params, Props>(
 
 // todo: can we load this page dynamically instead? Many users will never even
 // see a 404.
-function respondNotFound(path: string): Promise<RouteResponse<any>> {
-  const props: NotFoundProps = { path };
+function respondNotFound(pathQuery: string): Promise<RouteResponse<any>> {
+  const props: NotFoundProps = { pathQuery };
   return Promise.resolve({
     status: notFoundPage.status,
     Component: notFoundPage.Component,
@@ -68,13 +68,16 @@ function respondNotFound(path: string): Promise<RouteResponse<any>> {
   });
 }
 
-function respondError(path: string, error: Error): Promise<RouteResponse<any>> {
+function respondError(
+  pathQuery: string,
+  error: Error
+): Promise<RouteResponse<any>> {
   // Throw up RedirectErrors so that they can be handled by the server/client
   // appropriately
   if (error instanceof RedirectError) throw error;
 
   if (error instanceof ClientError && error.status === 404) {
-    return respondNotFound(path);
+    return respondNotFound(pathQuery);
   }
 
   console.error(`${error.message}\n${error.stack}`); // eslint-disable-line no-console
@@ -94,16 +97,16 @@ export function newRouter(
   requestPageModule: RequestPageModule<any, any> = requestPageModuleChunk
 ) {
   return {
-    route(path: string): Promise<RouteResponse<any>> {
+    route(pathQuery: string): Promise<RouteResponse<any>> {
       for (const route of routes) {
-        const params = route.toParams(path);
+        const params = route.toParams(pathQuery);
         if (params) {
           return respond(requestPageModule, route, params).catch(error =>
-            respondError(path, error)
+            respondError(pathQuery, error)
           );
         }
       }
-      return respondNotFound(path);
+      return respondNotFound(pathQuery);
     }
   };
 }

@@ -13,18 +13,20 @@ import HttpResponse from "../http/http-response";
 import { RedirectError } from "../http/fetch";
 import { unmarshalPageTitleID } from "../marshallers/page-base/page-base-unmarshaller"; // eslint-disable-line max-len
 
-interface PageParams extends RouteParams {
-  /**
-   * When used as an input, an (unencoded, not necessarily denormalized)
-   * possible PageTitleID; when used as an output of Route.toParams(), an
-   * (encoded, not necessarily denormalized) PageTitlePath.
-   */
-  title: PageTitleID | PageTitlePath | string;
+interface PageParams extends Partial<RouteParams> {
+  path: {
+    /**
+     * When used as an input, an (unencoded, not necessarily denormalized)
+     * possible PageTitleID; when used as an output of Route.toParams(), an
+     * (encoded, not necessarily denormalized) PageTitlePath.
+     */
+    title: PageTitleID | PageTitlePath | string;
+  };
 }
 
 // undefined means random input (Route.toPath()) and {} means random output
 // (Route.toParams()).
-export type Params = PageParams | { title?: undefined } | undefined;
+export type Params = PageParams | { path?: undefined } | undefined;
 
 export interface Props {
   summary: PageSummaryModel;
@@ -35,12 +37,14 @@ function request(
   init?: RequestInit
 ): Promise<HttpResponse<PageSummaryModel>> {
   return requestSummary(
-    params.title === undefined
+    params.path === undefined
       ? { random: true, init }
-      : { titlePath: params.title, init }
+      : { titlePath: params.path.title, init }
   ).catch(error => {
     if (error instanceof RedirectError) {
-      const url = summary.toPath({ title: unmarshalPageTitleID(error.url) });
+      const url = summary.toPath({
+        path: { title: unmarshalPageTitleID(error.url) }
+      });
       throw new RedirectError(error.status, url);
     }
 
