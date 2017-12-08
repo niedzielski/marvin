@@ -23,7 +23,7 @@ const manifest = PRODUCTION
   : undefined;
 
 export default function HTMLPage({
-  title = "",
+  title,
   chunkName,
   ssrData,
   children
@@ -49,7 +49,7 @@ export default function HTMLPage({
         <meta charSet="utf-8" />
         <meta http-equiv="x-ua-compatible" content="ie=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>{title ? `${title} - ` : ""}Marvin</title>
+        <title>{title}</title>
         {/* Preload the stylesheet before the scripts */}
         <link rel="preload" href={style} as="style" />
         <link rel="stylesheet" href={style} />

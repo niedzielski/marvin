@@ -21,5 +21,7 @@ export default {
         </p>
       </Page>
     );
-  }
+  },
+
+  title: () => "Unexpected error"
 };

@@ -60,5 +60,7 @@ export default {
         </Page>
       </App>
     );
-  }
+  },
+
+  title: () => "Style guide"
 };

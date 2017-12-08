@@ -25,7 +25,7 @@ describe("HTMLPage()", () => {
       ssrData: { forceSSR: false }
     });
     const html = render(vNode);
-    const expected = "<title>Test - Marvin</title>";
+    const expected = "<title>Test</title>";
     assert.ok(
       html.includes(expected),
       `Could not find \n\n${expected}\n\nin\n\n${html}`

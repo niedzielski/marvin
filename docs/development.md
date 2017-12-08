@@ -193,6 +193,7 @@ for more information.
 Marvin uses the following abbreviations:
 
 - Configuration => config
+- Document => doc
 - Parameters => params
 - Properties => props
 - Utilities => utils

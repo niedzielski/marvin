@@ -5,6 +5,7 @@ import "./index.css";
 import { RouteResponse, newRouter } from "../common/router/router";
 import { SSRData } from "../common/models/ssr-data";
 import { WithContext } from "../common/components/with-context";
+import { formatDocTitle } from "../common/format-doc-title";
 import { routes } from "../common/router/routes";
 
 // Include preact/debug only in development for React DevTools integration.
@@ -25,7 +26,10 @@ const pageRoot = (_ => {
   throw new Error('Missing element with "root" ID.');
 })();
 
-function renderPageRoot({ Component, props }: RouteResponse<any>) {
+function renderPageRoot({ Component, props, title }: RouteResponse<any>) {
+  // Update the window / tab title.
+  document.title = formatDocTitle(title ? title(props) : undefined);
+
   render(
     <WithContext history={history}>
       <Component {...props} />

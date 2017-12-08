@@ -9,11 +9,12 @@ export interface RouteResponse<Props> {
   chunkName?: string;
   status: number;
   Component: AnyComponent<Props, any>;
+  title?: (props: Props) => string | undefined;
   props: Props;
 }
 
-interface RequestPageModule {
-  (name: string): Promise<PageModule<any, any>>;
+interface RequestPageModule<Params, Props> {
+  (name: string): Promise<PageModule<Params, Props>>;
 }
 
 function getInitialProps<Params, Props>(
@@ -36,7 +37,7 @@ function requestPageModuleChunk(page: string): Promise<PageModule<any, any>> {
 }
 
 function respond<Params, Props>(
-  requestPageModule: RequestPageModule,
+  requestPageModule: RequestPageModule<Params, Props>,
   route: Route<Params>,
   params: Params
 ): Promise<RouteResponse<Props>> {
@@ -49,7 +50,8 @@ function respond<Params, Props>(
       chunkName: `pages/${route.page}`,
       status: (response && response.status) || module.default.status || 200,
       Component: module.default.Component as AnyComponent<Props, any>,
-      props: (response && response.data) as Props
+      props: (response && response.data) as Props,
+      title: module.default.title
     }))
   );
 }
@@ -61,7 +63,8 @@ function respondNotFound(path: string): Promise<RouteResponse<any>> {
   return Promise.resolve({
     status: notFoundPage.status,
     Component: notFoundPage.Component,
-    props
+    props,
+    title: notFoundPage.title
   });
 }
 
@@ -78,12 +81,17 @@ function respondError(path: string, error: Error): Promise<RouteResponse<any>> {
 
   const status = error instanceof FetchError ? error.status : errorPage.status;
   const props: ErrorProps = { error };
-  return Promise.resolve({ status, Component: errorPage.Component, props });
+  return Promise.resolve({
+    status,
+    Component: errorPage.Component,
+    props,
+    title: errorPage.title
+  });
 }
 
 export function newRouter(
   routes: Route<any>[],
-  requestPageModule: RequestPageModule = requestPageModuleChunk
+  requestPageModule: RequestPageModule<any, any> = requestPageModuleChunk
 ) {
   return {
     route(path: string): Promise<RouteResponse<any>> {

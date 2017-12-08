@@ -84,5 +84,7 @@ export default {
         </App>
       );
     }
-  }
+  },
+
+  title: () => "About"
 };

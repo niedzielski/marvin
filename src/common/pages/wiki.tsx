@@ -88,5 +88,7 @@ export default {
         </Page>
       </App>
     );
-  }
+  },
+
+  title: ({ page }: Props) => page.titleText
 };

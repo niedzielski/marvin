@@ -21,5 +21,7 @@ export default {
         </Page>
       </App>
     );
-  }
+  },
+
+  title: () => "Not found"
 };
