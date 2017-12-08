@@ -23,7 +23,8 @@ const testSummaries = [
   },
   { title: "Carrot cake", text: "Encoding redirect (301)" },
   { title: "Cheese_cake", text: "Redirect page (302)" },
-  { title: "Nonexistent_title", text: "Missing (404)" }
+  { title: "Nonexistent_title", text: "Missing (404)" },
+  { title: "Pizza", query: "foo=bar", text: "Query string" }
 ];
 
 const testPages = [
@@ -40,7 +41,8 @@ const testPages = [
     title: "File:Vanilla_Ice_Cream_Cone_at_Camp_Manitoulin.jpg",
     text: "Redirect (external) and File page"
   },
-  { title: "Nonexistent_title", text: "Missing (404)" }
+  { title: "Nonexistent_title", text: "Missing (404)" },
+  { title: "Pizza", query: "foo=bar", text: "Query string" }
 ];
 
 export default {
@@ -75,15 +77,19 @@ export default {
             {testPages.map(
               ({
                 title,
+                query,
                 revision,
                 text
               }: {
                 title: PageTitleID | string;
+                query?: string;
                 revision?: string;
                 text: string;
               }) => (
                 <li>
-                  <Link href={wiki.toPath({ title, revision })}>{text}</Link>
+                  <Link href={wiki.toPath({ title, revision }, query)}>
+                    {text}
+                  </Link>
                 </li>
               )
             )}
@@ -96,11 +102,21 @@ export default {
                       be a button. */}
               <Link href={randomSummary.toPath()}>A random summary</Link>
             </li>
-            {testSummaries.map(({ title, text }) => (
-              <li>
-                <Link href={summary.toPath({ title })}>{text}</Link>
-              </li>
-            ))}
+            {testSummaries.map(
+              ({
+                title,
+                query,
+                text
+              }: {
+                title: PageTitleID | string;
+                query?: string;
+                text: string;
+              }) => (
+                <li>
+                  <Link href={summary.toPath({ title }, query)}>{text}</Link>
+                </li>
+              )
+            )}
           </ul>
         </Page>
       </App>

@@ -74,11 +74,11 @@ export interface Route<Params> extends RouteConfig {
   toParams(path: string): Params | void; // eslint-disable-line no-use-before-define
 
   /** Generates a URL path from Params. */
-  toPath(params: Params): string;
+  toPath(params: Params, query?: string): string;
 }
 
 export interface NoParamsRoute extends Route<undefined> {
-  toPath(params?: undefined): string;
+  toPath(params?: undefined, query?: string): string;
 }
 
 /**
@@ -90,15 +90,11 @@ export interface NoParamsRoute extends Route<undefined> {
  * Note: paramNames is equivalent to manually writing an ordered array of names
  * matching Route.path's encoding. e.g., `/^\/wiki\/([^/]+)$/i` and `["title"]`.
  */
-const toParams = ({
-  pathRegExp,
-  paramNames,
-  path
-}: {
-  pathRegExp: RegExp;
-  paramNames: pathToRegExp.Key[];
-  path: string;
-}) => {
+function toParams(
+  pathRegExp: RegExp,
+  paramNames: pathToRegExp.Key[],
+  path: string
+) {
   const matches = pathRegExp.exec(path);
   if (matches) {
     const [, ...paramValues] = matches;
@@ -109,15 +105,21 @@ const toParams = ({
     return params;
   }
   return undefined;
-};
+}
 
 export function newRoute<Params>({ path, page }: RouteConfig): Route<Params> {
   const paramNames: pathToRegExp.Key[] = [];
-  const pathRegExp = pathToRegExp(path, paramNames);
+  const pathRegExp = pathToRegExp(
+    path,
+    paramNames,
+    // Allow query parameters.
+    { endsWith: "?" }
+  );
+  const toPath = pathToRegExp.compile(path);
   return {
     path,
     page,
-    toParams: (path: string) => toParams({ pathRegExp, paramNames, path }),
-    toPath: pathToRegExp.compile(path)
+    toParams: path => toParams(pathRegExp, paramNames, path),
+    toPath: (path, query) => `${toPath(path)}${query ? `?${query}` : ""}`
   } as Route<Params>;
 }
