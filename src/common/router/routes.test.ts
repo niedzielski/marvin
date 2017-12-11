@@ -8,7 +8,7 @@ import {
   randomSummary,
   styleGuide
 } from "./routes";
-import { PathParams, Route, RouteParams, QueryParams } from "./route";
+import { Route, RouteParams, PathParams, QueryParams } from "./route";
 
 interface TestParams<Params extends Partial<RouteParams> | undefined> {
   name: string;
@@ -18,56 +18,48 @@ interface TestParams<Params extends Partial<RouteParams> | undefined> {
   // passed an unescaped string, it's worth manually assembling an unescaped
   // path to test this scenario.
   path: string;
+  query?: string;
   params: Params;
 }
 
-function testPathParams({ name, route, path, params }: TestParams<any>) {
+function testParams({ name, route, path, query, params }: TestParams<any>) {
   it(`${name} path and route parameter types are in sync`, () => {
-    const expected = {
-      path: params && params.path ? {} as PathParams : undefined,
-      query: params && params.query ? {} as QueryParams : undefined
+    const expected: Partial<RouteParams> = {
+      path: undefined,
+      query: undefined
     };
-    if (params) {
-      Object.keys(params.path || {}).forEach(name => {
-        const value = params.path[name];
-        if (expected.path) {
-          expected.path[name] =
-            value === undefined ? undefined : encodeURIComponent(value);
-        }
+    if (params && params.path) {
+      expected.path = {};
+      Object.keys(params.path).forEach(name => {
+        const param = params.path[name];
+        (expected.path as PathParams)[name] =
+          param === undefined ? undefined : encodeURIComponent(param);
       });
-
-      Object.keys(params.query || {}).forEach(name => {
-        const value = params.query[name];
-        if (expected.query) {
-          expected.query[name] =
-            value === undefined ? undefined : encodeURIComponent(value);
-        }
+    }
+    if (params && params.query) {
+      // query-string objects do not have a prototype.
+      expected.query = Object.create(null);
+      Object.keys(params.query).forEach(name => {
+        const param = params.query[name];
+        (expected.query as QueryParams)[name] =
+          param === undefined ? undefined : encodeURIComponent(param);
       });
     }
 
     const path = route.toPath(params);
-    const result = route.toParams(path);
+    const query = route.toQuery(params);
+    const result = route.toParams(path, `?${query}`);
     assert.deepStrictEqual(result, expected);
   });
 
   it(`${name} unescaped path matches`, () => {
-    const expected = {
-      path: params && params.path ? {} as PathParams : undefined,
-      query: params && params.query ? {} as QueryParams : undefined
-    };
-    if (params) {
-      Object.keys(params.path || {}).forEach(name => {
-        const value = params.path[name];
-        if (expected.path) expected.path[name] = value;
-      });
-
-      Object.keys(params.query || {}).forEach(name => {
-        const value = params.query[name];
-        if (expected.query) expected.query[name] = value;
-      });
+    const expected = { path: undefined, query: undefined, ...params };
+    if (expected.query) {
+      // query-string objects do not have a prototype.
+      expected.query = Object.assign(Object.create(null), expected.query);
     }
 
-    const result = route.toParams(path);
+    const result = route.toParams(path, query ? `?${query}` : "");
     assert.deepStrictEqual(result, expected);
   });
 }
@@ -78,6 +70,13 @@ describe("routes", () => {
       // Note: these types are verified to be RouteParams but not verified
       //       to be their specific route's type.
       { name: "home", route: home, path: "/", params: undefined },
+      {
+        name: "home (global route parameters)",
+        route: home,
+        path: "/",
+        query: "query=param",
+        params: { path: undefined, query: { query: "param" } }
+      },
       { name: "about", route: about, path: "/about", params: undefined },
       {
         name: "wiki (title)",
@@ -233,7 +232,7 @@ describe("routes", () => {
         path: "/dev/style-guide",
         params: undefined
       }
-    ].forEach(testPathParams);
+    ].forEach(testParams);
   });
 
   describe("wiki", () => {

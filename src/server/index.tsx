@@ -1,5 +1,6 @@
 import * as express from "express";
 import * as compression from "compression";
+import * as queryString from "query-string";
 import { h } from "preact";
 import { render as renderToString } from "preact-render-to-string";
 import { RouteResponse, newRouter } from "../common/router/router";
@@ -15,6 +16,10 @@ const server = express();
 // Disable useless header.
 // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
 server.disable("x-powered-by");
+
+// Perform manually query parsing using query-string. Request.query is now
+// always an empty object.
+server.set("query parser", false);
 
 server.use(compression());
 
@@ -36,7 +41,7 @@ function render({ chunkName, Component, props, title }: RouteResponse<any>) {
 const router = newRouter(routes);
 server.get("*", (request, response) => {
   router
-    .route(request.url)
+    .route(request.path, queryString.extract(request.url))
     .then(routeResponse =>
       response.status(routeResponse.status).send(render(routeResponse))
     )

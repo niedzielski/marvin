@@ -35,6 +35,28 @@ describe("router()", () => {
         });
     });
 
+    it("populates path and query parameters", () => {
+      const module = {
+        default: {
+          getInitialProps(params: any) {
+            assert.deepEqual(params, {
+              path: { title: "Title" },
+              query: { query: "param" }
+            });
+            return Promise.resolve({ status: 200, data: undefined });
+          },
+          Component: () => null
+        }
+      };
+      const routes = [newRoute({ path: "/wiki/:title", page: "wiki" })];
+
+      return newRouter(routes, () => Promise.resolve(module))
+        .route("/wiki/Title", "?query=param")
+        .then(rsp => {
+          assert.deepEqual(rsp.status, 200);
+        });
+    });
+
     it("resolves an unknown route as a 404", () => {
       return newRouter(routes, requestPageModule)
         .route("/404")

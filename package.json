@@ -51,7 +51,8 @@
     "isomorphic-unfetch": "2.0.0",
     "path-to-regexp": "2.1.0",
     "preact": "8.2.6",
-    "preact-render-to-string": "3.7.0"
+    "preact-render-to-string": "3.7.0",
+    "query-string": "5.0.1"
   },
   "devDependencies": {
     "@types/assets-webpack-plugin": "3.5.0",
@@ -64,6 +65,7 @@
     "@types/mocha": "2.2.44",
     "@types/node": "8.0.47",
     "@types/node-fetch": "1.6.7",
+    "@types/query-string": "5.0.1",
     "@types/sinon": "4.0.0",
     "@types/webpack-node-externals": "1.6.0",
     "assets-webpack-plugin": "3.5.1",
@@ -112,7 +114,7 @@
     },
     {
       "path": "dist/public/vendor.*.js",
-      "maxSize": "8.2KB"
+      "maxSize": "9.6KB"
     },
     {
       "path": "dist/public/pages/about.*.js",

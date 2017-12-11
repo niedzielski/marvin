@@ -1,5 +1,10 @@
 import { AnyComponent } from "preact";
-import { PageComponent, PageModule, Route } from "../../common/router/route";
+import {
+  PageComponent,
+  PageModule,
+  Route,
+  RouteParams
+} from "../../common/router/route";
 import HttpResponse from "../http/http-response";
 import notFoundPage, { Props as NotFoundProps } from "../pages/not-found";
 import errorPage, { Props as ErrorProps } from "../pages/error";
@@ -13,11 +18,11 @@ export interface RouteResponse<Props> {
   props: Props;
 }
 
-interface RequestPageModule<Params, Props> {
-  (name: string): Promise<PageModule<Params, Props>>;
+interface RequestPageModule {
+  (name: string): Promise<PageModule<Partial<RouteParams>, any>>;
 }
 
-function getInitialProps<Params, Props>(
+function getInitialProps<Params extends Partial<RouteParams>, Props>(
   module: PageComponent<Params, Props>,
   params: Params
 ): Promise<HttpResponse<Props> | void> {
@@ -32,12 +37,14 @@ function getInitialProps<Params, Props>(
  * @param {string} page The page chunk basename with no extension. Corresponds
  *                      to Route.page.
  */
-function requestPageModuleChunk(page: string): Promise<PageModule<any, any>> {
+function requestPageModuleChunk(
+  page: string
+): Promise<PageModule<Partial<RouteParams>, any>> {
   return import(/* webpackChunkName: "pages/[request]" */ `../pages/${page}`);
 }
 
-function respond<Params, Props>(
-  requestPageModule: RequestPageModule<Params, Props>,
+function respond<Params extends Partial<RouteParams>, Props>(
+  requestPageModule: RequestPageModule,
   route: Route<Params>,
   params: Params
 ): Promise<RouteResponse<Props>> {
@@ -94,12 +101,13 @@ function respondError(
 
 export function newRouter(
   routes: Route<any>[],
-  requestPageModule: RequestPageModule<any, any> = requestPageModuleChunk
+  requestPageModule: RequestPageModule = requestPageModuleChunk
 ) {
   return {
-    route(pathQuery: string): Promise<RouteResponse<any>> {
+    route(path: string, query?: string): Promise<RouteResponse<any>> {
+      const pathQuery = `${path}${query || ""}`;
       for (const route of routes) {
-        const params = route.toParams(pathQuery);
+        const params = route.toParams(path, query);
         if (params) {
           return respond(requestPageModule, route, params).catch(error =>
             respondError(pathQuery, error)

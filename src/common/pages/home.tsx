@@ -89,7 +89,10 @@ export default {
               }) => (
                 <li>
                   <Link
-                    href={wiki.toPath({ path: { title, revision }, query })}
+                    href={wiki.toPathQuery({
+                      path: { title, revision },
+                      query
+                    })}
                   >
                     {text}
                   </Link>
@@ -116,7 +119,7 @@ export default {
                 text: string;
               }) => (
                 <li>
-                  <Link href={summary.toPath({ path: { title }, query })}>
+                  <Link href={summary.toPathQuery({ path: { title }, query })}>
                     {text}
                   </Link>
                 </li>

@@ -1,4 +1,5 @@
 import * as pathToRegExp from "path-to-regexp";
+import * as queryString from "query-string";
 import { AnyComponent } from "preact";
 import HttpResponse from "../http/http-response";
 
@@ -75,14 +76,21 @@ export interface Route<Params> extends RouteConfig {
    * the path does not match. An empty object is returned for matching
    * NoPropsRoutes.
    */
-  toParams(pathQuery: string): Params | void; // eslint-disable-line no-use-before-define
+  toParams(path: string, query?: string): Params | void; // eslint-disable-line no-use-before-define
 
   /** Generates a URL path from Params. */
-  toPath(params: Params): string; // eslint-disable-line no-use-before-define
+  toPath(params: Params): string;
+
+  /** Generates a URL query string from Params. */
+  toQuery(params: Params): string;
+
+  toPathQuery(params: Params): string;
 }
 
 export interface NoParamsRoute extends Route<undefined> {
-  toPath(params?: undefined): string; // eslint-disable-line no-use-before-define
+  toPath(params?: undefined): string;
+  toQuery(params?: undefined): string;
+  toPathQuery(params?: undefined): string;
 }
 
 /**
@@ -97,38 +105,23 @@ export interface NoParamsRoute extends Route<undefined> {
 function toParams(
   pathRegExp: RegExp,
   paramNames: pathToRegExp.Key[],
-  pathQuery: string
+  path: string,
+  query: string = ""
 ) {
-  const matches = pathRegExp.exec(pathQuery);
+  const matches = pathRegExp.exec(path);
   if (matches) {
     const [, ...paramValues] = matches;
+    const queryParams = queryString.parse(query);
     const params = {
       path: paramNames.length ? {} as PathParams : undefined,
-      query: undefined
+      query: Object.keys(queryParams).length ? queryParams : undefined
     };
     paramNames.forEach((param, index) => {
       if (params.path) params.path[param.name] = paramValues[index];
     });
-    // todo: query parsing.
     return params;
   }
   return undefined;
-}
-
-function toPath(
-  pathFunction: pathToRegExp.PathFunction,
-  params?: Partial<RouteParams>
-) {
-  const path = pathFunction((params && params.path) || undefined);
-  let query = "";
-  if (params && params.query && Object.keys(params.query)) {
-    // todo: real query string assembly.
-    query = "?";
-    Object.keys(params.query).forEach(name => {
-      query += `${name}=${params.query && params.query[name]}&`;
-    });
-  }
-  return `${path}${query}`;
 }
 
 export function newRoute<Params extends Partial<RouteParams> | undefined>({
@@ -143,10 +136,20 @@ export function newRoute<Params extends Partial<RouteParams> | undefined>({
     { endsWith: "?" }
   );
   const pathFunction = pathToRegExp.compile(path);
+  const toPath = (params: Params) =>
+    pathFunction(params ? params.path : undefined);
+  const toQuery = (params: Params) =>
+    queryString.stringify((params && params.query) || {});
+
   return {
     path,
     page,
-    toParams: pathQuery => toParams(pathRegExp, paramNames, pathQuery),
-    toPath: params => toPath(pathFunction, params)
+    toParams: (path, query) => toParams(pathRegExp, paramNames, path, query),
+    toPath,
+    toQuery,
+    toPathQuery: params => {
+      const query = toQuery(params);
+      return `${toPath(params)}${query ? `?${query}` : ""}`;
+    }
   } as Route<Params>;
 }
