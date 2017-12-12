@@ -1,7 +1,7 @@
 /* Remove margin bottom on the last and top on the first child so that content
    wraps the inner elements exactly right. */
-.Content > :last-child { margin-bottom: 0; }
-.Content > :first-child { margin-top: 0; }
+.Content--remove-margins > :last-child { margin-bottom: 0; }
+.Content--remove-margins > :first-child { margin-top: 0; }
 
 /* Typography */
 
@@ -21,6 +21,8 @@
 
 .Content h2 {
   font-weight: normal;
+  border-bottom: 1px solid var(--wmui-color-base80);
+  padding-bottom: var(--half-space);
 }
 
 .Content h3 {

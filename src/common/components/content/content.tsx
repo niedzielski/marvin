@@ -12,17 +12,23 @@ import "./styles/lists.css";
 import "./styles/tables.css";
 
 interface Props extends ChildrenProps, ClassProps {
+  respectMargins?: boolean;
   dangerouslySetInnerHTML?: DangerouslySetInnerHTML;
 }
 
 export default function Content({
+  respectMargins,
   children,
   dangerouslySetInnerHTML,
   ...props
 }: Props): JSX.Element {
   return (
     <div
-      class={classOf("Content", props.class)}
+      class={classOf(
+        "Content",
+        respectMargins ? "" : "Content--remove-margins",
+        props.class
+      )}
       dangerouslySetInnerHTML={dangerouslySetInnerHTML}
     >
       {children}
