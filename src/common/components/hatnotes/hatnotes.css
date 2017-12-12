@@ -1,0 +1,15 @@
+.Hatnotes {
+  /* Show the hatnotes section flush with the header bottom and paper sides.
+     Delineate from the top of the page contents. */
+  margin: calc(-1 * var(--space)) calc(-1 * var(--space)) var(--space);
+
+  /* Pad the left, right, and top insides. */
+  padding: var(--half-space) var(--space);
+
+  font-size: var(--font-size-note);
+  font-style: italic;
+  color: var(--wmui-color-base20);
+  background: var(--wmui-color-base90);
+}
+
+.Hatnotes-hatnote {}

@@ -83,9 +83,8 @@
 
 /* http://localhost:3000/wiki/Wikipedia:Hatnote */
 .Content .hatnote {
-  font-size: var(--font-size-note);
-  font-style: italic;
-  color: var(--wmui-color-base30);
+  /* Show in the Hatnotes component not as inline content. */
+  display: none;
 }
 
 /* Overflows */

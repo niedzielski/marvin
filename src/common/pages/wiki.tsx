@@ -9,6 +9,7 @@ import { wiki } from "../router/routes";
 import { requestPage } from "../http/page-http-client";
 import ContentFooter from "../components/content-footer/content-footer";
 import ContentPage from "../components/content-page/content-page";
+import { Hatnotes } from "../components/hatnotes/hatnotes";
 import HttpResponse from "../http/http-response";
 import { RedirectError } from "../http/fetch";
 import { Thumbnail } from "../components/thumbnail/thumbnail";
@@ -84,6 +85,11 @@ export default {
           subtitle={page.descriptionText}
           footer={<ContentFooter lastModified={page.lastModified} />}
         >
+          {page.htmlHatnotes.length ? (
+            <Hatnotes htmlHatnotes={page.htmlHatnotes} />
+          ) : (
+            undefined
+          )}
           {page.fileImage && (
             <Thumbnail
               image={page.fileImage.thumbnail}
