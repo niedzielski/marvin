@@ -1,17 +1,17 @@
 /* Containers */
 
-/* http://localhost:3000/wiki/Girl_(Pharrell_Williams_album)/809904389#Singles */
+/* http://localhost:3000/wiki/Girl_(Pharrell_Williams_album)?oldid=809904389#Singles */
 .Content figure {
   margin: 0;
 }
 
-/* http://localhost:3000/wiki/China/804850001#Landscape_and_climate */
+/* http://localhost:3000/wiki/China?oldid=804850001#Landscape_and_climate */
 .Content .thumbinner {
   width: auto !important;
   height: auto !important;
 }
 
-/* http://localhost:3000/wiki/China/804850001#Landscape_and_climate */
+/* http://localhost:3000/wiki/China?oldid=804850001#Landscape_and_climate */
 .Content .thumbinner > div {
   /* Center text and images within the div. */
   text-align: center;
@@ -20,7 +20,7 @@
 /* Images */
 
 .Content img,
-/* http://localhost:3000/wiki/Film/803321621#Early_evolution */
+/* http://localhost:3000/wiki/Film?oldid=803321621#Early_evolution */
 .Content video {
   /* Limit videos and images to the window width and always proportionally scale
      height. */
@@ -31,19 +31,19 @@
   vertical-align: middle;
 }
 
-/* http://localhost:3000/wiki/Girl_(Pharrell_Williams_album)/809904389#Singles
-   http://localhost:3000/wiki/The_Beatles/810732238#Beatles_for_Sale.2C_Help.21_and_Rubber_Soul */
+/* http://localhost:3000/wiki/Girl_(Pharrell_Williams_album)?oldid=809904389#Singles
+   http://localhost:3000/wiki/The_Beatles?oldid=810732238#Beatles_for_Sale.2C_Help.21_and_Rubber_Soul */
 .Content .mbox-small-left video, .Content .mbox-small video {
   height: 32px !important;
 }
 
 /* Captions */
 
-/* http://localhost:3000/wiki/Pablo_Picasso/804068218#Early_life */
+/* http://localhost:3000/wiki/Pablo_Picasso?oldid=804068218#Early_life */
 .Content figcaption,
-/* http://localhost:3000/wiki/Pablo_Picasso/804068218#Before_1900 */
+/* http://localhost:3000/wiki/Pablo_Picasso?oldid=804068218#Before_1900 */
 .Content .thumbcaption,
-/* http://localhost:3000/wiki/Pablo_Picasso/804068218#Synthetic_cubism:_1912.E2.80.931919 */
+/* http://localhost:3000/wiki/Pablo_Picasso?oldid=804068218#Synthetic_cubism:_1912.E2.80.931919 */
 .Content .gallerytext {
   margin: .5em 0;
   font-size: var(--font-size-caption);

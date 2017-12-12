@@ -130,7 +130,7 @@
     },
     {
       "path": "dist/public/pages/wiki.*.js",
-      "maxSize": "2.8KB"
+      "maxSize": "2.9KB"
     }
   ]
 }

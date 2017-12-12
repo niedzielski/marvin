@@ -22,13 +22,19 @@ interface PageParams extends Partial<RouteParams> {
      * (encoded, not necessarily denormalized) PageTitlePath.
      */
     title: PageTitleID | PageTitlePath | string;
-    revision?: string;
+  };
+  query?: {
+    /** The page revision. */
+    oldid?: string;
   };
 }
 
 // undefined means random input (Route.toPath()) and {} means random output
 // (Route.toParams()).
-export type Params = PageParams | { path?: undefined } | undefined;
+export type Params =
+  | PageParams
+  | { path?: undefined; query?: undefined }
+  | undefined;
 
 export interface Props {
   page: PageModel;
@@ -44,19 +50,16 @@ function request(
       : {
           titlePath: params.path.title,
           revision:
-            params.path.revision === undefined
+            params.query === undefined || params.query.oldid === undefined
               ? undefined
-              : parseInt(params.path.revision, 10),
+              : parseInt(params.query.oldid, 10),
           init
         }
   ).catch(error => {
     if (error instanceof RedirectError) {
       const title = unmarshalPageTitleID(error.url);
       const url = wiki.toPath({
-        path: {
-          title,
-          revision: params.path ? params.path.revision : undefined
-        }
+        path: { title, oldid: params.query ? params.query.oldid : undefined }
       });
       throw new RedirectError(error.status, url);
     }

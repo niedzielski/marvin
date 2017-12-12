@@ -9,8 +9,8 @@
   /* On very small screens, lengthy words such as references often overflow
      which causes the whole page to scroll horizontally. When there's no other
      alternative, break the word down at the character level.
-     http://localhost:3000/wiki/Film/803321621#Notes
-     http://localhost:3000/wiki/China/804850001#Telecommunications */
+     http://localhost:3000/wiki/Film?oldid=803321621#Notes
+     http://localhost:3000/wiki/China?oldid=804850001#Telecommunications */
   overflow-wrap: break-word;
 }
 
@@ -56,7 +56,7 @@
 .Content .quotebox {
   /* Allow quoteboxes with hardcoded widths to stay within the window
      boundaries.
-     http://localhost:3000/wiki/The_Beatles/804487790#Sgt._Pepper.27s_Lonely_Hearts_Club_Band */
+     http://localhost:3000/wiki/The_Beatles?oldid=804487790#Sgt._Pepper.27s_Lonely_Hearts_Club_Band */
   width: auto !important;
 }
 
@@ -92,7 +92,7 @@
 
 /* Preformatted text frequently overflows horizontally. Provide a horizontal
    scrollbar when needed since wrapping monospaced content is often illegible.
-   http://localhost:3000/wiki/TypeScript/801562762#Classes */
+   http://localhost:3000/wiki/TypeScript?oldid=801562762#Classes */
 .Content pre {
   overflow-x: auto;
 }
@@ -100,8 +100,8 @@
 /* Accessibility */
 
 /* Hide (formatting) elements from screen, but not from screenreaders.
-   http://localhost:3000/wiki/MediaWiki:Common.css/804730289
-   http://localhost:3000/wiki/1_+_1_+_1_+_1_+_⋯/793725799 */
+   http://localhost:3000/wiki/MediaWiki:Common.css?oldid=804730289
+   http://localhost:3000/wiki/1_+_1_+_1_+_1_+_⋯?oldid=793725799 */
 .Content .visualhide {
   position: absolute;
   left: -10000px;

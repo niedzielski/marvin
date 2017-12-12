@@ -35,15 +35,14 @@ const testPages = [
   { title: "Cheese_cake", text: "Redirect page (302)" },
   {
     title: "Ice_cream_cake",
-    revision: "24242119",
-    text: "An arbitrary revision"
+    revision: 24242119,
+    text: "An arbitrary revision and query string"
   },
   {
     title: "File:Vanilla_Ice_Cream_Cone_at_Camp_Manitoulin.jpg",
     text: "Redirect (external) and File page"
   },
-  { title: "Nonexistent_title", text: "Missing (404)" },
-  { title: "Pizza", query: { foo: "bar" }, text: "Query string" }
+  { title: "Nonexistent_title", text: "Missing (404)" }
 ];
 
 export default {
@@ -78,20 +77,21 @@ export default {
             {testPages.map(
               ({
                 title,
-                query,
                 revision,
                 text
               }: {
                 title: PageTitleID | string;
-                query?: QueryParams;
-                revision?: string;
+                revision?: number;
                 text: string;
               }) => (
                 <li>
                   <Link
                     href={wiki.toPathQuery({
-                      path: { title, revision },
-                      query
+                      path: { title },
+                      query:
+                        revision === undefined
+                          ? undefined
+                          : { oldid: `${revision}` }
                     })}
                   >
                     {text}

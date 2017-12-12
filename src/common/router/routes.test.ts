@@ -82,94 +82,97 @@ describe("routes", () => {
         name: "wiki (title)",
         route: wiki,
         path: "/wiki/title",
-        params: { path: { title: "title", revision: undefined } }
+        params: { path: { title: "title" } }
       },
       {
         name: "wiki (title, revision)",
         route: wiki,
-        path: "/wiki/title/1",
-        params: { path: { title: "title", revision: "1" } }
+        path: "/wiki/title",
+        query: "oldid=1",
+        params: { path: { title: "title" }, query: { oldid: "1" } }
       },
       {
         name: "wiki (title with slash)",
         route: wiki,
         path: "/wiki/title/text",
-        params: { path: { title: "title/text", revision: undefined } }
+        params: { path: { title: "title/text" } }
       },
       {
         name: "wiki (title with slash, revision)",
         route: wiki,
-        path: "/wiki/title/text/123456789",
-        params: { path: { title: "title/text", revision: "123456789" } }
+        path: "/wiki/title/text",
+        query: "oldid=123456789",
+        params: { path: { title: "title/text" }, query: { oldid: "123456789" } }
       },
       {
         name: "wiki (title with trailing slash)",
         route: wiki,
         path: "/wiki/title/",
-        params: { path: { title: "title", revision: undefined } }
+        params: { path: { title: "title/" } }
       },
       {
         name: "wiki (title with trailing slash, revision)",
         route: wiki,
-        path: "/wiki/title/123456789/",
-        params: { path: { title: "title", revision: "123456789" } }
+        path: "/wiki/title/",
+        query: "oldid=123456789",
+        params: { path: { title: "title/" }, query: { oldid: "123456789" } }
       },
       {
         name: "wiki (title with slash and trailing slash)",
         route: wiki,
         path: "/wiki/title/text/",
-        params: { path: { title: "title/text", revision: undefined } }
+        params: { path: { title: "title/text/" } }
       },
       {
         name: "wiki (title with slash and trailing slash, revision)",
         route: wiki,
-        path: "/wiki/title/text/123456789/",
-        params: { path: { title: "title/text", revision: "123456789" } }
+        path: "/wiki/title/text/",
+        query: "oldid=123456789",
+        params: {
+          path: { title: "title/text/" },
+          query: { oldid: "123456789" }
+        }
       },
       {
         name: "wiki (title is a slash)",
         route: wiki,
         path: "/wiki//",
-        params: { path: { title: "/", revision: undefined } }
+        params: { path: { title: "/" } }
       },
       {
         name: "wiki (title is a slash, revision)",
         route: wiki,
-        path: "/wiki///123456789/",
-        params: { path: { title: "/", revision: "123456789" } }
+        path: "/wiki//",
+        query: "oldid=123456789",
+        params: { path: { title: "/" }, query: { oldid: "123456789" } }
       },
       {
         name: "wiki (title is a question mark)",
         route: wiki,
         path: "/wiki/%3f",
-        params: { path: { title: "%3f", revision: undefined } }
+        params: { path: { title: "%3f" } }
       },
       {
         name: "wiki (title is a question mark, revision)",
         route: wiki,
-        path: "/wiki/%3f/123456789/",
-        params: { path: { title: "%3f", revision: "123456789" } }
+        path: "/wiki/%3f",
+        query: "oldid=123456789",
+        params: { path: { title: "%3f" }, query: { oldid: "123456789" } }
       },
       {
         name: "wiki (title with every supported character class)",
         route: wiki,
         path: "/wiki/ %!\"$&'()*,-./0:;=@A\\^_`a~\x80+",
-        params: {
-          path: {
-            title: " %!\"$&'()*,-./0:;=@A\\^_`a~\x80+",
-            revision: undefined
-          }
-        }
+        params: { path: { title: " %!\"$&'()*,-./0:;=@A\\^_`a~\x80+" } }
       },
       {
         name: "wiki (title with every supported character class, revision)",
         route: wiki,
-        path: "/wiki/ %!\"$&'()*,-./0:;=@A\\^_`a~\x80+/123456789",
+        path: "/wiki/ %!\"$&'()*,-./0:;=@A\\^_`a~\x80+",
+        query: "oldid=123456789",
         params: {
-          path: {
-            title: " %!\"$&'()*,-./0:;=@A\\^_`a~\x80+",
-            revision: "123456789"
-          }
+          path: { title: " %!\"$&'()*,-./0:;=@A\\^_`a~\x80+" },
+          query: { oldid: "123456789" }
         }
       },
       {
@@ -188,7 +191,7 @@ describe("routes", () => {
         name: "summary (title with trailing slash)",
         route: summary,
         path: "/page/summary/title/",
-        params: { path: { title: "title" } }
+        params: { path: { title: "title/" } }
       },
       {
         name: "summary (title is a slash)",
@@ -200,7 +203,7 @@ describe("routes", () => {
         name: "summary (title with slash and trailing slash)",
         route: summary,
         path: "/page/summary/title/text/",
-        params: { path: { title: "title/text" } }
+        params: { path: { title: "title/text/" } }
       },
       {
         name: "summary (title is a question mark)",
@@ -238,11 +241,5 @@ describe("routes", () => {
   describe("wiki", () => {
     it("a title with an illegal character fails", () =>
       assert.deepStrictEqual(wiki.toParams("/wiki/{title}"), undefined));
-
-    it("a nonnumerical revision fails", () =>
-      assert.deepStrictEqual(
-        wiki.toParams("/wiki/title/{revision}"),
-        undefined
-      ));
   });
 });

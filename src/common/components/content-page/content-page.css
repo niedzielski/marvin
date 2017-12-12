@@ -2,7 +2,7 @@
   /* The cContent should never allow content overlap. Add an empty node that
      clears the left and right so that the content container can wrap its
      contents fully even if they're floated.
-     http://localhost:3000/wiki/CSNK2A2/774042184 */
+     http://localhost:3000/wiki/CSNK2A2?oldid=774042184 */
    content: "";
    clear: both;
 
