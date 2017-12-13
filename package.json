@@ -109,6 +109,10 @@
       "maxSize": "4KB"
     },
     {
+      "path": "dist/public/index.*.css",
+      "maxSize": "4.9KB"
+    },
+    {
       "path": "dist/public/runtime.*.js",
       "maxSize": "1KB"
     },
