@@ -38,7 +38,7 @@ export type PageComponent<Params, Props> =
       Component: Partial<AnyComponent<Props, any>>;
 
       /** The document title shown in the browser window's title bar or tab. */
-      title?: (props: Props) => string | undefined;
+      title?(props: Props): string | undefined;
     }
   | {
       getInitialProps?: undefined;
@@ -51,7 +51,7 @@ export type PageComponent<Params, Props> =
 
       Component: Partial<AnyComponent<undefined, any>>;
 
-      title?: () => string | undefined;
+      title?(): string | undefined;
     };
 
 export interface PageModule<Params, Props> {

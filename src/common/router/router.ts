@@ -14,7 +14,7 @@ export interface RouteResponse<Props> {
   chunkName?: string;
   status: number;
   Component: AnyComponent<Props, any>;
-  title?: (props: Props) => string | undefined;
+  title?(props: Props): string | undefined;
   props: Props;
 }
 

@@ -1,10 +1,12 @@
 import * as fetch from "node-fetch";
 import { JSONValue } from "../types/json";
 
-export const reviveFile = (
+export function reviveFile(
   filename: string,
   reviver?: (key: any, value: JSONValue) => any
-) => JSON.parse(JSON.stringify(require(filename)), reviver);
+): any {
+  return JSON.parse(JSON.stringify(require(filename)), reviver);
+}
 
 const ETAG_REVISION = 802006980;
 const ETAG_TIME_ID = "4f754377-a235-11e7-a776-efb84f18649a";
