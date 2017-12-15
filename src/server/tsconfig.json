@@ -1,11 +1,7 @@
 {
   "extends": "../../tsconfig.json",
-  "exclude": [
-    "../**/*.test.*"
-  ],
-  "include": [
-    "../common", "."
-  ],
+  "exclude": ["../**/*.test.*"],
+  "include": ["../common", "."],
   "compilerOptions": {
     "target": "ES2015",
     "module": "commonjs",

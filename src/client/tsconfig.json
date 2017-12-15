@@ -1,11 +1,7 @@
 {
   "extends": "../../tsconfig.json",
-  "exclude": [
-    "../**/*.test.*"
-  ],
-  "include": [
-    "../common", "."
-  ],
+  "exclude": ["../**/*.test.*"],
+  "include": ["../common", "."],
   "compilerOptions": {
     "target": "ES5",
     // https://github.com/Microsoft/TypeScript/issues/16675

@@ -1,9 +1,1 @@
 /dist/
-
-# MCS JSON responses may contain unescaped control characters which causes the
-# JSON plugin to fail with "error: This character may get silently deleted by
-# one or more browsers; bad-json". The plugin does not appear to respect the
-# rule severity setting so it cannot be individually disabled. todo: request
-# that responses be properly escaped and file a ticket against the plugin.
-/src/**/*.test.json
-/test/**/*.test.json

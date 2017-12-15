@@ -105,13 +105,11 @@ describe("fetch", () => {
         expected
       ];
       const fetch = sinon.stub().returns(Promise.resolve(responses.pop()));
-      return requestPage(
-        "https://foo/title",
-        undefined,
-        fetch
-      ).then(response => {
-        assert.deepEqual(response, expected);
-      });
+      return requestPage("https://foo/title", undefined, fetch).then(
+        response => {
+          assert.deepEqual(response, expected);
+        }
+      );
     });
   });
 });

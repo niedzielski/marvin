@@ -11,6 +11,7 @@ import errorPage, { Props as ErrorProps } from "../pages/error";
 import { ClientError, RedirectError, FetchError } from "../http/fetch";
 
 export interface RouteResponse<Props> {
+  // Chunk name, see {getChunk}, this variable should follow that structure.
   chunkName?: string;
   status: number;
   Component: AnyComponent<Props, any>;
@@ -49,17 +50,15 @@ function respond<Params extends Partial<RouteParams>, Props>(
   params: Params
 ): Promise<RouteResponse<Props>> {
   return requestPageModule(route.page).then(module =>
-    getInitialProps(
-      module.default,
-      params
-    ).then((response: HttpResponse<Props> | void) => ({
-      // Chunk name, see {getChunk}, this variable should follow that structure
-      chunkName: `pages/${route.page}`,
-      status: (response && response.status) || module.default.status || 200,
-      Component: module.default.Component as AnyComponent<Props, any>,
-      props: (response && response.data) as Props,
-      title: module.default.title
-    }))
+    getInitialProps(module.default, params).then(
+      (response: HttpResponse<Props> | void) => ({
+        chunkName: `pages/${route.page}`,
+        status: (response && response.status) || module.default.status || 200,
+        Component: module.default.Component as AnyComponent<Props, any>,
+        props: (response && response.data) as Props,
+        title: module.default.title
+      })
+    )
   );
 }
 

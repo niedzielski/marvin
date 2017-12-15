@@ -113,7 +113,7 @@ function toParams(
     const [, ...paramValues] = matches;
     const queryParams = queryString.parse(query);
     const params = {
-      path: paramNames.length ? {} as PathParams : undefined,
+      path: paramNames.length ? ({} as PathParams) : undefined,
       query: Object.keys(queryParams).length ? queryParams : undefined
     };
     paramNames.forEach((param, index) => {

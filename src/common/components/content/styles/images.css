@@ -33,19 +33,20 @@
 
 /* http://localhost:3000/wiki/Girl_(Pharrell_Williams_album)?oldid=809904389#Singles
    http://localhost:3000/wiki/The_Beatles?oldid=810732238#Beatles_for_Sale.2C_Help.21_and_Rubber_Soul */
-.Content .mbox-small-left video, .Content .mbox-small video {
+.Content .mbox-small-left video,
+.Content .mbox-small video {
   height: 32px !important;
 }
 
 /* Captions */
 
-/* http://localhost:3000/wiki/Pablo_Picasso?oldid=804068218#Early_life */
+/* http://localhost:3000/wiki/Pablo_Picasso?oldid=804068218#Early_life
+   http://localhost:3000/wiki/Pablo_Picasso?oldid=804068218#Before_1900
+   http://localhost:3000/wiki/Pablo_Picasso?oldid=804068218#Synthetic_cubism:_1912.E2.80.931919 */
 .Content figcaption,
-/* http://localhost:3000/wiki/Pablo_Picasso?oldid=804068218#Before_1900 */
 .Content .thumbcaption,
-/* http://localhost:3000/wiki/Pablo_Picasso?oldid=804068218#Synthetic_cubism:_1912.E2.80.931919 */
 .Content .gallerytext {
-  margin: .5em 0;
+  margin: 0.5em 0;
   font-size: var(--font-size-caption);
   color: var(--wmui-color-base20);
 }

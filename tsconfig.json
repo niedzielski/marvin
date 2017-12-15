@@ -1,7 +1,5 @@
 {
-  "include": [
-    "src/common"
-  ],
+  "include": ["src/common"],
   "compilerOptions": {
     "target": "ES2017",
     "module": "commonjs",

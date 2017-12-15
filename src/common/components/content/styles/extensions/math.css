@@ -6,7 +6,7 @@
  * https://phabricator.wikimedia.org/diffusion/EMAT/browse/master/modules/ext.math.css;407bfc4f3b531f833c6cf54bb81c909d340784cc
  * todo: add example.
  */
-@namespace m url( http://www.w3.org/1998/Math/MathML );
+@namespace m url( "http://www.w3.org/1998/Math/MathML" );
 
 /* Default style for MathML. */
 .mwe-math-mathml-inline {
@@ -21,7 +21,7 @@
 
 .mwe-math-mathml-a11y {
   /* We try to hide the MathML formula in a way that still makes it accessible to accessibility tools. */
-  clip: rect( 1px, 1px, 1px, 1px );
+  clip: rect(1px, 1px, 1px, 1px);
   overflow: hidden;
   position: absolute;
   width: 1px;

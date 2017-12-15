@@ -3,15 +3,15 @@
      clears the left and right so that the content container can wrap its
      contents fully even if they're floated.
      http://localhost:3000/wiki/CSNK2A2?oldid=774042184 */
-   content: "";
-   clear: both;
+  content: "";
+  clear: both;
 
-   /* Make the node dimensionless. */
-   display: block;
-   width: 0;
-   height: 0;
+  /* Make the node dimensionless. */
+  display: block;
+  width: 0;
+  height: 0;
 
-   /* Forbid scrollbars and hide. */
-   overflow: hidden;
-   visibility: hidden;
+  /* Forbid scrollbars and hide. */
+  overflow: hidden;
+  visibility: hidden;
 }

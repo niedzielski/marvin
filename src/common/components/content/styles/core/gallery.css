@@ -93,10 +93,12 @@ ul.mw-gallery-packed-hover div.gallerytextwrapper {
 
 ul.mw-gallery-packed-hover li.gallerybox:hover div.gallerytextwrapper,
 ul.mw-gallery-packed-overlay li.gallerybox div.gallerytextwrapper,
-ul.mw-gallery-packed-hover li.gallerybox.mw-gallery-focused div.gallerytextwrapper {
+ul.mw-gallery-packed-hover
+  li.gallerybox.mw-gallery-focused
+  div.gallerytextwrapper {
   position: absolute;
   background: #fff;
-  background: rgba( 255, 255, 255, 0.8 );
+  background: rgba(255, 255, 255, 0.8);
   padding: 5px 10px;
   bottom: 0;
   left: 0; /* Needed for IE */
@@ -109,7 +111,10 @@ ul.mw-gallery-packed-hover li.gallerybox.mw-gallery-focused div.gallerytextwrapp
 
 ul.mw-gallery-packed-hover li.gallerybox:hover div.gallerytextwrapper p,
 ul.mw-gallery-packed-overlay li.gallerybox div.gallerytextwrapper p,
-ul.mw-gallery-packed-hover li.gallerybox.mw-gallery-focused div.gallerytextwrapper p {
+ul.mw-gallery-packed-hover
+  li.gallerybox.mw-gallery-focused
+  div.gallerytextwrapper
+  p {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -117,14 +122,19 @@ ul.mw-gallery-packed-hover li.gallerybox.mw-gallery-focused div.gallerytextwrapp
 
 ul.mw-gallery-packed-hover li.gallerybox div.gallerytextwrapper:hover,
 ul.mw-gallery-packed-overlay li.gallerybox div.gallerytextwrapper:hover,
-ul.mw-gallery-packed-hover li.gallerybox.mw-gallery-focused div.gallerytextwrapper:hover {
+ul.mw-gallery-packed-hover
+  li.gallerybox.mw-gallery-focused
+  div.gallerytextwrapper:hover {
   overflow: visible;
   max-height: none;
 }
 
 ul.mw-gallery-packed-hover li.gallerybox div.gallerytextwrapper:hover p,
 ul.mw-gallery-packed-overlay li.gallerybox div.gallerytextwrapper:hover p,
-ul.mw-gallery-packed-hover li.gallerybox.mw-gallery-focused div.gallerytextwrapper:hover p {
+ul.mw-gallery-packed-hover
+  li.gallerybox.mw-gallery-focused
+  div.gallerytextwrapper:hover
+  p {
   text-overflow: clip;
   white-space: normal;
   overflow: visible;
@@ -147,7 +157,8 @@ ul.gallery.mw-gallery-slideshow .gallerycaption {
   margin: 0;
 }
 
-ul.gallery.mw-gallery-slideshow .gallerycarousel.mw-gallery-slideshow-thumbnails-toggled {
+ul.gallery.mw-gallery-slideshow
+  .gallerycarousel.mw-gallery-slideshow-thumbnails-toggled {
   margin-bottom: 1.3em;
 }
 
@@ -156,7 +167,9 @@ ul.gallery.mw-gallery-slideshow .mw-gallery-slideshow-buttons {
   padding: 1.3em 0;
 }
 
-ul.gallery.mw-gallery-slideshow .mw-gallery-slideshow-buttons .oo-ui-buttonElement {
+ul.gallery.mw-gallery-slideshow
+  .mw-gallery-slideshow-buttons
+  .oo-ui-buttonElement {
   margin: 0 2em;
 }
 

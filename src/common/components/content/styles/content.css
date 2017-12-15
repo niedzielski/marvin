@@ -1,7 +1,11 @@
 /* Remove margin bottom on the last and top on the first child so that content
    wraps the inner elements exactly right. */
-.Content--remove-margins > :last-child { margin-bottom: 0; }
-.Content--remove-margins > :first-child { margin-top: 0; }
+.Content--remove-margins > :last-child {
+  margin-bottom: 0;
+}
+.Content--remove-margins > :first-child {
+  margin-top: 0;
+}
 
 /* Typography */
 
@@ -71,9 +75,10 @@
   color: var(--wmui-color-accent30);
 }
 
-.Content a[href^="//"], .Content a[href^="http"] {
+.Content a[href^="//"],
+.Content a[href^="http"] {
   /* External link icon. todo: embed a versioned image. */
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAVElEQVR42n3PgQkAIAhEUXdqJ3dqJ3e6IoTPUSQcgj4EQ5IlUiLE0Jil3PECXhcHGBhZ8kg4hwxAu3MZeCGeyFnAXp4hqNQPnt7QL0nADpD6wHccLvnAKksq8iiaAAAAAElFTkSuQmCC);
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9aaaaveleqvr42n3pgqkaiaheuxdqj3dqj3e6iotpusqcgj4eq5iluile0jil3pecxhchgbhz8kg4hwxau3mzecgeyfnaxp4hqnqpnt7ql0nadpd6whcclvnakksq8iiaaaaaaelftksuqmcc);
   background-repeat: no-repeat;
   background-position: center right;
 

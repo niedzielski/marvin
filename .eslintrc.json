@@ -1,12 +1,6 @@
 {
-  "extends": [
-    "node-services",
-    "prettier"
-  ],
-  "plugins": [
-    "prettier",
-    "import"
-  ],
+  "extends": ["node-services", "prettier"],
+  "plugins": ["prettier", "import"],
   "rules": {
     "prettier/prettier": ["warn", { "parser": "typescript" }],
     "max-len": [
@@ -41,7 +35,7 @@
   },
   "overrides": [
     {
-      "files": [ "*.ts", "*.tsx" ],
+      "files": ["*.ts", "*.tsx"],
       "rules": {
         // Unnecessary for a typed language.
         "jsdoc/require-returns-type": "off",
@@ -50,8 +44,7 @@
         // https://github.com/eslint/typescript-eslint-parser#known-issues
         "no-undef": "off",
         "no-unused-vars": "off",
-        "no-useless-constructor": "off",
-        "space-infix-ops": "off"
+        "no-useless-constructor": "off"
       }
     }
   ]

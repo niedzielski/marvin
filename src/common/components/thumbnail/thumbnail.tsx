@@ -11,9 +11,9 @@ export interface Props {
 }
 
 export function Thumbnail({ image, url, block, ...props }: Props & ClassProps) {
-  const imageOrientationClass = `Thumbnail-image-${image.landscape
-    ? "landscape"
-    : "portrait"}`;
+  const imageOrientationClass = `Thumbnail-image-${
+    image.landscape ? "landscape" : "portrait"
+  }`;
   const img = (
     <img
       key={image.url}

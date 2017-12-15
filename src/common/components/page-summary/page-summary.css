@@ -1,4 +1,5 @@
-.PageSummary {}
+.PageSummary {
+}
 .PageSummary:after {
   /* Add an empty node that clears the left and right so the page summary
      container can wrap its contents fully even if they're floated. */
@@ -15,5 +16,7 @@
   visibility: hidden;
 }
 
-.PageSummary-extract-lead {}
-.PageSummary-extract-body {}
+.PageSummary-extract-lead {
+}
+.PageSummary-extract-body {
+}

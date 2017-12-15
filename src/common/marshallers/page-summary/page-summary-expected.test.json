@@ -4,20 +4,23 @@
   "titleHTML": "<i>Mount Everest</i>",
   "requestTitleID": "mount_everest",
   "pageID": 42179,
-  "extractText": "Mount Everest, known in Nepali as Sagarmāthā and in Tibetan as Chomolungma, is Earth's highest mountain, located in the Mahalangur Himal sub-range of the Himalayas. The international border between China (Tibet Autonomous Region) and Nepal runs across its summit point.\nThe current official height of 8,848 m (29,029 ft), recognised by China and Nepal, was established by a 1955 Indian survey and subsequently confirmed by a Chinese survey in 1975. In 2005, China remeasured the rock height of the mountain, with a result of 8844.43 m. There followed an argument between China and Nepal as to whether the official height should be the rock height (8,844 m., China) or the snow height (8,848 m., Nepal). In 2010, an agreement was reached by both sides that the height of Everest is 8,848 m, and Nepal recognises China's claim that the rock height of Everest is 8,844 m.\nIn 1865, Everest was given its official English name by the Royal Geographical Society, upon a recommendation by Andrew Waugh, the British Surveyor General of India.",
+  "extractText":
+    "Mount Everest, known in Nepali as Sagarmāthā and in Tibetan as Chomolungma, is Earth's highest mountain, located in the Mahalangur Himal sub-range of the Himalayas. The international border between China (Tibet Autonomous Region) and Nepal runs across its summit point.\nThe current official height of 8,848 m (29,029 ft), recognised by China and Nepal, was established by a 1955 Indian survey and subsequently confirmed by a Chinese survey in 1975. In 2005, China remeasured the rock height of the mountain, with a result of 8844.43 m. There followed an argument between China and Nepal as to whether the official height should be the rock height (8,844 m., China) or the snow height (8,848 m., Nepal). In 2010, an agreement was reached by both sides that the height of Everest is 8,848 m, and Nepal recognises China's claim that the rock height of Everest is 8,844 m.\nIn 1865, Everest was given its official English name by the Royal Geographical Society, upon a recommendation by Andrew Waugh, the British Surveyor General of India.",
   "extractHTML": [
     "<p><b>Mount Everest</b>, known in Nepali as <b>Sagarmāthā</b> and in Tibetan as <b>Chomolungma</b>, is Earth's highest mountain, located in the Mahalangur Himal sub-range of the Himalayas. The international border between China (Tibet Autonomous Region) and Nepal runs across its summit point.</p>",
     "<p>The current official height of 8,848 m (29,029 ft), recognised by China and Nepal, was established by a 1955 Indian survey and subsequently confirmed by a Chinese survey in 1975. In 2005, China remeasured the rock height of the mountain, with a result of 8844.43 m. There followed an argument between China and Nepal as to whether the official height should be the rock height (8,844 m., China) or the snow height (8,848 m., Nepal). In 2010, an agreement was reached by both sides that the height of Everest is 8,848 m, and Nepal recognises China's claim that the rock height of Everest is 8,844 m.</p>",
     "<p>In 1865, Everest was given its official English name by the Royal Geographical Society, upon a recommendation by Andrew Waugh, the British Surveyor General of India.</p>"
   ],
   "thumbnail": {
-    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Mount-Everest.jpg/320px-Mount-Everest.jpg",
+    "url":
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Mount-Everest.jpg/320px-Mount-Everest.jpg",
     "width": 320,
     "height": 213,
     "landscape": true
   },
   "image": {
-    "url": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Mount-Everest.jpg",
+    "url":
+      "https://upload.wikimedia.org/wikipedia/commons/c/c7/Mount-Everest.jpg",
     "width": 2679,
     "height": 1781,
     "landscape": true
@@ -25,7 +28,8 @@
   "wikiLanguageCode": "en",
   "localeDirection": "ltr",
   "lastModified": "2017-11-17T03:58:31Z",
-  "descriptionText": "Earth's highest mountain, with a peak at 8,848 metres (29,029 feet) above sea level, part of the Himalaya mountain range between Nepal and China",
+  "descriptionText":
+    "Earth's highest mountain, with a peak at 8,848 metres (29,029 feet) above sea level, part of the Himalaya mountain range between Nepal and China",
   "geolocation": {
     "latitude": 27.98805556,
     "longitude": 86.92527778
