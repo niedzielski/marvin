@@ -182,6 +182,8 @@ const config: webpack.Configuration = {
         // browser.
         overlay: { warnings: true, errors: true },
 
+        // todo: use STATS unaltered. See
+        // https://github.com/webpack/webpack-dev-server/issues/1235.
         stats: STATS
       }
 };
@@ -244,11 +246,15 @@ config.plugins = [
     }
   }),
 
-  // When using code splitting, move common chunks of child chunks into the
-  // parent chunks, when used a minimum number of times. 3 times used is
-  // considered right now like a good tradeoff.
+  // When using code splitting, move common chunks of child chunks (and their
+  // descendant chunks) into the parent chunks, when used a minimum number of
+  // times. 3 usages is considered a good tradeoff.
   // https://webpack.js.org/plugins/commons-chunk-plugin/#move-common-modules-into-the-parent-chunk
-  new webpack.optimize.CommonsChunkPlugin({ children: true, minChunks: 3 }),
+  new webpack.optimize.CommonsChunkPlugin({
+    children: true,
+    ...({ deepChildren: true } as {}),
+    minChunks: 3
+  }),
 
   // Create a separate chunk for the client's Webpack runtime. When a name with
   // no corresponding entry and no chunks configuration is specified, Webpack's

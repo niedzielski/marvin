@@ -16,12 +16,15 @@ export const PATHS = {
 };
 
 // There is no builtin Stats "warnings" preset.
-// https://github.com/webpack/webpack/blob/7fe0371/lib/Stats.js#L886
-// https://github.com/webpack/webpack/blob/7fe0371/lib/Stats.js#L101-L131
+// https://webpack.js.org/configuration/stats/
+// https://github.com/webpack/webpack/blob/b597322/lib/Stats.js#L904
+// https://github.com/webpack/webpack/blob/b597322/lib/Stats.js#L99-L132
 export const STATS = {
   all: VERBOSE, // Default all outputs to verbosity.
+  colors: true,
   errors: true,
   errorDetails: true,
+  moduleTrace: true,
   warnings: true
 };
 
