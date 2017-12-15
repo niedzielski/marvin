@@ -1,0 +1,5 @@
+.ContentSection {
+  /* When all else fails, add scrollbars at the section level:
+     http://localhost:3000/wiki/File:Belgica1web.jpg. */
+  overflow-x: auto;
+}

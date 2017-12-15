@@ -4,6 +4,7 @@ import { PageSection } from "../../models/page/page";
 import Content from "../content/content";
 import DynamicHeader from "../dynamic-header/dynamic-header";
 import { onClick } from "../link/on-click";
+import "./content-section.css";
 
 export interface Props {
   section: PageSection;
