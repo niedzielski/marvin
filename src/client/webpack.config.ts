@@ -117,14 +117,7 @@ const config: webpack.Configuration = {
     maxEntrypointSize: 64 * 1024
   },
 
-  resolve: {
-    alias: {
-      // todo: remove. https://github.com/developit/preact/issues/924
-      preact$: "preact/dist/preact.js"
-    },
-
-    extensions: EXTENSIONS
-  },
+  resolve: { extensions: EXTENSIONS },
 
   module: {
     rules: [

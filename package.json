@@ -48,11 +48,11 @@
   },
   "dependencies": {
     "compression": "1.7.1",
-    "domino": "1.0.30",
+    "domino": "2.0.0",
     "express": "4.16.2",
     "isomorphic-unfetch": "2.0.0",
     "path-to-regexp": "2.1.0",
-    "preact": "8.2.6",
+    "preact": "8.2.7",
     "preact-render-to-string": "3.7.0",
     "query-string": "5.0.1"
   },
@@ -103,7 +103,7 @@
     "webpack": "3.10.0",
     "webpack-dev-server": "2.9.7",
     "webpack-node-externals": "1.6.0",
-    "wikimedia-ui-base": "0.9.2"
+    "wikimedia-ui-base": "0.10.0"
   },
   "bundlesize": [
     {
