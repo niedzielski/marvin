@@ -59,10 +59,11 @@ describe("router()", () => {
 
     it("resolves an unknown route as a 404", () => {
       return newRouter(routes, requestPageModule)
-        .route("/404")
+        .route("/404", "foo=bar")
         .then(res => {
           assert.deepEqual(res.status, 404);
-          assert.deepEqual(res.props.pathQuery, "/404");
+          assert.deepEqual(res.props.path, "/404");
+          assert.deepEqual(res.props.query, "foo=bar");
         });
     });
 
@@ -107,7 +108,8 @@ describe("router()", () => {
         .route("/wiki/Nonexistent_title")
         .then(rsp => {
           assert.deepEqual(rsp.status, 404);
-          assert.deepEqual(rsp.props.pathQuery, "/wiki/Nonexistent_title");
+          assert.deepEqual(rsp.props.path, "/wiki/Nonexistent_title");
+          assert.deepEqual(rsp.props.query, undefined);
         });
     });
 

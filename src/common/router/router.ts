@@ -17,6 +17,8 @@ export interface RouteResponse<Props> {
   Component: AnyComponent<Props, any>;
   title?(props: Props): string | undefined;
   props: Props;
+  path: string;
+  query?: string;
 }
 
 interface RequestPageModule {
@@ -47,7 +49,9 @@ function requestPageModuleChunk(
 function respond<Params extends Partial<RouteParams>, Props>(
   requestPageModule: RequestPageModule,
   route: Route<Params>,
-  params: Params
+  params: Params,
+  path: string,
+  query?: string
 ): Promise<RouteResponse<Props>> {
   return requestPageModule(route.page).then(module =>
     getInitialProps(module.default, params).then(
@@ -56,7 +60,9 @@ function respond<Params extends Partial<RouteParams>, Props>(
         status: (response && response.status) || module.default.status || 200,
         Component: module.default.Component as AnyComponent<Props, any>,
         props: (response && response.data) as Props,
-        title: module.default.title
+        title: module.default.title,
+        path,
+        query
       })
     )
   );
@@ -64,26 +70,32 @@ function respond<Params extends Partial<RouteParams>, Props>(
 
 // todo: can we load this page dynamically instead? Many users will never even
 // see a 404.
-function respondNotFound(pathQuery: string): Promise<RouteResponse<any>> {
-  const props: NotFoundProps = { pathQuery };
+function respondNotFound(
+  path: string,
+  query?: string
+): Promise<RouteResponse<any>> {
+  const props: NotFoundProps = { path, query };
   return Promise.resolve({
     status: notFoundPage.status,
     Component: notFoundPage.Component,
     props,
-    title: notFoundPage.title
+    title: notFoundPage.title,
+    path,
+    query
   });
 }
 
 function respondError(
-  pathQuery: string,
-  error: Error
+  error: Error,
+  path: string,
+  query?: string
 ): Promise<RouteResponse<any>> {
   // Throw up RedirectErrors so that they can be handled by the server/client
   // appropriately
   if (error instanceof RedirectError) throw error;
 
   if (error instanceof ClientError && error.status === 404) {
-    return respondNotFound(pathQuery);
+    return respondNotFound(path, query);
   }
 
   console.error(`${error.message}\n${error.stack}`); // eslint-disable-line no-console
@@ -94,7 +106,9 @@ function respondError(
     status,
     Component: errorPage.Component,
     props,
-    title: errorPage.title
+    title: errorPage.title,
+    path,
+    query
   });
 }
 
@@ -104,16 +118,15 @@ export function newRouter(
 ) {
   return {
     route(path: string, query?: string): Promise<RouteResponse<any>> {
-      const pathQuery = `${path}${query || ""}`;
       for (const route of routes) {
         const params = route.toParams(path, query);
         if (params) {
-          return respond(requestPageModule, route, params).catch(error =>
-            respondError(pathQuery, error)
+          return respond(requestPageModule, route, params, path, query).catch(
+            error => respondError(error, path, query)
           );
         }
       }
-      return respondNotFound(pathQuery);
+      return respondNotFound(path, query);
     }
   };
 }

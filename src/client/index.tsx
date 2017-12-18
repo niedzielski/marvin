@@ -38,7 +38,15 @@ function renderPageRoot({ Component, props, title }: RouteResponse<any>) {
 }
 
 function route(location: Location | HistoricalLocation) {
-  router.route(location.pathname, location.search).then(renderPageRoot);
+  const path = location.pathname;
+  const query = location.search;
+  router.route(path, query).then(rsp => {
+    // Routing is asynchronous. If a previous route resolves late, don't render
+    // it if the client has already moved on.
+    if (rsp.path === path && rsp.query === query) {
+      renderPageRoot(rsp);
+    }
+  });
 }
 
 // Observe the History
