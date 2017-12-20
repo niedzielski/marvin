@@ -132,7 +132,10 @@ const config: webpack.Configuration = {
               hmr: false
             }
           },
-          use: { loader: "css-loader", options: { minimize: PRODUCTION } }
+          use: [
+            { loader: "css-loader", options: { minimize: PRODUCTION } },
+            "postcss-loader"
+          ]
         })
       },
       {
