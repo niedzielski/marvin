@@ -4,7 +4,7 @@ import { asset } from "../../assets/manifest";
 export default function Wordmark(): JSX.Element {
   return (
     <img
-      className="Wordmark"
+      class="Wordmark"
       src={asset("wordmark-en", "svg")}
       height="18"
       width="116"

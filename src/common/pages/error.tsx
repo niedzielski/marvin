@@ -1,5 +1,6 @@
 import { h } from "preact";
 import Page from "../components/page/page";
+import Paper from "../components/paper/paper";
 
 export interface Props {
   error: Error;
@@ -13,13 +14,15 @@ export default {
 
   Component({ error }: Props): JSX.Element {
     return (
-      <Page title={`Unexpected error: ${error.message}`} subtitle="Error 500">
-        <p>
-          <pre>
-            <code>{error.stack}</code>
-          </pre>
-        </p>
-      </Page>
+      <Paper>
+        <Page title={`Unexpected error: ${error.message}`} subtitle="Error 500">
+          <p>
+            <pre>
+              <code>{error.stack}</code>
+            </pre>
+          </p>
+        </Page>
+      </Paper>
     );
   },
 

@@ -4,7 +4,10 @@
 
   /* Provide bottom spacing, but not top or horizontal spacing */
   padding: 0 0 var(--space) 0;
+}
 
+.App-header,
+.App-children {
   /* Cap max-width of app in big screens and center it horizontally */
   max-width: var(--min-width-large);
   margin: auto;
