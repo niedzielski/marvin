@@ -12,8 +12,7 @@
   margin-top: var(--space);
 }
 
-/* TODO: use CSS variable. */
-@media (min-width: 1024px) {
+@media (min-width: var(--min-width-large)) {
   .Thumbnail {
     /* Wrap the container to the width of the image and left-align it. Floating
        takes precedence over display. */
@@ -50,8 +49,7 @@
   width: 100%;
 }
 
-/* TODO: use CSS variable. */
-@media (min-width: 1024px) {
+@media (min-width: var(--min-width-large)) {
   .Thumbnail-image-landscape {
     /* The screen is too large to maximize the image. Use the image's native
        width and height. */

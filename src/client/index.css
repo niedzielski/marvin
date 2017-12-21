@@ -1,4 +1,9 @@
 :root {
+  /* These variables must be kept in sync manually with .postcssrc.json. */
+  --min-width-medium: 452px;
+  --min-width-large: 912px;
+  /* End manually synced variables */
+
   /*
     Font sizes, see:
     * https://wikimedia.github.io/WikimediaUI-Style-Guide/visual-style_typography.html

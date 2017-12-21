@@ -45,7 +45,7 @@
   max-width: 22em !important;
 }
 
-@media (min-width: 1000px) {
+@media (min-width: var(--min-width-large)) {
   .Content .infobox {
     /* http://localhost:3000/wiki/Wolverine?oldid=804085375 */
     float: right;

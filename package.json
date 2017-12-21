@@ -92,6 +92,7 @@
     "mocha": "4.0.1",
     "nodemon": "1.13.2",
     "npm-run-all": "4.1.2",
+    "postcss-at-rules-variables": "0.1.2",
     "postcss-loader": "2.0.9",
     "prettier": "1.10.2",
     "sinon": "4.1.3",

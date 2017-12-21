@@ -1,1 +1,13 @@
-{ "plugins": { "autoprefixer": { "browsers": ["last 2 versions"] } } }
+{
+  "plugins": {
+    "postcss-at-rules-variables": {
+      "//": "Keep variables in sync with src/client/index.css#:root",
+      "variables": {
+        "--min-width-medium": "452px",
+        "--min-width-large": "912px"
+      },
+      "atRules": ["media"]
+    },
+    "autoprefixer": { "browsers": ["last 2 versions"] }
+  }
+}
