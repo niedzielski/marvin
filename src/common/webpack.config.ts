@@ -1,11 +1,6 @@
 import * as path from "path";
 import * as webpack from "webpack";
-import {
-  PRODUCTION,
-  SERVER_PORT,
-  VERBOSE,
-  WEBPACK_DEV_SERVER_PORT
-} from "./assets/config";
+import { PRODUCTION, VERBOSE } from "./assets/config";
 const pkg = require("../../package.json");
 
 export const PATHS = {
@@ -40,12 +35,6 @@ export const EXTENSIONS = [".ts", ".tsx", ".js"];
 // is used for example to have uglify remove code at minification time,
 // getting rid of development only code (for exmaple, like preact/debug)
 export const definePlugin = new webpack.DefinePlugin({
-  "process.env": {
-    NODE_ENV: JSON.stringify(PRODUCTION ? "production" : "development"),
-    VERBOSE: JSON.stringify(VERBOSE),
-    PORT: JSON.stringify(SERVER_PORT),
-    WEBPACK_DEV_SERVER_PORT: JSON.stringify(WEBPACK_DEV_SERVER_PORT)
-  },
   VERSION: JSON.stringify(pkg.version)
 });
 

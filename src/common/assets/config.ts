@@ -1,4 +1,4 @@
-export const PRODUCTION: boolean = process.env.NODE_ENV === "production";
+export const PRODUCTION: boolean = true;
 
 /** Specifies the build and runtime verbosity. */
 export const VERBOSE: boolean = Boolean(JSON.parse(process.env.VERBOSE || "0"));

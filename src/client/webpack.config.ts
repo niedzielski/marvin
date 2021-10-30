@@ -114,7 +114,7 @@ const config: webpack.Configuration = {
 
     // Limits the sum of all assets (index, runtime, and vendor) required
     // for an initial load for a specific entry (e.g., index).
-    maxEntrypointSize: 64 * 1024
+    maxEntrypointSize: 73 * 1024
   },
 
   resolve: { extensions: EXTENSIONS },
